@@ -1,0 +1,641 @@
+{
+  "regions": [
+    {
+      "orgCd": "6110000",
+      "orgdownNm": "서울특별시",
+      "subRegions": [
+        {
+          "uprCd": "6110000",
+          "orgCd": "3220000",
+          "orgdownNm": "강남구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3240000",
+          "orgdownNm": "강동구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3080000",
+          "orgdownNm": "강북구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3150000",
+          "orgdownNm": "강서구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3200000",
+          "orgdownNm": "관악구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3040000",
+          "orgdownNm": "광진구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3160000",
+          "orgdownNm": "구로구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3170000",
+          "orgdownNm": "금천구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3100000",
+          "orgdownNm": "노원구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3090000",
+          "orgdownNm": "도봉구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3050000",
+          "orgdownNm": "동대문구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3190000",
+          "orgdownNm": "동작구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3130000",
+          "orgdownNm": "마포구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3120000",
+          "orgdownNm": "서대문구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "6119998",
+          "orgdownNm": "서울특별시"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3210000",
+          "orgdownNm": "서초구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3030000",
+          "orgdownNm": "성동구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3070000",
+          "orgdownNm": "성북구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3230000",
+          "orgdownNm": "송파구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3140000",
+          "orgdownNm": "양천구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3180000",
+          "orgdownNm": "영등포구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3020000",
+          "orgdownNm": "용산구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3110000",
+          "orgdownNm": "은평구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3000000",
+          "orgdownNm": "종로구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3010000",
+          "orgdownNm": "중구"
+        },
+        {
+          "uprCd": "6110000",
+          "orgCd": "3060000",
+          "orgdownNm": "중랑구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6260000",
+      "orgdownNm": "부산광역시",
+      "subRegions": [
+        {
+          "uprCd": "6260000",
+          "orgCd": "3360000",
+          "orgdownNm": "강서구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3350000",
+          "orgdownNm": "금정구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3400000",
+          "orgdownNm": "기장군"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3310000",
+          "orgdownNm": "남구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3270000",
+          "orgdownNm": "동구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3300000",
+          "orgdownNm": "동래구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3290000",
+          "orgdownNm": "부산진구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3320000",
+          "orgdownNm": "북구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3390000",
+          "orgdownNm": "사상구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3340000",
+          "orgdownNm": "사하구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3260000",
+          "orgdownNm": "서구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3380000",
+          "orgdownNm": "수영구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3370000",
+          "orgdownNm": "연제구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3280000",
+          "orgdownNm": "영도구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3250000",
+          "orgdownNm": "중구"
+        },
+        {
+          "uprCd": "6260000",
+          "orgCd": "3330000",
+          "orgdownNm": "해운대구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6270000",
+      "orgdownNm": "대구광역시",
+      "subRegions": [
+        {
+          "uprCd": "6270000",
+          "orgCd": "5141000",
+          "orgdownNm": "군위군"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3440000",
+          "orgdownNm": "남구"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3470000",
+          "orgdownNm": "달서구"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3480000",
+          "orgdownNm": "달성군"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3420000",
+          "orgdownNm": "동구"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3450000",
+          "orgdownNm": "북구"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3430000",
+          "orgdownNm": "서구"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3460000",
+          "orgdownNm": "수성구"
+        },
+        {
+          "uprCd": "6270000",
+          "orgCd": "3410000",
+          "orgdownNm": "중구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6280000",
+      "orgdownNm": "인천광역시",
+      "subRegions": [
+        {
+          "uprCd": "6280000",
+          "orgCd": "3570000",
+          "orgdownNm": "강화군"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3550000",
+          "orgdownNm": "계양구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3530000",
+          "orgdownNm": "남동구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3500000",
+          "orgdownNm": "동구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3510500",
+          "orgdownNm": "미추홀구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3540000",
+          "orgdownNm": "부평구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3560000",
+          "orgdownNm": "서구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3520000",
+          "orgdownNm": "연수구"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3580000",
+          "orgdownNm": "옹진군"
+        },
+        {
+          "uprCd": "6280000",
+          "orgCd": "3490000",
+          "orgdownNm": "중구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6290000",
+      "orgdownNm": "광주광역시",
+      "subRegions": [
+        {
+          "uprCd": "6290000",
+          "orgCd": "3630000",
+          "orgdownNm": "광산구"
+        },
+        {
+          "uprCd": "6290000",
+          "orgCd": "6299998",
+          "orgdownNm": "광주광역시"
+        },
+        {
+          "uprCd": "6290000",
+          "orgCd": "3610000",
+          "orgdownNm": "남구"
+        },
+        {
+          "uprCd": "6290000",
+          "orgCd": "3590000",
+          "orgdownNm": "동구"
+        },
+        {
+          "uprCd": "6290000",
+          "orgCd": "3620000",
+          "orgdownNm": "북구"
+        },
+        {
+          "uprCd": "6290000",
+          "orgCd": "3600000",
+          "orgdownNm": "서구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6300000",
+      "orgdownNm": "대전광역시",
+      "subRegions": [
+        {
+          "uprCd": "6300000",
+          "orgCd": "3680000",
+          "orgdownNm": "대덕구"
+        },
+        {
+          "uprCd": "6300000",
+          "orgCd": "3640000",
+          "orgdownNm": "동구"
+        },
+        {
+          "uprCd": "6300000",
+          "orgCd": "3660000",
+          "orgdownNm": "서구"
+        },
+        {
+          "uprCd": "6300000",
+          "orgCd": "3670000",
+          "orgdownNm": "유성구"
+        },
+        {
+          "uprCd": "6300000",
+          "orgCd": "3650000",
+          "orgdownNm": "중구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6310000",
+      "orgdownNm": "울산광역시",
+      "subRegions": [
+        {
+          "uprCd": "6310000",
+          "orgCd": "3700000",
+          "orgdownNm": "남구"
+        },
+        {
+          "uprCd": "6310000",
+          "orgCd": "3710000",
+          "orgdownNm": "동구"
+        },
+        {
+          "uprCd": "6310000",
+          "orgCd": "3720000",
+          "orgdownNm": "북구"
+        },
+        {
+          "uprCd": "6310000",
+          "orgCd": "3730000",
+          "orgdownNm": "울주군"
+        },
+        {
+          "uprCd": "6310000",
+          "orgCd": "3690000",
+          "orgdownNm": "중구"
+        }
+      ]
+    },
+    {
+      "orgCd": "6410000",
+      "orgdownNm": "경기도",
+      "subRegions": [
+        {"uprCd": "6410000", "orgCd": "4160000", "orgdownNm": "가평군"},
+        {"uprCd": "6410000", "orgCd": "3940000", "orgdownNm": "고양시"},
+        {"uprCd": "6410000", "orgCd": "3970000", "orgdownNm": "과천시"},
+        {"uprCd": "6410000", "orgCd": "3900000", "orgdownNm": "광명시"},
+        {"uprCd": "6410000", "orgCd": "5540000", "orgdownNm": "광주시"},
+        {"uprCd": "6410000", "orgCd": "3980000", "orgdownNm": "구리시"},
+        {"uprCd": "6410000", "orgCd": "4020000", "orgdownNm": "군포시"},
+        {"uprCd": "6410000", "orgCd": "5630000", "orgdownNm": "기흥구"},
+        {"uprCd": "6410000", "orgCd": "4090000", "orgdownNm": "김포시"},
+        {"uprCd": "6410000", "orgCd": "3990000", "orgdownNm": "남양주시"},
+        {"uprCd": "6410000", "orgCd": "3920000", "orgdownNm": "동두천시"},
+        {"uprCd": "6410000", "orgCd": "3860000", "orgdownNm": "부천시"},
+        {"uprCd": "6410000", "orgCd": "3780000", "orgdownNm": "성남시"},
+        {"uprCd": "6410000", "orgCd": "3740000", "orgdownNm": "수원시"},
+        {"uprCd": "6410000", "orgCd": "4010000", "orgdownNm": "시흥시"},
+        {"uprCd": "6410000", "orgCd": "3930000", "orgdownNm": "안산시"},
+        {"uprCd": "6410000", "orgCd": "4080000", "orgdownNm": "안성시"},
+        {"uprCd": "6410000", "orgCd": "3830000", "orgdownNm": "안양시"},
+        {"uprCd": "6410000", "orgCd": "5590000", "orgdownNm": "양주시"},
+        {"uprCd": "6410000", "orgCd": "4170000", "orgdownNm": "양평군"},
+        {"uprCd": "6410000", "orgCd": "5700000", "orgdownNm": "여주시"},
+        {"uprCd": "6410000", "orgCd": "4140000", "orgdownNm": "연천군"},
+        {"uprCd": "6410000", "orgCd": "4000000", "orgdownNm": "오산시"},
+        {"uprCd": "6410000", "orgCd": "4050000", "orgdownNm": "용인시"},
+        {"uprCd": "6410000", "orgCd": "4030000", "orgdownNm": "의왕시"},
+        {"uprCd": "6410000", "orgCd": "3820000", "orgdownNm": "의정부시"},
+        {"uprCd": "6410000", "orgCd": "4070000", "orgdownNm": "이천시"},
+        {"uprCd": "6410000", "orgCd": "4060000", "orgdownNm": "파주시"},
+        {"uprCd": "6410000", "orgCd": "3910000", "orgdownNm": "평택시"},
+        {"uprCd": "6410000", "orgCd": "5600000", "orgdownNm": "포천시"},
+        {"uprCd": "6410000", "orgCd": "4040000", "orgdownNm": "하남시"},
+        {"uprCd": "6410000", "orgCd": "5530000", "orgdownNm": "화성시"}
+      ]
+    },
+    {
+      "orgCd": "6530000",
+      "orgdownNm": "강원특별자치도",
+      "subRegions": [
+        {"uprCd": "6530000", "orgCd": "4201000", "orgdownNm": "강릉시"},
+        {"uprCd": "6530000", "orgCd": "4341000", "orgdownNm": "고성군"},
+        {"uprCd": "6530000", "orgCd": "4211000", "orgdownNm": "동해시"},
+        {"uprCd": "6530000", "orgCd": "4241000", "orgdownNm": "삼척시"},
+        {"uprCd": "6530000", "orgCd": "4231000", "orgdownNm": "속초시"},
+        {"uprCd": "6530000", "orgCd": "4321000", "orgdownNm": "양구군"},
+        {"uprCd": "6530000", "orgCd": "4351000", "orgdownNm": "양양군"},
+        {"uprCd": "6530000", "orgCd": "4271000", "orgdownNm": "영월군"},
+        {"uprCd": "6530000", "orgCd": "4191000", "orgdownNm": "원주시"},
+        {"uprCd": "6530000", "orgCd": "4331000", "orgdownNm": "인제군"},
+        {"uprCd": "6530000", "orgCd": "4291000", "orgdownNm": "정선군"},
+        {"uprCd": "6530000", "orgCd": "4301000", "orgdownNm": "철원군"},
+        {"uprCd": "6530000", "orgCd": "4181000", "orgdownNm": "춘천시"},
+        {"uprCd": "6530000", "orgCd": "4221000", "orgdownNm": "태백시"},
+        {"uprCd": "6530000", "orgCd": "4281000", "orgdownNm": "평창군"},
+        {"uprCd": "6530000", "orgCd": "4251000", "orgdownNm": "홍천군"},
+        {"uprCd": "6530000", "orgCd": "4311000", "orgdownNm": "화천군"},
+        {"uprCd": "6530000", "orgCd": "4261000", "orgdownNm": "횡성군"}
+      ]
+    },
+    {
+      "orgCd": "6430000",
+      "orgdownNm": "충청북도",
+      "subRegions": [
+        {"uprCd": "6430000", "orgCd": "4460000", "orgdownNm": "괴산군"},
+        {"uprCd": "6430000", "orgCd": "4480000", "orgdownNm": "단양군"},
+        {"uprCd": "6430000", "orgCd": "4420000", "orgdownNm": "보은군"},
+        {"uprCd": "6430000", "orgCd": "4440000", "orgdownNm": "영동군"},
+        {"uprCd": "6430000", "orgCd": "4430000", "orgdownNm": "옥천군"},
+        {"uprCd": "6430000", "orgCd": "4470000", "orgdownNm": "음성군"},
+        {"uprCd": "6430000", "orgCd": "4400000", "orgdownNm": "제천시"},
+        {"uprCd": "6430000", "orgCd": "5570000", "orgdownNm": "증평군"},
+        {"uprCd": "6430000", "orgCd": "4450000", "orgdownNm": "진천군"},
+        {"uprCd": "6430000", "orgCd": "5710000", "orgdownNm": "청주시"},
+        {"uprCd": "6430000", "orgCd": "4390000", "orgdownNm": "충주시"}
+      ]
+    },
+    {
+      "orgCd": "6440000",
+      "orgdownNm": "충청남도",
+      "subRegions": [
+        {"uprCd": "6440000", "orgCd": "5580000", "orgdownNm": "계룡시"},
+        {"uprCd": "6440000", "orgCd": "4500000", "orgdownNm": "공주시"},
+        {"uprCd": "6440000", "orgCd": "4550000", "orgdownNm": "금산군"},
+        {"uprCd": "6440000", "orgCd": "4540000", "orgdownNm": "논산시"},
+        {"uprCd": "6440000", "orgCd": "5680000", "orgdownNm": "당진시"},
+        {"uprCd": "6440000", "orgCd": "4510000", "orgdownNm": "보령시"},
+        {"uprCd": "6440000", "orgCd": "4570000", "orgdownNm": "부여군"},
+        {"uprCd": "6440000", "orgCd": "4530000", "orgdownNm": "서산시"},
+        {"uprCd": "6440000", "orgCd": "4580000", "orgdownNm": "서천군"},
+        {"uprCd": "6440000", "orgCd": "4520000", "orgdownNm": "아산시"},
+        {"uprCd": "6440000", "orgCd": "4560000", "orgdownNm": "연기군"},
+        {"uprCd": "6440000", "orgCd": "4610000", "orgdownNm": "예산군"},
+        {"uprCd": "6440000", "orgCd": "4490000", "orgdownNm": "천안시"},
+        {"uprCd": "6440000", "orgCd": "4590000", "orgdownNm": "청양군"},
+        {"uprCd": "6440000", "orgCd": "4620000", "orgdownNm": "태안군"},
+        {"uprCd": "6440000", "orgCd": "4600000", "orgdownNm": "홍성군"}
+      ]
+    },
+    {
+      "orgCd": "6470000",
+      "orgdownNm": "경상북도",
+      "subRegions": [
+        {"uprCd": "6470000", "orgCd": "5130000", "orgdownNm": "경산시"},
+        {"uprCd": "6470000", "orgCd": "5050000", "orgdownNm": "경주시"},
+        {"uprCd": "6470000", "orgCd": "5200000", "orgdownNm": "고령군"},
+        {"uprCd": "6470000", "orgCd": "5080000", "orgdownNm": "구미시"},
+        {"uprCd": "6470000", "orgCd": "5060000", "orgdownNm": "김천시"},
+        {"uprCd": "6470000", "orgCd": "5120000", "orgdownNm": "문경시"},
+        {"uprCd": "6470000", "orgCd": "5240000", "orgdownNm": "봉화군"},
+        {"uprCd": "6470000", "orgCd": "5110000", "orgdownNm": "상주시"},
+        {"uprCd": "6470000", "orgCd": "5210000", "orgdownNm": "성주군"},
+        {"uprCd": "6470000", "orgCd": "5070000", "orgdownNm": "안동시"},
+        {"uprCd": "6470000", "orgCd": "5180000", "orgdownNm": "영덕군"},
+        {"uprCd": "6470000", "orgCd": "5170000", "orgdownNm": "영양군"},
+        {"uprCd": "6470000", "orgCd": "5090000", "orgdownNm": "영주시"},
+        {"uprCd": "6470000", "orgCd": "5100000", "orgdownNm": "영천시"},
+        {"uprCd": "6470000", "orgCd": "5230000", "orgdownNm": "예천군"},
+        {"uprCd": "6470000", "orgCd": "5260000", "orgdownNm": "울릉군"},
+        {"uprCd": "6470000", "orgCd": "5250000", "orgdownNm": "울진군"},
+        {"uprCd": "6470000", "orgCd": "5150000", "orgdownNm": "의성군"},
+        {"uprCd": "6470000", "orgCd": "5190000", "orgdownNm": "청도군"},
+        {"uprCd": "6470000", "orgCd": "5160000", "orgdownNm": "청송군"},
+        {"uprCd": "6470000", "orgCd": "5220000", "orgdownNm": "칠곡군"},
+        {"uprCd": "6470000", "orgCd": "5020000", "orgdownNm": "포항시"}
+      ]
+    },
+    {
+      "orgCd": "6480000",
+      "orgdownNm": "경상남도",
+      "subRegions": [
+        {"uprCd": "6480000", "orgCd": "5370000", "orgdownNm": "거제시"},
+        {"uprCd": "6480000", "orgCd": "5470000", "orgdownNm": "거창군"},
+        {"uprCd": "6480000", "orgCd": "5420000", "orgdownNm": "고성군"},
+        {"uprCd": "6480000", "orgCd": "5350000", "orgdownNm": "김해시"},
+        {"uprCd": "6480000", "orgCd": "5430000", "orgdownNm": "남해군"},
+        {"uprCd": "6480000", "orgCd": "5360000", "orgdownNm": "밀양시"},
+        {"uprCd": "6480000", "orgCd": "5340000", "orgdownNm": "사천시"},
+        {"uprCd": "6480000", "orgCd": "5450000", "orgdownNm": "산청군"},
+        {"uprCd": "6480000", "orgCd": "5380000", "orgdownNm": "양산시"},
+        {"uprCd": "6480000", "orgCd": "5390000", "orgdownNm": "의령군"},
+        {"uprCd": "6480000", "orgCd": "5310000", "orgdownNm": "진주시"},
+        {"uprCd": "6480000", "orgCd": "5410000", "orgdownNm": "창녕군"},
+        {"uprCd": "6480000", "orgCd": "5320000", "orgdownNm": "창원시"},
+        {"uprCd": "6480000", "orgCd": "5330000", "orgdownNm": "통영시"},
+        {"uprCd": "6480000", "orgCd": "5440000", "orgdownNm": "하동군"},
+        {"uprCd": "6480000", "orgCd": "5400000", "orgdownNm": "함안군"},
+        {"uprCd": "6480000", "orgCd": "5460000", "orgdownNm": "함양군"},
+        {"uprCd": "6480000", "orgCd": "5480000", "orgdownNm": "합천군"}
+      ]
+    },
+    {
+      "orgCd": "6540000",
+      "orgdownNm": "전라북도",
+      "subRegions": [
+        {"uprCd": "6540000", "orgCd": "4781000", "orgdownNm": "고창군"},
+        {"uprCd": "6540000", "orgCd": "4671000", "orgdownNm": "군산시"},
+        {"uprCd": "6540000", "orgCd": "4711000", "orgdownNm": "김제시"},
+        {"uprCd": "6540000", "orgCd": "4701000", "orgdownNm": "남원시"},
+        {"uprCd": "6540000", "orgCd": "4741000", "orgdownNm": "무주군"},
+        {"uprCd": "6540000", "orgCd": "4791000", "orgdownNm": "부안군"},
+        {"uprCd": "6540000", "orgCd": "4771000", "orgdownNm": "순창군"},
+        {"uprCd": "6540000", "orgCd": "4721000", "orgdownNm": "완주군"},
+        {"uprCd": "6540000", "orgCd": "4681000", "orgdownNm": "익산시"},
+        {"uprCd": "6540000", "orgCd": "4761000", "orgdownNm": "임실군"},
+        {"uprCd": "6540000", "orgCd": "4751000", "orgdownNm": "장수군"},
+        {"uprCd": "6540000", "orgCd": "4641000", "orgdownNm": "전주시"},
+        {"uprCd": "6540000", "orgCd": "4691000", "orgdownNm": "정읍시"},
+        {"uprCd": "6540000", "orgCd": "4731000", "orgdownNm": "진안군"}
+      ]
+    },
+    {
+      "orgCd": "6460000",
+      "orgdownNm": "전라남도",
+      "subRegions": [
+        {"uprCd": "6460000", "orgCd": "4920000", "orgdownNm": "강진군"},
+        {"uprCd": "6460000", "orgCd": "4880000", "orgdownNm": "고흥군"},
+        {"uprCd": "6460000", "orgCd": "4860000", "orgdownNm": "곡성군"},
+        {"uprCd": "6460000", "orgCd": "4840000", "orgdownNm": "광양시"},
+        {"uprCd": "6460000", "orgCd": "4870000", "orgdownNm": "구례군"},
+        {"uprCd": "6460000", "orgCd": "4830000", "orgdownNm": "나주시"},
+        {"uprCd": "6460000", "orgCd": "4850000", "orgdownNm": "담양군"},
+        {"uprCd": "6460000", "orgCd": "4800000", "orgdownNm": "목포시"},
+        {"uprCd": "6460000", "orgCd": "4950000", "orgdownNm": "무안군"},
+        {"uprCd": "6460000", "orgCd": "4890000", "orgdownNm": "보성군"},
+        {"uprCd": "6460000", "orgCd": "4820000", "orgdownNm": "순천시"},
+        {"uprCd": "6460000", "orgCd": "5010000", "orgdownNm": "신안군"},
+        {"uprCd": "6460000", "orgCd": "4810000", "orgdownNm": "여수시"},
+        {"uprCd": "6460000", "orgCd": "4970000", "orgdownNm": "영광군"},
+        {"uprCd": "6460000", "orgCd": "4940000", "orgdownNm": "영암군"},
+        {"uprCd": "6460000", "orgCd": "4990000", "orgdownNm": "완도군"},
+        {"uprCd": "6460000", "orgCd": "4980000", "orgdownNm": "장성군"},
+        {"uprCd": "6460000", "orgCd": "4910000", "orgdownNm": "장흥군"},
+        {"uprCd": "6460000", "orgCd": "5000000", "orgdownNm": "진도군"},
+        {"uprCd": "6460000", "orgCd": "4960000", "orgdownNm": "함평군"},
+        {"uprCd": "6460000", "orgCd": "4930000", "orgdownNm": "해남군"},
+        {"uprCd": "6460000", "orgCd": "4900000", "orgdownNm": "화순군"}
+      ]
+    },
+    {
+      "orgCd": "6500000",
+      "orgdownNm": "제주특별자치도",
+      "subRegions": [
+        {"uprCd": "6500000", "orgCd": "6510000", "orgdownNm": "제주시"},
+        {"uprCd": "6500000", "orgCd": "6520000", "orgdownNm": "서귀포시"}
+      ]
+    }
+
+  ]
+}
