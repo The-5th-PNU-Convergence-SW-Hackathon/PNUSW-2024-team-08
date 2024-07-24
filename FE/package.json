@@ -1,0 +1,29 @@
+{
+  "name": "class",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.9.3",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "antd": "^5.14.0",
+    "axios": "^1.6.7",
+    "graphql": "^16.8.1",
+    "js-cookie": "^3.0.5",
+    "next": "12.1.0",
+    "nookies": "^2.5.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-modal": "^3.16.1",
+    "react-swipeable": "^7.0.1",
+    "react-toastify": "^8.2.0",
+    "uuid": "^9.0.1",
+    "zustand": "^4.5.2"
+  }
+}
