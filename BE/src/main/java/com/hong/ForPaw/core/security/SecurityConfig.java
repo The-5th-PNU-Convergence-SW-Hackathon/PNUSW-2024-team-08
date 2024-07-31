@@ -1,5 +1,6 @@
 package com.hong.ForPaw.core.security;
 
+
 import com.hong.ForPaw.core.errors.CustomException;
 import com.hong.ForPaw.core.errors.ExceptionCode;
 import com.hong.ForPaw.core.utils.FilterResponseUtils;
@@ -7,11 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -25,54 +29,54 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
+    public static class CustomSecurityFilterConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
         @Override
-        public void configure(HttpSecurity builder) throws Exception {
-            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
-            super.configure(builder);
+        public void configure(HttpSecurity http) throws Exception {
+            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+            http.addFilter(new JwtAuthenticationFilter(authenticationManager));
         }
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // CSRF 해제
-        http.csrf().disable();
+        http
+                // CSRF 해제
+                .csrf(AbstractHttpConfigurer::disable)
 
-        // iframe 거부
-        http.headers().frameOptions().sameOrigin();
+                // iframe 옵션 설정
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
 
-        // cors 재설정
-        http.cors().configurationSource(configurationSource());
+                // CORS 설정
+                .cors(cors -> cors.configurationSource(configurationSource()))
 
-        // jSessionId 사용 거부 (5번을 설정하면 jsessionId가 거부되기 때문에 4번은 사실 필요 없다)
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                // 세션 정책 설정
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
-        // form 로그인 해제 (UsernamePasswordAuthenticationFilter 비활성화)
-        http.formLogin().disable();
+                // 폼 로그인 및 기본 HTTP 인증 비활성화
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
 
-        // 로그인 인증창이 뜨지 않게 비활성화
-        http.httpBasic().disable();
+                // 인증 예외 및 권한 부여 실패 처리자
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling.authenticationEntryPoint((request, response, authException) ->
+                            FilterResponseUtils.unAuthorized(response, new CustomException(ExceptionCode.USER_UNAUTHORIZED))
+                    );
+                    exceptionHandling.accessDeniedHandler((request, response, accessDeniedException) ->
+                            FilterResponseUtils.forbidden(response, new CustomException(ExceptionCode.USER_FORBIDDEN))
+                    );
+                })
 
-        // 커스텀 필터 적용 (시큐리티 필터 교환)
-        http.apply(new CustomSecurityFilterManager());
+                // 인증 요구사항 및 권한 설정
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/email/**", "/api/accounts", "/api/login", "/api/password/**", "/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/refresh").permitAll()
+                        .anyRequest().authenticated()
+                )
 
-        // 인증 실패 처리
-        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            FilterResponseUtils.unAuthorized(response, new CustomException(ExceptionCode.USER_UNAUTHORIZED));
-        });
-
-        // 권한 실패 처리
-        http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-            FilterResponseUtils.forbidden(response, new CustomException(ExceptionCode.USER_FORBIDDEN));
-        });
-
-        // 인증, 권한 필터 설정
-        http.authorizeRequests(
-                authorize -> authorize.antMatchers("/api/email/**", "/api/join", "/api/login", "/api/password/**", "/api/auth/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/api/refresh").permitAll()
-                        .anyRequest().permitAll()
-        );
+                // 사용자 정의 필터 추가
+                .with(new CustomSecurityFilterConfigurer(), customConfigurer -> {});
 
         return http.build();
     }

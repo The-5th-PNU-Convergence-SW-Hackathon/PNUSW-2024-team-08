@@ -40,6 +40,7 @@ public class JWTProvider {
                 .withExpiresAt(new Date(System.currentTimeMillis() + exp))
                 .withClaim("id", user.getId())
                 .withClaim("role", user.getRole().ordinal())
+                .withClaim("nickName", user.getNickName())
                 .sign(Algorithm.HMAC512(SECRET));
         return jwt;
     }

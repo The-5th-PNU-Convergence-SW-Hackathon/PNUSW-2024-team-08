@@ -1,5 +1,6 @@
 package com.hong.ForPaw.service;
 
+import com.hong.ForPaw.controller.DTO.AlarmRequest;
 import com.hong.ForPaw.controller.DTO.PostRequest;
 import com.hong.ForPaw.controller.DTO.PostResponse;
 import com.hong.ForPaw.core.errors.CustomException;
@@ -9,17 +10,20 @@ import com.hong.ForPaw.domain.Post.*;
 import com.hong.ForPaw.domain.User.Role;
 import com.hong.ForPaw.domain.User.User;
 import com.hong.ForPaw.repository.*;
+import com.hong.ForPaw.repository.Post.*;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Optional;
+
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,34 +37,87 @@ public class PostService {
     private final PostReadStatusRepository postReadStatusRepository;
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
-    private final AlarmRepository alarmRepository;
+    private final RedisService redisService;
     private final UserRepository userRepository;
-    private final AlarmService alarmService;
+    private final BrokerService brokerService;
     private final EntityManager entityManager;
 
     @Transactional
     public PostResponse.CreatePostDTO createPost(PostRequest.CreatePostDTO requestDTO, Long userId){
-
         User userRef = entityManager.getReference(User.class, userId);
+
+        List<PostImage> postImages = requestDTO.images().stream()
+                .map(postImageDTO -> PostImage.builder()
+                        .imageURL(postImageDTO.imageURL())
+                        .build())
+                .toList();
 
         Post post = Post.builder()
                 .user(userRef)
-                .postType(requestDTO.postType())
+                .postType(requestDTO.type())
                 .title(requestDTO.title())
                 .content(requestDTO.content())
                 .build();
 
+        // 연관관계 설정
+        postImages.forEach(post::addImage);
+
         postRepository.save(post);
 
+        return new PostResponse.CreatePostDTO(post.getId());
+    }
+
+    @Transactional
+    public PostResponse.CreateAnswerDTO createAnswer(PostRequest.CreateAnswerDTO requestDTO, Long parentPostId, Long userId){
+        // 존재하지 않는 질문글에 답변을 달려고 하면 에러
+        Post parentPost = postRepository.findByIdWithUser(parentPostId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
+
+        // 질문글에만 답변을 달 수 있다
+        if(!parentPost.getPostType().equals(PostType.question)){
+            throw new CustomException(ExceptionCode.NOT_QUESTION_TYPE);
+        }
+
+        User userRef = entityManager.getReference(User.class, userId);
+
         List<PostImage> postImages = requestDTO.images().stream()
-                .map(postImageDTO -> PostImage.builder().post(post)
+                .map(postImageDTO -> PostImage.builder()
                         .imageURL(postImageDTO.imageURL())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
 
-        postImageRepository.saveAll(postImages);
+        Post post = Post.builder()
+                .user(userRef)
+                .postType(PostType.answer)
+                .title(parentPost.getTitle() + "(답변)")
+                .content(requestDTO.content())
+                .build();
 
-        return new PostResponse.CreatePostDTO(post.getId());
+        // 연관관계 설정
+        postImages.forEach(post::addImage);
+        parentPost.addChildPost(post);
+
+        postRepository.save(post);
+
+        // 게시글의 답변 수 레디스에 저장
+        redisService.incrementCnt("answerNum", parentPostId.toString(), 1L);
+
+        // 알림 생성
+        String content = "새로운 답변: " + requestDTO.content();
+        String redirectURL = "post/"+parentPostId+"/entire";
+        LocalDateTime date = LocalDateTime.now();
+
+        AlarmRequest.AlarmDTO alarmDTO = new AlarmRequest.AlarmDTO(
+                parentPost.getUser().getId(),
+                content,
+                redirectURL,
+                date,
+                AlarmType.answer);
+
+        brokerService.produceAlarm(parentPost.getUser().getId(), alarmDTO);
+
+        return new PostResponse.CreateAnswerDTO(post.getId());
     }
 
     @Transactional
@@ -69,89 +126,158 @@ public class PostService {
         Pageable pageable = createPageable(0, 5, "id");
 
         // 입양 스토리 글 찾기
-        List<PostResponse.PostDTO> adoptionPosts = getPostDTOSByType(PostType.adoption, pageable);
+        List<PostResponse.PostDTO> adoptionPosts = getPostDTOsByType(PostType.adoption, pageable);
 
         // 임시 보호 글 찾기
-        List<PostResponse.PostDTO> protectionPosts = getPostDTOSByType(PostType.protection, pageable);
+        List<PostResponse.PostDTO> protectionPosts = getPostDTOsByType(PostType.protection, pageable);
 
         // 질문해요 글 찾기
-        List<PostResponse.PostDTO> questionPosts = getPostDTOSByType(PostType.question, pageable);
+        List<PostResponse.QnaDTO> questionPosts = getQnaDTOs(pageable);
 
         return new PostResponse.FindAllPostDTO(adoptionPosts, protectionPosts, questionPosts);
     }
 
     @Transactional
-    public PostResponse.FindAdoptionPostDTO findAdoptionPost(Integer page, Integer size, String sort){
-
+    public PostResponse.FindAdoptionPostListDTO findAdoptionPostList(Integer page, Integer size, String sort){
         Pageable pageable = createPageable(page, size, sort);
-        List<PostResponse.PostDTO> adoptPostDTOS = getPostDTOSByType(PostType.adoption, pageable);
+        List<PostResponse.PostDTO> adoptPostDTOS = getPostDTOsByType(PostType.adoption, pageable);
 
         if(adoptPostDTOS.isEmpty()){
             throw new CustomException(ExceptionCode.SEARCH_NOT_FOUND);
         }
 
-        return new PostResponse.FindAdoptionPostDTO(adoptPostDTOS);
+        return new PostResponse.FindAdoptionPostListDTO(adoptPostDTOS);
     }
 
     @Transactional
-    public PostResponse.FindProtectionPostDTO findProtectionPost(Integer page, Integer size, String sort){
-
+    public PostResponse.FindProtectionPostListDTO findProtectionPostList(Integer page, Integer size, String sort){
         Pageable pageable = createPageable(page, size, sort);
-        List<PostResponse.PostDTO> adoptPostDTOS = getPostDTOSByType(PostType.protection, pageable);
+        List<PostResponse.PostDTO> adoptPostDTOS = getPostDTOsByType(PostType.protection, pageable);
 
         if(adoptPostDTOS.isEmpty()){
             throw new CustomException(ExceptionCode.SEARCH_NOT_FOUND);
         }
 
-        return new PostResponse.FindProtectionPostDTO(adoptPostDTOS);
+        return new PostResponse.FindProtectionPostListDTO(adoptPostDTOS);
     }
 
     @Transactional
-    public PostResponse.FindQuestionPostDTO findQuestionPost(Integer page, Integer size, String sort){
-
+    public PostResponse.FindQnaPostListDTO findQuestionPostList(Integer page, Integer size, String sort){
         Pageable pageable = createPageable(page, size, sort);
-        List<PostResponse.PostDTO> adoptPostDTOS = getPostDTOSByType(PostType.question, pageable);
+        List<PostResponse.QnaDTO> qnaDTOS = getQnaDTOs(pageable);
 
-        if(adoptPostDTOS.isEmpty()){
+        if(qnaDTOS.isEmpty()){
             throw new CustomException(ExceptionCode.SEARCH_NOT_FOUND);
         }
 
-        return new PostResponse.FindQuestionPostDTO(adoptPostDTOS);
+        return new PostResponse.FindQnaPostListDTO(qnaDTOS);
     }
 
     @Transactional
     public PostResponse.FindPostByIdDTO findPostById(Long postId, Long userId){
-        // 존재하지 않는 글인지 체크
-        checkPostExist(postId);
+        // user, postImages를 패치조인 해서 조회
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
 
-        List<Comment> comments = commentRepository.findByPostIdWithUser(postId);
-        List<PostResponse.CommentDTO> commentDTOS = comments.stream()
-                .map(comment -> new PostResponse.CommentDTO(comment.getId(), comment.getUser().getNickName(), comment.getContent(), comment.getCreatedDate(), comment.getUser().getRegin()))
+        // 게시글 이미지 DTO
+        List<PostResponse.PostImageDTO> postImageDTOS = post.getPostImages().stream()
+                .map(postImage -> new PostResponse.PostImageDTO(postImage.getId(), postImage.getImageURL()))
                 .collect(Collectors.toList());
 
-        Post postRef = entityManager.getReference(Post.class, postId);
-        User userRef = entityManager.getReference(User.class, userId);
+        // 댓글 DTO (특정 게시글에 대한 모든 댓글 및 대댓글을 들고 있음)
+        List<PostResponse.CommentDTO> commentDTOS = new ArrayList<>();
+        Map<Long, PostResponse.CommentDTO> commentMap = new HashMap<>(); // map을 사용해서 대댓글을 해당 부모 댓글에 추가
 
-        // 게시글 읽음 처리 (화면에서 게시글 확인 여부가 필요한 곳이 있음)
+        List<Comment> comments = commentRepository.findAllByPostIdWithUserAndParent(postId);
+        comments.forEach(comment -> {
+            // 부모 댓글이면, CommentDTO로 변환해서 commentDTOS 리스트에 추가
+            if (comment.getParent() == null) {
+                PostResponse.CommentDTO commentDTO = new PostResponse.CommentDTO(
+                        comment.getId(),
+                        comment.getUser().getNickName(),
+                        comment.getContent(),
+                        comment.getCreatedDate(),
+                        comment.getUser().getRegion(),
+                        new ArrayList<>());
+
+                commentDTOS.add(commentDTO);
+                commentMap.put(comment.getId(), commentDTO);
+            }
+            else { // 자식 댓글이면, ReplyDTO로 변환해서 부모 댓글의 replies 리스트에 추가
+                PostResponse.ReplyDTO replyDTO = new PostResponse.ReplyDTO(
+                        comment.getId(),
+                        comment.getUser().getNickName(),
+                        comment.getContent(),
+                        comment.getCreatedDate(),
+                        comment.getUser().getRegion());
+
+                Long parentId = comment.getParent().getId();
+                commentMap.get(parentId).replies().add(replyDTO);
+            }
+        });
+
+        // 좋아요 수
+        Long likeNum = redisService.getDataInLong("postLikeNum", postId.toString());
+
+        // 댓글 수
+        Long commentNum = redisService.getDataInLong("commentNum", postId.toString());
+
+        // 게시글 읽음 처리
+        User userRef = entityManager.getReference(User.class, userId);
         PostReadStatus postReadStatus = PostReadStatus.builder()
-                .post(postRef)
+                .post(post)
                 .user(userRef)
                 .build();
 
         postReadStatusRepository.save(postReadStatus);
 
-        return new PostResponse.FindPostByIdDTO(commentDTOS);
+        return new PostResponse.FindPostByIdDTO(post.getUser().getNickName(), post.getTitle(), post.getContent(), post.getCreatedDate(), commentNum, likeNum, postImageDTOS, commentDTOS);
     }
 
     @Transactional
-    public void updatePost(PostRequest.UpdatePostDTO requestDTO, Long userId, Long postId){
-        // 존재하지 않는 글인지 체크
-        checkPostExist(postId);
+    public PostResponse.FIndQnaByIdDTO findQnaById(Long postId){
+        // user, postImages를 패치조인 해서 조회
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
+
+        // 게시글 이미지 DTO
+        List<PostResponse.PostImageDTO> postImageDTOS = post.getPostImages().stream()
+                .map(postImage -> new PostResponse.PostImageDTO(postImage.getId(), postImage.getImageURL()))
+                .collect(Collectors.toList());
+
+        // 답변 게시글 DTO
+        List<PostResponse.AnswerDTO> answerDTOS = postRepository.findByParentIdWithUser(postId).stream()
+                .map(answer -> {
+                    List<PostResponse.PostImageDTO> answerImageDTOS = answer.getPostImages().stream()
+                            .map(postImage -> new PostResponse.PostImageDTO(postImage.getId(), postImage.getImageURL()))
+                            .collect(Collectors.toList());
+
+                    return new PostResponse.AnswerDTO(
+                            answer.getId(),
+                            answer.getUser().getNickName(),
+                            answer.getContent(),
+                            answer.getCreatedDate(),
+                            answerImageDTOS);
+                })
+                .collect(Collectors.toList());
+
+        return new PostResponse.FIndQnaByIdDTO(post.getUser().getNickName(), post.getTitle(), post.getContent(), post.getCreatedDate(), postImageDTOS, answerDTOS);
+    }
+
+    @Transactional
+    public void updatePost(PostRequest.UpdatePostDTO requestDTO, User user, Long postId){
+        // 존재하지 않는 글이면 에러
+        Post post = postRepository.findByIdWithUser(postId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
 
         // 수정 권한 체크
-        checkPostAuthority(postId, userId);
+        checkPostAuthority(post.getUser().getId(), user);
 
-        postRepository.updatePostTitleAndContent(postId, requestDTO.title(), requestDTO.content());
+        // 제목, 본문 업데이트
+        post.updatePost(requestDTO.title(), requestDTO.content());
 
         // 유지할 이미지를 제외한 모든 이미지 삭제
         if (requestDTO.retainedImageIds() != null && !requestDTO.retainedImageIds().isEmpty()) {
@@ -161,11 +287,9 @@ public class PostService {
         }
 
         // 새 이미지 추가
-        Post postRef = entityManager.getReference(Post.class, postId);
-
         List<PostImage> newImages = requestDTO.newImages().stream()
                 .map(postImageDTO -> PostImage.builder()
-                        .post(postRef)
+                        .post(post)
                         .imageURL(postImageDTO.imageURL())
                         .build())
                 .collect(Collectors.toList());
@@ -174,28 +298,35 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long postId, Long userId){
-        // 존재하지 않는 글인지 체크
-        checkPostExist(postId);
+    public void deletePost(Long postId, User user){
+        // 존재하지 않은 포스트면 에러
+        Long writerId = postRepository.findUserIdByPostId(postId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
 
         // 수정 권한 체크
-        checkPostAuthority(postId, userId);
+        checkPostAuthority(writerId, user);
 
-        postImageRepository.deleteAllByPostId(postId);
         postLikeRepository.deleteAllByPostId(postId);
         postReadStatusRepository.deleteAllByPostId(postId);
-        commentRepository.deleteAllByPostId(postId);
         commentLikeRepository.deleteAllByPostId(postId);
-        postRepository.deleteById(postId);
+        commentRepository.deleteAllByPostId(postId); // soft-delete
+        postRepository.deleteById(postId); // soft-delete
+
+        // 레디스에 저장된 댓글 수, 답변 수 삭제
+        redisService.removeData("answerNum", postId.toString());
+        redisService.removeData("commentNum", postId.toString());
     }
 
     @Transactional
     public void likePost(Long postId, Long userId){
-        // 존재하지 않는 글인지 체크
-        checkPostExist(postId);
+        // 존재하지 않는 글이면 에러
+        Long postWriterId = postRepository.findUserIdByPostId(postId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
 
         // 자기 자신의 글에는 좋아요를 할 수 없다.
-        if (postRepository.isOwnPost(postId, userId)) {
+        if (postWriterId.equals(userId)) {
             throw new CustomException(ExceptionCode.POST_CANT_LIKE);
         }
 
@@ -203,8 +334,8 @@ public class PostService {
 
         // 이미 좋아요를 눌렀다면, 취소하는 액션이니 게시글의 좋아요 수를 감소시키고 하고, postLike 엔티티 삭제
         if(postLikeOP.isPresent()){
-            postRepository.decrementLikeNumById(postId);
             postLikeRepository.delete(postLikeOP.get());
+            redisService.decrementCnt("postLikeNum", postId.toString(), 1L);
         }
         else { // 좋아요를 누르지 않았다면, 좋아요 수를 증가키고, 엔티티 저장
             User userRef = entityManager.getReference(User.class, userId);
@@ -212,15 +343,46 @@ public class PostService {
 
             PostLike postLike = PostLike.builder().user(userRef).post(postRef).build();
 
-            postRepository.incrementLikeNumById(postId);
             postLikeRepository.save(postLike);
+            redisService.incrementCnt("postLikeNum", postId.toString(), 1L);
         }
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void syncLikes() {
+        // 업데이트는 50개씩 진행
+        int page = 0;
+        int batchSize = 50;
+
+        Pageable pageable = PageRequest.of(page, batchSize);
+        Page<Long> postIdsPage;
+
+        do {
+            postIdsPage = processLikesBatch(pageable);
+            pageable = pageable.next();
+        } while (postIdsPage != null && postIdsPage.hasNext());
+    }
+
+    @Transactional
+    public Page<Long> processLikesBatch(Pageable pageable) {
+        Page<Long> postIdsPage = postRepository.findAllPostId(pageable);
+        List<Long> postIds = postIdsPage.getContent();
+
+        for (Long postId : postIds) {
+            Long likeNum = redisService.getDataInLong("postLikeNum", postId.toString());
+            if (likeNum != null) {
+                postRepository.updateLikeNum(likeNum, postId);
+            }
+        }
+        return postIdsPage;
     }
 
     @Transactional
     public PostResponse.CreateCommentDTO createComment(PostRequest.CreateCommentDTO requestDTO, Long userId, Long postId){
         // 존재하지 않는 글이면 에러
-        checkPostExist(postId);
+        Long writerId = postRepository.findUserIdByPostId(postId).orElseThrow(
+                () -> new CustomException(ExceptionCode.POST_NOT_FOUND)
+        );
 
         User userRef = entityManager.getReference(User.class, userId);
         Post postRef = entityManager.getReference(Post.class, postId);
@@ -234,52 +396,108 @@ public class PostService {
         commentRepository.save(comment);
 
         // 게시글의 댓글 수 증가
-        postRepository.incrementCommentNumById(postId);
-
-        // 게시글 작성자의 userId를 구해서, 프록시 객체 생성
-        Long postUserId = postRepository.findUserIdByPostId(postId).get(); // 이미 앞에서 존재하는 글임을 체크함
-        User postUserRef = entityManager.getReference(User.class, postUserId);
+        redisService.incrementCnt("commentNum", postId.toString(), 1L);
 
         // 알람 생성
-        String redirectURL = "post/"+postId+"/entire";
-        alarmService.send(postUserRef, AlarmType.comment, "새로운 댓글: " + requestDTO.content(), redirectURL);
+        String content = "새로운 댓글: " + requestDTO.content();
+        String redirectURL = "post/"+postId;
+        LocalDateTime date = LocalDateTime.now();
+
+        AlarmRequest.AlarmDTO alarmDTO = new AlarmRequest.AlarmDTO(
+                writerId,
+                content,
+                redirectURL,
+                date,
+                AlarmType.comment);
+
+        brokerService.produceAlarm(writerId, alarmDTO);
 
         return new PostResponse.CreateCommentDTO(comment.getId());
     }
 
     @Transactional
-    public void updateComment(PostRequest.UpdateCommentDTO requestDTO, Long commentId, Long userId){
-        // 존재하지 않는 댓글인지 체크
-        checkCommentExist(commentId);
+    public PostResponse.CreateCommentDTO createReply(PostRequest.CreateCommentDTO requestDTO, Long postId, Long userId, Long parentCommentId){
+        // 존재하지 않는 댓글이면 에러
+        Comment parentComment = commentRepository.findByIdWithUser(parentCommentId).orElseThrow(
+                () -> new CustomException(ExceptionCode.COMMENT_NOT_FOUND)
+        );
 
-        // 수정 권한 체크
-        checkCommentAuthority(commentId, userId);
+        // 작성자
+        User userRef = entityManager.getReference(User.class, userId);
+        Post postRef = entityManager.getReference(Post.class, postId);
 
-        commentRepository.updateCommentContent(commentId, requestDTO.content());
+        Comment comment = Comment.builder()
+                .user(userRef)
+                .post(postRef)
+                .content(requestDTO.content())
+                .build();
+
+        parentComment.addChildComment(comment);
+        commentRepository.save(comment);
+
+        // 게시글의 댓글 수 증가
+        redisService.incrementCnt("commentNum", postId.toString(), 1L);
+
+        // 알람 생성
+        String content = "새로운 대댓글: " + requestDTO.content();
+        String redirectURL = "posts/"+postId;
+        LocalDateTime date = LocalDateTime.now();
+
+        AlarmRequest.AlarmDTO alarmDTO = new AlarmRequest.AlarmDTO(
+                parentComment.getUser().getId(),
+                content,
+                redirectURL,
+                date,
+                AlarmType.comment);
+
+        brokerService.produceAlarm(parentComment.getUser().getId(), alarmDTO);
+
+        return new PostResponse.CreateCommentDTO(comment.getId());
     }
 
     @Transactional
-    public void deleteComment(Long postId, Long commentId, Long userId){
-        // 존재하지 않는 댓글인지 체크
-        checkCommentExist(commentId);
+    public void updateComment(PostRequest.UpdateCommentDTO requestDTO, Long commentId, User user){
+        // 존재하지 않는 댓글이면 에러
+        Comment comment = commentRepository.findByIdWithUser(commentId).orElseThrow(
+                () -> new CustomException(ExceptionCode.COMMENT_NOT_FOUND)
+        );
 
         // 수정 권한 체크
-        checkCommentAuthority(commentId, userId);
+        checkCommentAuthority(comment.getUser().getId(), user);
 
-        commentLikeRepository.deleteAllByCommentId(commentId);
+        comment.updateComment(requestDTO.content());
+    }
+
+    // soft delete를 구현하기 전에는 부모 댓글 삭제시, 대댓글까지 모두 삭제 되도록 구현
+    @Transactional
+    public void deleteComment(Long postId, Long commentId, User user){
+        // 존재하지 않는 댓글이면 에러
+        Comment comment = commentRepository.findByIdWithUser(commentId).orElseThrow(
+                () -> new CustomException(ExceptionCode.COMMENT_NOT_FOUND)
+        );
+
+        // 수정 권한 체크
+        checkCommentAuthority(comment.getUser().getId(), user);
+
+        Long childNum = Long.valueOf(comment.getChildren().size());
+
+        // 댓글 및 관련 대댓글 삭제 (CascadeType.ALL에 의해 처리됨)
         commentRepository.deleteById(commentId);
+        commentLikeRepository.deleteAllByCommentId(commentId);
 
         // 게시글의 댓글 수 감소
-        postRepository.decrementCommentNumById(postId);
+        redisService.decrementCnt("commentNum", postId.toString(), 1L + childNum);
     }
 
     @Transactional
     public void likeComment(Long commentId, Long userId){
         // 존재하지 않는 댓글인지 체크
-        checkCommentExist(commentId);
+        Long commentWriterId = commentRepository.findUserIdByCommentId(commentId).orElseThrow(
+                () -> new CustomException(ExceptionCode.COMMENT_NOT_FOUND)
+        );
 
         // 자기 자신의 댓글에는 좋아요를 할 수 없다.
-        if(commentRepository.isOwnComment(commentId, userId)){
+        if(commentWriterId.equals(userId)){
             throw new CustomException(ExceptionCode.COMMENT_CANT_LIKE);
         }
 
@@ -287,8 +505,8 @@ public class PostService {
 
         // 이미 좋아요를 눌렀다면, 취소하는 액션이니 게시글의 좋아요 수를 감소시키고 하고, postLike 엔티티 삭제
         if(commentLikeOP.isPresent()){
-            commentRepository.decrementLikeNumById(commentId);
             commentLikeRepository.delete(commentLikeOP.get());
+            redisService.decrementCnt("commentLikeNum", commentId.toString(), 1L);
         }
         else{ // 좋아요를 누르지 않았다면, 좋아요 수를 증가키고, 엔티티 저장
             User userRef = entityManager.getReference(User.class, userId);
@@ -296,72 +514,79 @@ public class PostService {
 
             CommentLike commentLike = CommentLike.builder().user(userRef).comment(commentRef).build();
 
-            commentRepository.incrementLikeNumById(commentId);
             commentLikeRepository.save(commentLike);
+            redisService.incrementCnt("commentLikeNum", commentId.toString(), 1L);
         }
     }
 
-    public List<PostResponse.PostDTO> getPostDTOSByType(PostType postType, Pageable pageable){
-
-        Page<Post> postPage = postRepository.findByPostType(postType, pageable);
+    public List<PostResponse.PostDTO> getPostDTOsByType(PostType postType, Pageable pageable){
+        // 유저를 패치조인하여 조회
+        Page<Post> postPage = postRepository.findByPostTypeWithUser(postType, pageable);
 
         List<PostResponse.PostDTO> postDTOS = postPage.getContent().stream()
-                .map(post -> {
-                    List<PostResponse.PostImageDTO> postImageDTOS = postImageRepository.findByPost(post).stream()
-                            .map(postImage -> new PostResponse.PostImageDTO(postImage.getId(), postImage.getImageURL()))
-                            .collect(Collectors.toList());
+                .map(post ->  {
+                    Long commentNum = redisService.getDataInLong("commentNum", post.getId().toString());
+                    Long likeNum = redisService.getDataInLong("postLikeNum", post.getId().toString());
 
-                    return new PostResponse.PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getCreatedDate(), post.getCommentNum(), post.getLikeNum(), postImageDTOS);
+                    return new PostResponse.PostDTO(
+                        post.getId(),
+                        post.getUser().getNickName(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getCreatedDate(),
+                        commentNum,
+                        likeNum,
+                        post.getPostImages().get(0).getImageURL());
                 })
                 .collect(Collectors.toList());
 
         return postDTOS;
     }
 
+    public List<PostResponse.QnaDTO> getQnaDTOs(Pageable pageable){
+        // 유저를 패치조인하여 조회
+        Page<Post> postPage = postRepository.findByPostTypeWithUser(PostType.question, pageable);
+
+        List<PostResponse.QnaDTO> qnaDTOS = postPage.getContent().stream()
+                .map(post -> {
+                    Long answerNum = redisService.getDataInLong("answerNum", post.getId().toString());
+
+                    return new PostResponse.QnaDTO(
+                        post.getId(),
+                        post.getUser().getNickName(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getCreatedDate(),
+                        answerNum);
+                })
+                .collect(Collectors.toList());
+
+        return qnaDTOS;
+    }
+
     private Pageable createPageable(int page, int size, String sortProperty) {
         return PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, sortProperty));
     }
 
-    private void checkPostAuthority(Long postId, Long userId){
+    private void checkPostAuthority(Long writerId, User accessor){
         // 관리자면 수정 가능
-        if(userRepository.findRoleById(userId).orElse(Role.USER).equals(Role.ADMIN)){
+        if(accessor.getRole().equals(Role.ADMIN)){
             return;
         }
 
-        // 작성자 본인이면 수정 가능
-        Long postUserId = postRepository.findUserIdByPostId(postId)
-                .orElseThrow( () -> new CustomException(ExceptionCode.USER_FORBIDDEN));
-
-        if(!postUserId.equals(userId)){
+        if(!writerId.equals(accessor.getId())){
             throw new CustomException(ExceptionCode.USER_FORBIDDEN);
         }
     }
 
-    private void checkCommentAuthority(Long commentId, Long userId) {
+    private void checkCommentAuthority(Long writerId, User accessor) {
         // 관리자면 수정 가능
-        if(userRepository.findRoleById(userId).orElse(Role.USER).equals(Role.ADMIN)){
+        if(accessor.getRole().equals(Role.ADMIN)){
             return;
         }
 
-        Long commentUserId = commentRepository.findUserIdByCommentId(commentId)
-                .orElseThrow( () -> new CustomException(ExceptionCode.USER_FORBIDDEN));
-
-        if(!commentUserId.equals(userId)){
+        if(!writerId.equals(accessor.getId())){
             throw new CustomException(ExceptionCode.USER_FORBIDDEN);
-        }
-    }
-
-    private void checkPostExist(Long postId){
-
-        if (!postRepository.existsById(postId)) {
-            throw new CustomException(ExceptionCode.POST_NOT_FOUND);
-        }
-    }
-
-    private void checkCommentExist(Long commentId){
-
-        if(!commentRepository.existsById(commentId)){
-            throw new CustomException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 }

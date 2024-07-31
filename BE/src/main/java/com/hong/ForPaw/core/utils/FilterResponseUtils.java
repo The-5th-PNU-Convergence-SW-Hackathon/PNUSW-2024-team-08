@@ -2,8 +2,9 @@ package com.hong.ForPaw.core.utils;
 
 import com.hong.ForPaw.core.errors.CustomException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 public class FilterResponseUtils {

@@ -1,4 +1,4 @@
-package com.hong.ForPaw.repository;
+package com.hong.ForPaw.repository.Post;
 
 import com.hong.ForPaw.domain.Post.Post;
 import com.hong.ForPaw.domain.Post.PostImage;
@@ -10,11 +10,7 @@ import java.util.List;
 @Repository
 public interface PostImageRepository extends JpaRepository<PostImage, Long> {
 
-    List<PostImage> findByPost(Post post);
-
     void deleteByPostId(Long postId);
 
     void deleteByPostIdAndIdNotIn(Long postId, List<Long> retainedImageIds);
-
-    void deleteAllByPostId(Long postId);
 }

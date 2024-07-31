@@ -1,5 +1,6 @@
 package com.hong.ForPaw.service;
 
+import com.hong.ForPaw.controller.DTO.GoogleDTO;
 import com.hong.ForPaw.controller.DTO.KakaoDTO;
 import com.hong.ForPaw.controller.DTO.UserRequest;
 import com.hong.ForPaw.controller.DTO.UserResponse;
@@ -7,6 +8,12 @@ import com.hong.ForPaw.core.errors.CustomException;
 import com.hong.ForPaw.core.errors.ExceptionCode;
 import com.hong.ForPaw.domain.User.Role;
 import com.hong.ForPaw.domain.User.User;
+import com.hong.ForPaw.repository.Alarm.AlarmRepository;
+import com.hong.ForPaw.repository.ApplyRepository;
+import com.hong.ForPaw.repository.Chat.ChatUserRepository;
+import com.hong.ForPaw.repository.Group.GroupUserRepository;
+import com.hong.ForPaw.repository.Group.MeetingUserRepository;
+import com.hong.ForPaw.repository.Post.PostReadStatusRepository;
 import com.hong.ForPaw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +31,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,9 +49,16 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
+    private final ApplyRepository applyRepository;
+    private final GroupUserRepository groupUserRepository;
+    private final MeetingUserRepository meetingUserRepository;
+    private final PostReadStatusRepository postReadStatusRepository;
+    private final ChatUserRepository chatUserRepository;
     private final RedisService redisService;
     private final JavaMailSender mailSender;
     private final WebClient webClient;
+    private final BrokerService brokerService;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
@@ -59,10 +75,25 @@ public class UserService {
     @Value("${kakao.redirect.uri}")
     private String kakaoRedirectURI;
 
+    @Value("${google.client.id}")
+    private String googleClientId;
+
+    @Value("${google.token.uri}")
+    private String googleTokenURI;
+
+    @Value("${google.client.passowrd}")
+    private String googleClientSecret;
+
+    @Value("${google.redirect.uri}")
+    private String googleRedirectURI;
+
+    @Value("${google.userInfo.uri}")
+    private  String googleUserInfoURI;
+
+
     @Transactional
     public Map<String, String> login(UserRequest.LoginDTO requestDTO){
-
-        User user = userRepository.findByEmail(requestDTO.email()).orElseThrow(
+        User user = userRepository.findByEmailWithRemoved(requestDTO.email()).orElseThrow(
                 () -> new CustomException(ExceptionCode.USER_ACCOUNT_WRONG)
         );
 
@@ -79,19 +110,39 @@ public class UserService {
     public Map<String, String> kakaoLogin(String code) {
         // 카카오 엑세스 토큰 획득 => 유저 정보 획득
         KakaoDTO.TokenDTO token = getKakaoToken(code);
-        KakaoDTO.UserInfoDTO userInfo = getUserInfo(token.access_token());
+        KakaoDTO.UserInfoDTO userInfo = getKakaoUserInfo(token.access_token());
 
         // 카카오 계정으로 가입한 계정의 이메일은 {카카오 id}@kakao.com로 구성
         String email = userInfo.id().toString() + "@kakao.com";
 
         // 가입되지 않음 => email을 넘겨서 추가 정보를 입력하도록 함
-        if(userRepository.findByEmail(email).isEmpty()){
+        if(isNotMember(email)){
             Map<String, String> response = new HashMap<>();
             response.put("email", email);
             return response;
         }
 
-        User user = userRepository.findByEmail(email).get();
+        User user = userRepository.findByEmailWithRemoved(email).get();
+        checkDuplicateLogin(user);
+
+        return createToken(user);
+    }
+
+    @Transactional
+    public Map<String, String> googleLogin(String code){
+        // 구글 엑세스 토큰 획득
+        GoogleDTO.TokenDTO token = getGoogleToken(code);
+        GoogleDTO.UserInfoDTO userInfoDTO = getGoogleUserInfo(token.access_token());
+
+        String email = userInfoDTO.email();
+
+        if(isNotMember(email)){
+            Map<String, String> response = new HashMap<>();
+            response.put("email", email);
+            return response;
+        }
+
+        User user = userRepository.findByEmailWithRemoved(email).get();
         checkDuplicateLogin(user);
 
         return createToken(user);
@@ -99,9 +150,15 @@ public class UserService {
 
     @Transactional
     public void join(UserRequest.JoinDTO requestDTO){
-
         if (!requestDTO.password().equals(requestDTO.passwordConfirm()))
             throw new CustomException(ExceptionCode.USER_PASSWORD_WRONG);
+
+        // 비정상 경로를 통한 요청을 대비해, 이메일/닉네임 다시 체크
+        if(userRepository.findByEmailWithRemoved(requestDTO.email()).isPresent())
+            throw new CustomException(ExceptionCode.USER_EMAIL_EXIST);
+
+        if(userRepository.findByNickNameWithRemoved(requestDTO.nickName()).isPresent())
+            throw new CustomException(ExceptionCode.USER_NICKNAME_EXIST);
 
         User user = User.builder()
                 .name(requestDTO.name())
@@ -110,34 +167,38 @@ public class UserService {
                 .password(passwordEncoder.encode(requestDTO.password()))
                 .role(Role.USER)
                 .profileURL(requestDTO.profileURL())
-                .regin(requestDTO.region())
+                .region(requestDTO.region())
                 .subRegion(requestDTO.subRegion())
                 .build();
 
         userRepository.save(user);
+
+        // 알람 사용을 위한 설정
+        setAlarm(user);
     }
 
     @Transactional
     public void socialJoin(UserRequest.SocialJoinDTO requestDTO){
-
         User user = User.builder()
                 .name(requestDTO.name())
                 .nickName(requestDTO.nickName())
                 .email(requestDTO.email())
                 .role(Role.USER)
                 .profileURL(requestDTO.profileURL())
-                .regin(requestDTO.region())
+                .region(requestDTO.region())
                 .subRegion(requestDTO.subRegion())
                 .build();
 
         userRepository.save(user);
+
+        setAlarm(user);
     }
 
     // 중복 여부 확인 => 만약 사용 가능한 메일이면, 코드 전송
     @Transactional
-    public void checkAndSendCode(UserRequest.EmailDTO requestDTO){
+    public void checkEmailAndSendCode(UserRequest.EmailDTO requestDTO){
         // 가입한 이메일이 존재 한다면
-        if(userRepository.findByEmail(requestDTO.email()).isPresent())
+        if(userRepository.findByEmailWithRemoved(requestDTO.email()).isPresent())
             throw new CustomException(ExceptionCode.USER_EMAIL_EXIST);
 
         // 인증 코드 전송 및 레디스에 저장
@@ -154,9 +215,15 @@ public class UserService {
     }
 
     @Transactional
+    public void checkNick(UserRequest.CheckNickDTO requestDTO){
+        if(userRepository.findByNickNameWithRemoved(requestDTO.nickName()).isPresent())
+            throw new CustomException(ExceptionCode.USER_NICKNAME_EXIST);
+    }
+
+    @Transactional
     public void sendRecoveryCode(UserRequest.EmailDTO requestDTO){
         // 가입된 계정이 아니라면
-        if(userRepository.findByEmail(requestDTO.email()).isEmpty())
+        if(userRepository.findByEmailWithRemoved(requestDTO.email()).isEmpty())
             throw new CustomException(ExceptionCode.USER_EMAIL_NOT_FOUND);
 
         // 요청 횟수 3회 넘아가면 10분 동안 요청 불가
@@ -175,7 +242,6 @@ public class UserService {
 
     @Transactional
     public void verifyAndSendPassword(UserRequest.VerifyCodeDTO requestDTO){
-
         // 레디스를 통해 해당 코드가 유효한지 확인
         if(!redisService.validateData("emailCode", requestDTO.email(), requestDTO.code()))
             throw new CustomException(ExceptionCode.CODE_WRONG);
@@ -183,7 +249,7 @@ public class UserService {
 
         // 임시 비밀번호 생성 후 업데이트
         String password = generatePassword();
-        User user = userRepository.findByEmail(requestDTO.email()).get(); // 이미 앞에서 계정 존재 여부를 확인 했으니 바로 가져옴
+        User user = userRepository.findByEmailWithRemoved(requestDTO.email()).get(); // 이미 앞에서 계정 존재 여부를 확인 했으니 바로 가져옴
         user.updatePassword(passwordEncoder.encode(password));
 
         sendPasswordByMail(requestDTO.email(), password);
@@ -192,7 +258,6 @@ public class UserService {
     // 재설정 화면에서 실시간으로 일치여부를 확인하기 위해 사용
     @Transactional
     public void verifyPassword(UserRequest.CurPasswordDTO requestDTO, Long userId){
-
         User user = userRepository.findById(userId).get();
 
         if(!passwordEncoder.matches(requestDTO.password(), user.getPassword())){
@@ -202,7 +267,6 @@ public class UserService {
 
     @Transactional
     public void updatePassword(UserRequest.UpdatePasswordDTO requestDTO, Long userId){
-
         User user = userRepository.findById(userId).get();
 
         // verifyPassword()로 일치 여부를 확인하지만, 해당 단계를 거치지 않고 인위적으로 요청을 보낼 수 있어서 한 번더 검증
@@ -218,14 +282,12 @@ public class UserService {
 
     @Transactional
     public UserResponse.ProfileDTO findProfile(Long userId){
-
         User user = userRepository.findById(userId).get();
-        return new UserResponse.ProfileDTO(user.getName(), user.getNickName(), user.getRegin(), user.getSubRegion(), user.getProfileURL());
+        return new UserResponse.ProfileDTO(user.getName(), user.getNickName(), user.getRegion(), user.getSubRegion(), user.getProfileURL());
     }
 
     @Transactional
     public void updateProfile(UserRequest.UpdateProfileDTO requestDTO, Long userId){
-
         User user = userRepository.findById(userId).get();
         user.updateProfile(requestDTO.nickName(),requestDTO.region(), requestDTO.subRegion(), requestDTO.profileURL());
     }
@@ -254,7 +316,6 @@ public class UserService {
     // 관지라 API
     @Transactional
     public void updateRole(UserRequest.UpdateRoleDTO requestDTO, Long userId, Role role){
-
         // 관리자만 사용 가능 (테스트 상황에선 주석 처리)
         //if(role.equals(Role.ADMIN)){
         //    throw new CustomException(ExceptionCode.USER_FORBIDDEN);
@@ -264,8 +325,47 @@ public class UserService {
         user.updateRole(requestDTO.role());
     }
 
-    private String sendCodeByMail(String toEmail){
+    // 게시글, 댓글, 좋아요은 남겨둔다. (정책에 따라 변경 가능)
+    @Transactional
+    public void withdrawMember(Long userId){
+        // 이미 탈퇴한 회원이면 예외
+        userRepository.findById(userId)
+                .map(user -> {
+                    if(user.getRemovedAt() != null){
+                        throw new CustomException(ExceptionCode.USER_ALREADY_EXIT);
+                    }
+                    return null;
+                });
 
+        // 알람 삭제
+        alarmRepository.deleteAllByUserId(userId);
+
+        // 지원서 삭제
+        applyRepository.deleteAllByUserId(userId);
+
+        // 유저와 연관 데이터 삭제
+        postReadStatusRepository.deleteAllByUserId(userId);
+        chatUserRepository.deleteAllByUserId(userId);
+
+        groupUserRepository.findAllByUserIdWithGroup(userId).forEach(
+                groupUser -> {
+                    redisService.decrementCnt("groupParticipantNum", groupUser.getGroup().getId().toString(), 1L);
+                    groupUserRepository.delete(groupUser);
+                }
+        );
+
+        meetingUserRepository.findAllByUserIdWithMeeting(userId).forEach(
+                meetingUser -> {
+                    redisService.decrementCnt("meetingParticipantNum", meetingUser.getMeeting().getId().toString(), 1L);
+                    meetingUserRepository.delete(meetingUser);
+                }
+        );
+
+        // 유저 삭제 (soft delete 처리)
+        userRepository.deleteById(userId);
+    }
+
+    private String sendCodeByMail(String toEmail){
         String verificationCode = generateVerificationCode();
         String subject = "[ForPaw] 이메일 인증 코드입니다.";
         String text = "인증 코드는 다음과 같습니다: " + verificationCode + "\n이 코드를 입력하여 이메일을 인증해 주세요.";
@@ -275,14 +375,12 @@ public class UserService {
     }
 
     private void sendPasswordByMail(String toEmail, String password){
-
         String subject = "[ForPaw] 임시 비밀번호 입니다.";
         String text = "임시 비밀번호: " + password + "\n로그인 후 비밀번호를 변경해 주세요.";
         sendMail(fromEmail, toEmail, subject, text);
     }
 
     private void sendMail(String fromEmail, String toEmail, String subject, String text){
-
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(toEmail);
@@ -293,7 +391,6 @@ public class UserService {
 
     // 알파벳, 숫자를 조합해서 인증 코드 생성
     private String generateVerificationCode() {
-
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom random = new SecureRandom();
 
@@ -306,7 +403,6 @@ public class UserService {
 
     // 알파벳, 숫자, 특수문자가 모두 포함되도록 해서 임시 비밀번호 생성
     private String generatePassword() {
-
         String specialChars = "!@#$%^&*";
         String numbers = "0123456789";
         String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -341,15 +437,14 @@ public class UserService {
     }
 
     // 중복 로그인 체크 => 만약 이미 로그인된 상태라면 기존 세션은 삭제
-    public void checkDuplicateLogin(User user){
-
+    private void checkDuplicateLogin(User user){
         String accessToken = redisService.getDataInStr("accessToken", String.valueOf(user.getId()));
         if(accessToken != null){
             redisService.removeData("accessToken", String.valueOf(user.getId()));
         }
     }
 
-    public Map<String, String> createToken(User user){
+    private Map<String, String> createToken(User user){
         String accessToken = JWTProvider.createAccessToken(user);
         String refreshToken = JWTProvider.createRefreshToken(user);
 
@@ -368,8 +463,7 @@ public class UserService {
         return tokens;
     }
 
-    public KakaoDTO.TokenDTO getKakaoToken(String code) {
-
+    private KakaoDTO.TokenDTO getKakaoToken(String code) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("grant_type", "authorization_code");
         formData.add("client_id", kakaoAPIKey);
@@ -386,13 +480,57 @@ public class UserService {
         return response.block();
     }
 
-    public KakaoDTO.UserInfoDTO getUserInfo(String token) {
-
+    private KakaoDTO.UserInfoDTO getKakaoUserInfo(String token) {
         Flux<KakaoDTO.UserInfoDTO> response = webClient.get()
                 .uri(kakaoUserInfoURI)
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .bodyToFlux(KakaoDTO.UserInfoDTO.class);
+
         return response.blockFirst();
+    }
+
+    private GoogleDTO.TokenDTO getGoogleToken(String code) {
+        String decode = URLDecoder.decode(code, StandardCharsets.UTF_8);
+
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("code", decode);
+        formData.add("client_id", googleClientId);
+        formData.add("client_secret", googleClientSecret);
+        formData.add("redirect_uri", googleRedirectURI);
+        formData.add("grant_type", "authorization_code");
+
+        Mono<GoogleDTO.TokenDTO> response = webClient.post()
+                .uri(googleTokenURI)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.fromFormData(formData))
+                .retrieve()
+                .bodyToMono(GoogleDTO.TokenDTO.class);
+
+        return response.block();
+    }
+
+    private GoogleDTO.UserInfoDTO getGoogleUserInfo(String token) {
+        Flux<GoogleDTO.UserInfoDTO> response = webClient.get()
+                .uri(googleUserInfoURI)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToFlux(GoogleDTO.UserInfoDTO.class);
+
+        return response.blockFirst();
+    }
+
+    private boolean isNotMember(String email){
+        return userRepository.findByEmailWithRemoved(email).isEmpty();
+    }
+
+    private void setAlarm(User user) {
+        // 알람 전송을 위한 큐 등록
+        String exchangeName = "alarm.exchange";
+        String queueName = "user." + user.getId();
+        String listenerId = "user." + user.getId();
+
+        brokerService.registerDirectExQueue(exchangeName, queueName);
+        brokerService.registerAlarmListener(listenerId, queueName);
     }
 }

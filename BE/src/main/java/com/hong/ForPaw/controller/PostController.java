@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -20,92 +21,97 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public ResponseEntity<?> createPost(@RequestBody PostRequest.CreatePostDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
-
+    public ResponseEntity<?> createPost(@RequestBody PostRequest.CreatePostDTO requestDTO, Errors errors, @AuthenticationPrincipal CustomUserDetails userDetails){
         PostResponse.CreatePostDTO responseDTO = postService.createPost(requestDTO, userDetails.getUser().getId());
+        return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
+    }
+
+    @PostMapping("/posts/{postId}/qna")
+    public ResponseEntity<?> createAnswer(@RequestBody PostRequest.CreateAnswerDTO requestDTO, Errors errors, @PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        PostResponse.CreateAnswerDTO responseDTO = postService.createAnswer(requestDTO, postId, userDetails.getUser().getId());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
     @GetMapping("/posts")
     public ResponseEntity<?> findPostList(){
-
         PostResponse.FindAllPostDTO responseDTO = postService.findPostList();
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
     @GetMapping("/posts/adoption")
-    public ResponseEntity<?> findAdoptionPost(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sort") String sort){
-
-        PostResponse.FindAdoptionPostDTO responseDTO = postService.findAdoptionPost(page, size, sort);
+    public ResponseEntity<?> findAdoptionPostList(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sort") String sort){
+        PostResponse.FindAdoptionPostListDTO responseDTO = postService.findAdoptionPostList(page, size, sort);
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
     @GetMapping("/posts/protection")
-    public ResponseEntity<?> findProtectionPost(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sort") String sort){
-
-        PostResponse.FindProtectionPostDTO responseDTO = postService.findProtectionPost(page, size, sort);
+    public ResponseEntity<?> findProtectionPostList(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sort") String sort){
+        PostResponse.FindProtectionPostListDTO responseDTO = postService.findProtectionPostList(page, size, sort);
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
     @GetMapping("/posts/question")
-    public ResponseEntity<?> findQuestionPost(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sort") String sort){
-
-        PostResponse.FindQuestionPostDTO responseDTO = postService.findQuestionPost(page, size, sort);
+    public ResponseEntity<?> findQuestionPostList(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("sort") String sort){
+        PostResponse.FindQnaPostListDTO responseDTO = postService.findQuestionPostList(page, size, sort);
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
     @GetMapping("/posts/{postId}")
     public ResponseEntity<?> findPostById(@PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
-
         PostResponse.FindPostByIdDTO responseDTO = postService.findPostById(postId, userDetails.getUser().getId());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
-    @PatchMapping("/posts/{postId}")
-    public ResponseEntity<?> updatePost(@RequestBody PostRequest.UpdatePostDTO requestDTO, @PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+    @GetMapping("/posts/{postId}/qna")
+    public ResponseEntity<?> findQnaById(@PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        PostResponse.FIndQnaByIdDTO responseDTO = postService.findQnaById(postId);
+        return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
+    }
 
-        postService.updatePost(requestDTO, userDetails.getUser().getId(), postId);
+    @PatchMapping("/posts/{postId}")
+    public ResponseEntity<?> updatePost(@RequestBody PostRequest.UpdatePostDTO requestDTO, Errors errors, @PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        postService.updatePost(requestDTO, userDetails.getUser(), postId);
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, null));
     }
 
     @DeleteMapping("/posts/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
-
-        postService.deletePost(postId, userDetails.getUser().getId());
+        postService.deletePost(postId, userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, null));
     }
 
     @PostMapping("/posts/{postId}/like")
     public ResponseEntity<?> likePost(@PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
-
         postService.likePost(postId, userDetails.getUser().getId());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, null));
     }
 
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<?> createComment(@RequestBody PostRequest.CreateCommentDTO requestDTO, @PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
-
+    public ResponseEntity<?> createComment(@RequestBody PostRequest.CreateCommentDTO requestDTO, Errors errors, @PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
         PostResponse.CreateCommentDTO responseDTO = postService.createComment(requestDTO, userDetails.getUser().getId(), postId);
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
     }
 
-    @PatchMapping("/posts/{postId}/comments/{commentId}")
-    public ResponseEntity<?> updateComment(@RequestBody PostRequest.UpdateCommentDTO requestDTO, @PathVariable Long commentId, @AuthenticationPrincipal CustomUserDetails userDetails){
+    @PostMapping("/posts/{postId}/comments/{commentId}/reply")
+    public ResponseEntity<?> createReply(@RequestBody PostRequest.CreateCommentDTO requestDTO, Errors errors, @PathVariable Long postId, @PathVariable Long commentId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        PostResponse.CreateCommentDTO responseDTO = postService.createReply(requestDTO, postId, userDetails.getUser().getId(), commentId);
+        return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, responseDTO));
+    }
 
-        postService.updateComment(requestDTO, commentId, userDetails.getUser().getId());
+    @PatchMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<?> updateComment(@RequestBody PostRequest.UpdateCommentDTO requestDTO, Errors errors, @PathVariable Long commentId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        postService.updateComment(requestDTO, commentId, userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, null));
     }
 
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long postId, @PathVariable Long commentId, @AuthenticationPrincipal CustomUserDetails userDetails){
-
-        postService.deleteComment(postId, commentId, userDetails.getUser().getId());
+        postService.deleteComment(postId, commentId, userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, null));
     }
 
     @PostMapping("/posts/{postId}/comments/{commentId}/like")
     public ResponseEntity<?> likeComment(@PathVariable Long commentId, @AuthenticationPrincipal CustomUserDetails userDetails){
-
         postService.likeComment(commentId, userDetails.getUser().getId());
         return ResponseEntity.ok().body(ApiUtils.success(HttpStatus.OK, null));
     }

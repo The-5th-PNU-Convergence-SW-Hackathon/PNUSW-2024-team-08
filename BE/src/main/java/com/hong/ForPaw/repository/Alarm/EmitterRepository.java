@@ -1,4 +1,4 @@
-package com.hong.ForPaw.repository;
+package com.hong.ForPaw.repository.Alarm;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 

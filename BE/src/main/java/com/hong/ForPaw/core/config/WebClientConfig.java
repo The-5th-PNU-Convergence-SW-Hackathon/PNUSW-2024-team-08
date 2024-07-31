@@ -7,9 +7,12 @@ import io.netty.handler.timeout.WriteTimeoutHandler;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.buffer.DataBufferFactory;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorResourceFactory;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
@@ -17,7 +20,7 @@ import java.time.Duration;
 import java.util.function.Function;
 
 @Configuration
-public class webclientConfig {
+public class WebClientConfig {
 
     @Bean
     public ReactorResourceFactory resourceFactory() {
@@ -28,14 +31,25 @@ public class webclientConfig {
 
     @Bean
     public WebClient webClient() {
-        Function<HttpClient, HttpClient> mapper = client -> HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000)
-                .doOnConnected(connection -> connection.addHandlerLast(new ReadTimeoutHandler(10))
-                        .addHandlerLast(new WriteTimeoutHandler(10)))
-                .responseTimeout(Duration.ofSeconds(1));
+        // 1MB
+        int bufferSize = 1 * 1024 * 1024;
 
-        ClientHttpConnector connector =
-                new ReactorClientHttpConnector(resourceFactory(), mapper);
-        return WebClient.builder().clientConnector(connector).build();
+        ExchangeStrategies.Builder exchangeStrategiesBuilder = ExchangeStrategies.builder();
+        exchangeStrategiesBuilder.codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(bufferSize));
+        ExchangeStrategies exchangeStrategies = exchangeStrategiesBuilder.build();
+
+        Function<HttpClient, HttpClient> mapper = client -> HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 100000)
+                .doOnConnected(connection ->
+                        connection.addHandlerLast(new ReadTimeoutHandler(60))
+                                .addHandlerLast(new WriteTimeoutHandler(60)))
+                .responseTimeout(Duration.ofSeconds(60));
+
+        ClientHttpConnector connector = new ReactorClientHttpConnector(resourceFactory(), mapper);
+
+        return WebClient.builder()
+                .exchangeStrategies(exchangeStrategies)
+                .clientConnector(connector)
+                .build();
     }
 }

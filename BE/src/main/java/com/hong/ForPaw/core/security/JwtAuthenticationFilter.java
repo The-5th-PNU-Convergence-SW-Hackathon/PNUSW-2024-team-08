@@ -5,6 +5,10 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hong.ForPaw.domain.User.Role;
 import com.hong.ForPaw.domain.User.User;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,10 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 @Slf4j
@@ -39,7 +40,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
             Long id = decodedJWT.getClaim("id").asLong();
             Role role = decodedJWT.getClaim("role").as(Role.class);
-            User user = User.builder().id(id).role(role).build();
+            String nickName = decodedJWT.getClaim("nickName").asString();
+            User user = User.builder().id(id).role(role).nickName(nickName).build();
 
             CustomUserDetails myUserDetails = new CustomUserDetails(user);
             Authentication authentication =

@@ -1,15 +1,14 @@
 package com.hong.ForPaw.domain.Group;
 
 import com.hong.ForPaw.domain.TimeStamp;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
 @Entity
-@Table(name = "groups_table")
+@Table(name = "groups_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Group extends TimeStamp {
@@ -37,10 +36,7 @@ public class Group extends TimeStamp {
     private String profileURL;
 
     @Column
-    private Integer likeNum = 0;
-
-    @Column
-    private Integer participationNum = 0;
+    private Long likeNum = 0L;
 
     @Builder
     public Group(String name, String region, String subRegion, String description, String category, String profileURL) {

@@ -2,6 +2,7 @@ package com.hong.ForPaw.domain.Alarm;
 
 import com.hong.ForPaw.domain.TimeStamp;
 import com.hong.ForPaw.domain.User.User;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,9 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
-
 @Entity
+@Table(name = "alarm_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Alarm extends TimeStamp {
@@ -22,7 +22,6 @@ public class Alarm extends TimeStamp {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User receiver;
 
     @Column

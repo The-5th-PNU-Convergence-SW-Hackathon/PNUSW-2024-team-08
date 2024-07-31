@@ -2,14 +2,16 @@ package com.hong.ForPaw.domain.Group;
 
 import com.hong.ForPaw.domain.TimeStamp;
 import com.hong.ForPaw.domain.User.User;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+
 
 @Entity
+@Table(name = "groupUser_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class GroupUser extends TimeStamp {

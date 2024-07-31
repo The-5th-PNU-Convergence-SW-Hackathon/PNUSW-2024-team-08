@@ -2,15 +2,20 @@ package com.hong.ForPaw.domain.Group;
 
 import com.hong.ForPaw.domain.TimeStamp;
 import com.hong.ForPaw.domain.User.User;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
-import javax.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "meeting_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Meeting extends TimeStamp {
@@ -25,7 +30,11 @@ public class Meeting extends TimeStamp {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user; // 주최자
+    private User creator; // 주최자
+
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 500)
+    private List<MeetingUser> meetingUsers = new ArrayList<>();
 
     @Column
     private String name;
@@ -40,9 +49,6 @@ public class Meeting extends TimeStamp {
     private Long cost;
 
     @Column
-    private Integer participantNum = 0;
-
-    @Column
     private Integer maxNum;
 
     @Column
@@ -52,9 +58,9 @@ public class Meeting extends TimeStamp {
     private String profileURL;
 
     @Builder
-    public Meeting(Group group, User user,String name, LocalDateTime date, String location, Long cost, Integer maxNum, String description, String profileURL) {
+    public Meeting(Group group, User creator, String name, LocalDateTime date, String location, Long cost, Integer maxNum, String description, String profileURL) {
         this.group = group;
-        this.user = user;
+        this.creator = creator;
         this.name = name;
         this.date = date;
         this.location = location;
@@ -72,5 +78,10 @@ public class Meeting extends TimeStamp {
         this.maxNum = maxNum;
         this.description = description;
         this.profileURL = profileURL;
+    }
+
+    public void addMeetingUser(MeetingUser meetingUser){
+        meetingUsers.add(meetingUser);
+        meetingUser.updateMeeting(this);
     }
 }

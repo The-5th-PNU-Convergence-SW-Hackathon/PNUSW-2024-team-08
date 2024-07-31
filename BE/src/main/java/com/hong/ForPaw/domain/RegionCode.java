@@ -1,11 +1,13 @@
 package com.hong.ForPaw.domain;
 
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
+
 
 @Entity
+@Table(name = "regionCode_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class RegionCode {

@@ -1,5 +1,6 @@
-package com.hong.ForPaw.repository;
+package com.hong.ForPaw.repository.Alarm;
 
+import com.hong.ForPaw.repository.Alarm.EmitterRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -8,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
-public class EmitterRepositoryImpl implements EmitterRepository{
+public class EmitterRepositoryImpl implements EmitterRepository {
 
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final Map<String, Object> eventCache = new ConcurrentHashMap<>();

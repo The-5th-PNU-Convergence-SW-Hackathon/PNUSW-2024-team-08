@@ -2,21 +2,26 @@ package com.hong.ForPaw.domain.Animal;
 
 import com.hong.ForPaw.domain.Shelter;
 import com.hong.ForPaw.domain.TimeStamp;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
-import javax.persistence.*;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "animal_tb")
+@SQLDelete(sql = "UPDATE animal_tb SET removed_at = NOW() WHERE id=?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Animal extends TimeStamp {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gender_id")
+    @JoinColumn(name = "shelter_id")
     private Shelter shelter;
 
     @Id
@@ -61,22 +66,20 @@ public class Animal extends TimeStamp {
     @Column
     private String neuter;
 
-    // 특징
     @Column
     private String specialMark;
 
     @Column
-    private Integer likeNum = 0;
-
-    @Column
-    private Integer inquiryNum = 0;
+    private String region;
 
     @Column
     private String name;
 
+    @Column(name = "removed_at")
+    private LocalDateTime removedAt;
 
     @Builder
-    public Animal(Long id, Shelter shelter, LocalDate happenDt, String happenPlace, String kind, String color, String age, String weight, LocalDate noticeSdt, LocalDate noticeEdt, String profileURL, String processState, String gender, String neuter, String specialMark, String name) {
+    public Animal(Long id, Shelter shelter, LocalDate happenDt, String happenPlace, String kind, String color, String age, String weight, LocalDate noticeSdt, LocalDate noticeEdt, String profileURL, String processState, String gender, String neuter, String specialMark, String name, String region) {
         this.id = id;
         this.shelter = shelter;
         this.happenDt = happenDt;
@@ -93,5 +96,6 @@ public class Animal extends TimeStamp {
         this.neuter = neuter;
         this.specialMark = specialMark;
         this.name = name;
+        this.region = region;
     }
 }

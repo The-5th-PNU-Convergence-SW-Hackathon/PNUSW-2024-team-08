@@ -5,7 +5,11 @@ import java.util.List;
 
 public class AlarmResponse {
 
-    public record FindAlarmsDTO(List<AlarmDTO> alarms) {}
+    public record FindAlarmListDTO(List<AlarmDTO> alarms) {}
 
-    public record AlarmDTO(Long id, String content, LocalDateTime date, boolean isRead) {}
+    public record AlarmDTO(Long id,
+                           String content,
+                           String redirectURL,
+                           LocalDateTime date,
+                           boolean isRead) {}
 }

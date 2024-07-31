@@ -510,4 +510,82 @@ class PostControllerTest {
 
         result.andExpect(jsonPath("$.success").value("false"));
     }
+
+    @Test
+    @WithUserDetails(value = "yg04076@naver.com")
+    public void 답변_작성_성공() throws Exception {
+        // given
+        Long postId = 14L;
+
+        List<PostRequest.PostImageDTO> imageDTOS = new ArrayList<>();
+        imageDTOS.add(new PostRequest.PostImageDTO("https://example.com/image1.jpg"));
+        imageDTOS.add(new PostRequest.PostImageDTO("https://example.com/image2.jpg"));
+
+        PostRequest.CreateAnswerDTO requestDTO = new PostRequest.CreateAnswerDTO("답변입니다!", imageDTOS);
+        String requestBody = om.writeValueAsString(requestDTO);
+
+        // when
+        ResultActions result = mvc.perform(
+                post("/api/posts/"+postId+"/qna")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestBody)
+        );
+
+        String responseBody = result.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        result.andExpect(jsonPath("$.success").value("true"));
+    }
+
+    @Test
+    @WithUserDetails(value = "yg04076@naver.com")
+    public void 답변_작성_실패_존재하지_않는_질문() throws Exception {
+        // given
+        Long postId = 100L;
+
+        List<PostRequest.PostImageDTO> imageDTOS = new ArrayList<>();
+        imageDTOS.add(new PostRequest.PostImageDTO("https://example.com/image1.jpg"));
+        imageDTOS.add(new PostRequest.PostImageDTO("https://example.com/image2.jpg"));
+
+        PostRequest.CreateAnswerDTO requestDTO = new PostRequest.CreateAnswerDTO("답변입니다!", imageDTOS);
+        String requestBody = om.writeValueAsString(requestDTO);
+
+        // when
+        ResultActions result = mvc.perform(
+                post("/api/posts/"+postId+"/qna")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestBody)
+        );
+
+        String responseBody = result.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        result.andExpect(jsonPath("$.success").value("false"));
+    }
+
+    @Test
+    @WithUserDetails(value = "yg04076@naver.com")
+    public void 답변_작성_실패_질문글이_아님() throws Exception {
+        // given
+        Long postId = 24L;
+
+        List<PostRequest.PostImageDTO> imageDTOS = new ArrayList<>();
+        imageDTOS.add(new PostRequest.PostImageDTO("https://example.com/image1.jpg"));
+        imageDTOS.add(new PostRequest.PostImageDTO("https://example.com/image2.jpg"));
+
+        PostRequest.CreateAnswerDTO requestDTO = new PostRequest.CreateAnswerDTO("답변입니다!", imageDTOS);
+        String requestBody = om.writeValueAsString(requestDTO);
+
+        // when
+        ResultActions result = mvc.perform(
+                post("/api/posts/"+postId+"/qna")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestBody)
+        );
+
+        String responseBody = result.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        result.andExpect(jsonPath("$.success").value("false"));
+    }
 }

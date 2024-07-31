@@ -1,14 +1,20 @@
 package com.hong.ForPaw.domain.User;
 
 import com.hong.ForPaw.domain.TimeStamp;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
-import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 
 @Entity
+@Table(name = "user_tb")
+@SQLDelete(sql = "UPDATE user_tb SET removed_at = NOW() WHERE id=?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends TimeStamp {
@@ -38,14 +44,17 @@ public class User extends TimeStamp {
 
     // 활동 지역 - 시/도/군
     @Column
-    private String regin;
+    private String region;
 
     // 활동 지역 - 군/구
     @Column
     private String subRegion;
 
+    @Column(name = "removed_at")
+    private LocalDateTime removedAt;
+
     @Builder
-    public User(Long id, String name, String nickName, String email, String password, Role role, String profileURL, String regin, String subRegion) {
+    public User(Long id, String name, String nickName, String email, String password, Role role, String profileURL, String region, String subRegion) {
         this.id = id;
         this.name = name;
         this.nickName = nickName;
@@ -53,7 +62,7 @@ public class User extends TimeStamp {
         this.password = password;
         this.role = role;
         this.profileURL = profileURL;
-        this.regin = regin;
+        this.region = region;
         this.subRegion = subRegion;
     }
 
@@ -63,7 +72,7 @@ public class User extends TimeStamp {
 
     public void updateProfile(String nickName, String region, String subRegion, String profileURL){
         this.nickName = nickName;
-        this.regin = regin;
+        this.region = region;
         this.subRegion = subRegion;
         this.profileURL = profileURL;
     }

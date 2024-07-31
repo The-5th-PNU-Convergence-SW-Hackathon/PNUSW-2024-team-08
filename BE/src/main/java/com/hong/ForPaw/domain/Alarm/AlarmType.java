@@ -11,7 +11,8 @@ public enum AlarmType {
     chatting("새 채팅"),
     answer("궁금해요 답변"),
     newMeeting("새로운 정기모임"),
-    todayMeeting("오늘의 정기모임");
+    todayMeeting("오늘의 정기모임"),
+    join("그룹 가입");
 
     private String value;
 }

@@ -795,6 +795,66 @@ class GroupControllerTest {
     }
 
     @Test
+    @WithUserDetails(value = "yg04076@naver.com")
+    public void 정기모임_조회_성공() throws Exception {
+        // given
+        Long groupId = 1L;
+        Long meetingId = 1L;
+
+        // when
+        ResultActions result = mvc.perform(
+                get("/api/groups/"+groupId+"/meetings/"+meetingId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        );
+
+        // then
+        String responseBody = result.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        result.andExpect(jsonPath("$.success").value("true"));
+    }
+
+    @Test
+    @WithUserDetails(value = "yg04076@naver.com")
+    public void 정기모임_조회_실패_존재하지_않는_모임() throws Exception {
+        // given
+        Long groupId = 1L;
+        Long meetingId = 100L;
+
+        // when
+        ResultActions result = mvc.perform(
+                get("/api/groups/"+groupId+"/meetings/"+meetingId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        );
+
+        // then
+        String responseBody = result.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        result.andExpect(jsonPath("$.success").value("false"));
+    }
+
+    @Test
+    @WithUserDetails(value = "yg040763@naver.com")
+    public void 정기모임_조회_실패_맴버가_아님() throws Exception {
+        // given
+        Long groupId = 1L;
+        Long meetingId = 100L;
+
+        // when
+        ResultActions result = mvc.perform(
+                get("/api/groups/"+groupId+"/meetings/"+meetingId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        );
+
+        // then
+        String responseBody = result.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        result.andExpect(jsonPath("$.success").value("false"));
+    }
+
+    @Test
     @WithUserDetails(value = "yg040762@naver.com")
     public void 그룹_목록_조회_성공() throws Exception {
         // given

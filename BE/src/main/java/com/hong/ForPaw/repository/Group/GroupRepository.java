@@ -1,4 +1,4 @@
-package com.hong.ForPaw.repository;
+package com.hong.ForPaw.repository.Group;
 
 import com.hong.ForPaw.domain.Group.Group;
 import org.springframework.data.domain.Page;
@@ -16,24 +16,14 @@ import java.util.Optional;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    Optional<Group> findByName(String name);
-
     Page<Group> findByRegion(String region, Pageable pageable);
 
     boolean existsByName(String name);
 
     boolean existsById(Long id);
 
-    @Modifying
-    @Query("UPDATE Group g SET g.participationNum = g.participationNum + 1 WHERE g.id = :groupId")
-    void incrementParticipantNumById(@Param("groupId") Long groupId);
+    Page<Group> findByNameContaining(@Param("name") String name, Pageable pageable);
 
-    @Modifying
-    @Query("UPDATE Group g SET g.participationNum = g.participationNum - 1 WHERE g.id = :groupId AND g.participationNum > 0")
-    void decrementParticipantNumById(@Param("groupId") Long groupId);
-
-    @Query("SELECT g.description FROM Group g WHERE g.id = :groupId")
-    String findDescriptionById(Long groupId);
-
-    Page<Group> findByNameContaining(String name, Pageable pageable);
+    @Query("SELECT g.id FROM Group g")
+    Page<Long> findGroupIds(Pageable pageable);
 }
