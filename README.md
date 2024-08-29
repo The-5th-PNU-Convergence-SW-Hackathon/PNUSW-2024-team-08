@@ -216,9 +216,27 @@
 ## 2. 상세설계
 
 ### 2.1. 시스템 구성도
-
+<img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
+</br></br>
 
 ### 2.1. 사용 기술
+- MySQL 8.0.33 </br>
+- Java Oracle Open JDK 17.0.9 </br>
+- JWT: 4.3.0 </br>
+- QueryDSL: 5.0.0 </br>
+- MongoDB: 2.2.0 </br>
+- RabbitMQ: 3.13.0 </br>
+- FastAPI: 0.110.3 </br>
+- Spring Boot: 3.2.0 </br>
+- Milvus: 2.4.1 </br>
+- NextJS: 12 </br>
+- Junit5: 5.10.2 </br>
+- Nginx:: 1.26 </br>
+- Tailwind CSS v3.4.3 </br>
+- Jenkins: 2.452.2 </br>
+- Gradle: 8.5 </br>
+
+
 
 </br>
 
