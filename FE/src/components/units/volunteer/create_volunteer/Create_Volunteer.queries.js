@@ -1,43 +1,30 @@
-export const fetchUserInfo = async () => {
-  try {
-    const response = await fetch("https://your-api-endpoint.com/user/info", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer your-token-here", // 필요한 경우 인증 헤더 추가
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch user info");
-    }
-    const data = await response.json();
-    return data; // 응답 데이터 반환
-  } catch (error) {
-    console.error("Error fetching user info:", error);
-    throw error; // 에러를 호출한 측으로 전파
-  }
-};
+import Cookies from "js-cookie";
 
-export const sendNewVolunteerInfo = async (name, province, district, subDistrict, description, category, profileURL) => {
+export const sendNewVolunteerInfo = async (userInfo) => {
+  console.log(userInfo);
   try {
-    const response = await fetch("/groups", {
+    // 쿠키에서 accessToken을 가져옵니다.
+    const accessToken = Cookies.get("accessToken");
+    if (!accessToken) {
+      throw new Error("Access token is missing");
+    }
+
+    const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const response = await fetch(`${baseURL}/groups`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({
-        name: name,
-        province: province,
-        district: district,
-        subDistrict: subDistrict,
-        description: description,
-        category: category,
-        profileURL: profileURL
-      })
+      body: JSON.stringify(userInfo)
     });
-    if(!response.ok) {
+    if (!response.ok) {
       throw new Error("Failed to send user info")
     }
-  }catch(error) {
+    const data = await response.json();
+    console.log("created volunteer data: ", data);
+    return data;
+  } catch (error) {
     console.error("Error sending user info:", error);
     throw error
   }

@@ -19,10 +19,10 @@ export default function ChattingUI(props) {
             />
           </S.ChattingSearchIcon>
         </S.ChattingSearchBlock>
-        {props.chatRoomList.map((chatRoom) => (
+        {props.chatRooms?.map((chatRoom) => (
           <S.ChattingBlock
             key={chatRoom.chatRoomId}
-            onClick={() => props.navigateTo("/chatting/detail")()}
+            onClick={props.navigateTo(`/chatting/${chatRoom.chatRoomId}`)}
           >
             <S.UserProfileImg>
               <Image
@@ -33,12 +33,16 @@ export default function ChattingUI(props) {
               />
             </S.UserProfileImg>
             <S.ChattingInfoBlock>
-              <S.UserName>{props.truncateString(chatRoom.name, 13)}</S.UserName>
+              <S.UserName>
+                {chatRoom.name && props.truncateString(chatRoom.name, 13)}
+              </S.UserName>
               <S.ChattingDate>
-                {chatRoom.lastMessageTime.replace(/[TZ]/g, " ")}
+                {chatRoom.lastMessageTime &&
+                  props.useFormatDateTime(chatRoom.lastMessageTime)}
               </S.ChattingDate>
               <S.ChattingContent>
-                {props.truncateString(chatRoom.lastMessageContent, 20)}
+                {chatRoom.lastMessageContent &&
+                  props.truncateString(chatRoom.lastMessageContent, 20)}
               </S.ChattingContent>
             </S.ChattingInfoBlock>
           </S.ChattingBlock>

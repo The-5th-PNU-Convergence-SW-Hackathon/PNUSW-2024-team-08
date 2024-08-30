@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+
 
 export const WrapperContents = styled.div`
   width: 390px;
@@ -19,45 +21,71 @@ export const WrapperContents = styled.div`
   scrollbar-width: none; /* Firefox */
 `;
 
+export const Notice = styled.div`
+  margin-top: 15px;
+  width: 100%;
+  display: 40px;
+  font-size: 18px;
+  font-weight: bold;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 export const VolunteerRegionMenuBlock = styled.div`
-  width: 240px;
-  height: 44px;
+  width: 344px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
   margin-top: 15px;
-  margin-right: 100px;
+  gap: 15px;
 `;
 
-export const VolunteerRegionMenu = styled.select`
-  width: 115px;
+export const VolunteerRegionMenu = styled.div`
+  width: 157px;
   height: 44px;
-  border-radius: 22px;
+  border-radius: 10px;
   background-color: white;
   border: 1px solid #f5f5f5;
-  box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.05),
-    0 2px 2px 1px rgba(0, 0, 0, 0.15);
-  font-size: 20px;
+   box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.1),
+    0 2px 2px 1px rgba(0, 0, 0, 0.4);
+  font-size: 16px;
   padding-left: 15px;
+  margin-left: 5px;
   position: relative;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 
   -webkit-appearance: none; /* 크롬, 사파리 */
   -moz-appearance: none; /* 파이어폭스 */
   appearance: none; /* 표준 */
 `;
 
-export const VolunteerRegionMenuSub = styled.select`
-  width: 115px;
+export const VolunteerRegionMenuSub = styled.div`
+  width: 157px;
   height: 44px;
-  border-radius: 22px;
+  border-radius: 10px;
   background-color: white;
   border: 1px solid #f5f5f5;
-  box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.05),
-    0 2px 2px 1px rgba(0, 0, 0, 0.15);
-  font-size: 20px;
+  box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.1),
+    0 2px 2px 1px rgba(0, 0, 0, 0.4);
+  font-size: 16px;
   padding-left: 15px;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
 
   -webkit-appearance: none; /* 크롬, 사파리 */
   -moz-appearance: none; /* 파이어폭스 */
@@ -73,7 +101,56 @@ export const MenuArrowBlock = styled.div`
   align-items: center;
   position: absolute;
   top: 13px;
-  left: 70px;
+  left: 125px;
+  transition: transform 0.3s ease;
+
+  cursor: pointer;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+`;
+
+export const ProvinceDropdown = styled.div`
+   position: absolute;
+  top: 52px;
+  left: 6px;
+  width: 157px;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 10;
+  overflow: auto;
+  box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.1),
+    0 2px 2px 1px rgba(0, 0, 0, 0.5);
+
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+
+  &.open {
+    max-height: 300px;
+    opacity: 1;
+    padding-bottom: 15px;
+    transition: max-height 0.3s ease-in, opacity 0.3s ease-in, padding 0.3s ease-in;
+  }
+
+  scrollbar-width: thin; /* "auto" 또는 "thin" */
+  scrollbar-color: black rgba(0, 0, 0, 0); /* 스크롤바 색상과 트랙 색상 */
+`;
+
+export const ProvinceOption = styled.div`
+  width: 100%;
+  padding-top: 15px;
+  padding-left: 12px;
+  font-size: 16px;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  :hover {
+    opacity: 0.5;
+  }
 `;
 
 export const MenuSubArrowBlock = styled.div`
@@ -85,7 +162,56 @@ export const MenuSubArrowBlock = styled.div`
   align-items: center;
   position: absolute;
   top: 13px;
-  left: 195px;
+  left: 295px;
+  transition: transform 0.3s ease;
+
+  cursor: pointer;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+`;
+
+export const DistrictDropdown = styled.div`
+  position: absolute;
+  top: 52px;
+  left: 178px;
+  width: 157px;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 10;
+  overflow: auto;
+  box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.1),
+    0 2px 2px 1px rgba(0, 0, 0, 0.5);
+
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+
+  &.open {
+    max-height: 300px;
+    opacity: 1;
+    padding-bottom: 15px;
+    transition: max-height 0.3s ease-in, opacity 0.3s ease-in, padding 0.3s ease-in;
+  }
+
+  scrollbar-width: thin; /* "auto" 또는 "thin" */
+  scrollbar-color: black rgba(0, 0, 0, 0); /* 스크롤바 색상과 트랙 색상 */
+`;
+
+export const DistrictOption = styled.div`
+  width: 100%;
+  padding-top: 15px;
+  padding-left: 12px;
+  font-size: 16px;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  :hover {
+    opacity: 0.5;
+  }
 `;
 
 export const VolunteerNewTitle = styled.div`
@@ -129,6 +255,7 @@ export const VolunteerNew = styled.div`
   margin-right: 20px;
   flex-shrink: 0;
   position: relative;
+  cursor: pointer;
 `;
 
 export const VolunteerNewImg = styled.div`
@@ -148,6 +275,9 @@ export const VolunteerNewNameBlock = styled.div`
 export const VolunteerNewName = styled.p`
   width: auto;
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const VolunteerNewInfoBlock = styled.div`
@@ -229,6 +359,7 @@ export const VolunteerBlock = styled.div`
   align-items: center;
   margin-top: 12px;
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 export const VolunteerImg = styled.div`
@@ -269,8 +400,11 @@ export const VolunteerTitleBlock = styled.div`
 `;
 
 export const VolunteerTitle = styled.p`
-  width: auto;
+  width: 332px;
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const VolunteerText = styled.div`
@@ -335,6 +469,33 @@ export const VolunteerRegion = styled.p`
   padding: 0 15px;
 `;
 
+const loading = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingImgBox = styled.div`
+  height: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoadingImg = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ff6636;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ${loading} 1s linear infinite;
+`;
+
 export const MoreBtn = styled.button`
   margin-top: 15px;
   cursor: pointer;
@@ -351,7 +512,8 @@ export const VolunteerAddIcon = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 12%;
+  bottom: ${(props) => (props.showModal ? '15%' : '12%')};
+  transition: bottom 0.3s ease-in-out;
   right: calc(50% - 172px);
   cursor: pointer;
 `;

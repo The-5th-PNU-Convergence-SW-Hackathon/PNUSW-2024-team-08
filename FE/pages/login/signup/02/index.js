@@ -1,9 +1,9 @@
-import SignUp02 from "../../../../src/components/units/signup/signup02/Signup02.container";
+import Signup02 from "../../../../src/components/units/signup/signup02/Signup02.container";
 
-export default function SignUp02Page(){
-  return(
+export default function Signup02Page() {
+  return (
     <>
-      <SignUp02 />
+      <Signup02 />
     </>
-  )
+  );
 }

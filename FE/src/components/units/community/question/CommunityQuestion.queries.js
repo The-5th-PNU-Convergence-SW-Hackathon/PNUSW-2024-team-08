@@ -13,7 +13,7 @@ export async function fetchQuestionList(page) {
     }
     const data = await response.json();
     console.log("Response to question list:", data);
-    return data.result.questions;
+    return data.result;
   } catch (error) {
     console.error("Failed to fetch question list:", error);
     return null;

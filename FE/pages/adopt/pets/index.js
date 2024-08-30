@@ -1,10 +1,18 @@
 import AdoptPets from "../../../src/components/units/adopt/pets/AdoptPets.container";
 import { checkAuth } from "../../../src/components/commons/utils/auth";
 
-export default function AdoptPetsPage({ isSSRLoggedIn }) {
+export default function AdoptPetsPage({
+  isSSRLoggedIn,
+  profileURL,
+  initialLoading,
+}) {
   return (
     <>
-      <AdoptPets isSSRLoggedIn={isSSRLoggedIn} />
+      <AdoptPets
+        isSSRLoggedIn={isSSRLoggedIn}
+        profileURL={profileURL}
+        initialLoading={initialLoading}
+      />
     </>
   );
 }
@@ -12,6 +20,16 @@ export default function AdoptPetsPage({ isSSRLoggedIn }) {
 export async function getServerSideProps(context) {
   console.log("getServerSideProps called for /adopt/pets");
   const authResult = await checkAuth(context);
-  console.log("getServerSideProps authResult for /adopt/pets:", authResult);
-  return authResult;
+  console.log("authResult in /adopt/pets:", authResult);
+
+  const { isSSRLoggedIn, profileURL } = authResult.props;
+  const initialLoading = true;
+
+  return {
+    props: {
+      isSSRLoggedIn,
+      profileURL,
+      initialLoading,
+    },
+  };
 }

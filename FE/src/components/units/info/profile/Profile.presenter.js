@@ -12,7 +12,7 @@ export default function ProfileUI(props) {
               alt="arrow_left_icon"
               width={15}
               height={25}
-              onClick={props.navigateBack}
+              onClick={props.navigateTo("/home")}
             />
             <S.Title>내 프로필</S.Title>
           </S.LeftArrowTitleContainer>
@@ -22,7 +22,7 @@ export default function ProfileUI(props) {
         <S.ProfileCard>
           <S.ProfilePhoto>
             <Image
-              src="/images/info/profile_photo_icon.svg"
+              src={props.profile?.profileURL}
               alt="profile_photo_icon"
               width={103}
               height={103}
@@ -39,37 +39,64 @@ export default function ProfileUI(props) {
         </S.ProfileEditButton>
         <S.WrapperInfo>
           <S.InfoContainer>
-            <S.InfoTitle>계정 정보</S.InfoTitle>
+            <S.InfoTitle>고객 지원</S.InfoTitle>
             <S.InfoItemList>
-              <S.InfoItemBlock>
-                <S.InfoItem>아이디</S.InfoItem>
-                <S.InfoItemAdded>dudqls256</S.InfoItemAdded>
-              </S.InfoItemBlock>
-              <S.InfoItem onClick={props.navigateTo(props.paths.pw)}>
-                비밀번호 변경
+              <S.InfoItem isSocialJoined={props.profile?.isSocialJoined}>
+                <S.InfoText
+                  isSocialJoined={props.profile?.isSocialJoined}
+                  onClick={
+                    props.profile?.isSocialJoined
+                      ? undefined
+                      : props.navigateTo(props.paths.pw)
+                  }
+                >
+                  비밀번호 변경
+                </S.InfoText>
               </S.InfoItem>
-              <S.InfoItem>입양 문의 내역</S.InfoItem>
+              <S.InfoItem>
+                <S.InfoText onClick={props.navigateTo("/info/profile/support")}>
+                  문의하기
+                </S.InfoText>
+              </S.InfoItem>
+              <S.InfoItem>
+                <S.InfoText>입양 문의 내역</S.InfoText>
+              </S.InfoItem>
             </S.InfoItemList>
           </S.InfoContainer>
           <S.InfoContainer>
-            <S.InfoTitle>이용안내</S.InfoTitle>
+            <S.InfoTitle>서비스 안내</S.InfoTitle>
             <S.InfoItemList>
               <S.InfoItemBlock>
-                <S.InfoItem>앱버전</S.InfoItem>
+                <S.InfoItem>
+                  <S.InfoText>앱버전</S.InfoText>
+                </S.InfoItem>
                 <S.InfoItemAdded>2.0.9(2024021977)</S.InfoItemAdded>
               </S.InfoItemBlock>
-              <S.InfoItem>문의하기</S.InfoItem>
-              <S.InfoItem>이용약관</S.InfoItem>
-              <S.InfoItem>개인정보 처리방침</S.InfoItem>
-              <S.InfoItem>오픈소스 라이선스</S.InfoItem>
+              <S.InfoItem>
+                <S.InfoText onClick={props.navigateTo("/info/profile/policy")}>
+                  약관 및 정책
+                </S.InfoText>
+              </S.InfoItem>
+              <S.InfoItem>
+                <S.InfoText onClick={props.navigateTo("/info/profile/license")}>
+                  오픈소스 라이선스
+                </S.InfoText>
+              </S.InfoItem>
             </S.InfoItemList>
           </S.InfoContainer>
           <S.InfoContainer>
-            <S.InfoTitle>이용안내</S.InfoTitle>
+            <S.InfoTitle>계정 관리</S.InfoTitle>
             <S.InfoItemList>
-              <S.InfoItem>정보 동의 설정</S.InfoItem>
-              <S.InfoItem onClick={props.logout}>로그아웃</S.InfoItem>
-              <S.InfoItem>회원탈퇴</S.InfoItem>
+              <S.InfoItem>
+                <S.InfoText onClick={props.toggleLogoutState}>
+                  로그아웃
+                </S.InfoText>
+              </S.InfoItem>
+              <S.InfoItem>
+                <S.InfoText onClick={props.navigateTo(props.paths.delete)}>
+                  회원탈퇴
+                </S.InfoText>
+              </S.InfoItem>
             </S.InfoItemList>
           </S.InfoContainer>
         </S.WrapperInfo>

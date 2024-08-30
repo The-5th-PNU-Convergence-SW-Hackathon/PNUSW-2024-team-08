@@ -2,17 +2,22 @@ import styled from "@emotion/styled";
 
 export const WrapperFaq = styled.div`
   width: 390px;
-  height: calc(100vh - 95px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  background-color: #FEF8F2;
+  background-color: #fef8f2;
   overflow-y: auto;
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 60px);
   }
 `;
 
@@ -80,7 +85,7 @@ export const NextButtonBlock = styled.div`
 `;
 
 export const NextButtonItem = styled.button`
-  background-color: #FF6636;
+  background-color: #ff6636;
   border-radius: 30px;
   font-size: 24px;
   font-weight: bold;

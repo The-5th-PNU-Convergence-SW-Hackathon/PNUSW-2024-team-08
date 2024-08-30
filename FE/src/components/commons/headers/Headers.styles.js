@@ -72,3 +72,13 @@ export const ProfileIconContainer = styled.div`
     cursor: pointer;
   }
 `;
+
+export const CircleImage = styled.div`
+  border-radius: 50%;
+  overflow: hidden;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

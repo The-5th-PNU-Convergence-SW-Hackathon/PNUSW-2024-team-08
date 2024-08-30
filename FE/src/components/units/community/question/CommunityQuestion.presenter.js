@@ -1,10 +1,18 @@
 import * as S from "./CommunityQuestion.styles";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+
+// Dynamic import for FontAwesomeIcon
+const FontAwesomeIcon = dynamic(
+  () =>
+    import("@fortawesome/react-fontawesome").then((mod) => mod.FontAwesomeIcon),
+  { ssr: false }
+);
 
 export default function CommunityQuestionUI(props) {
   return (
     <>
-      <S.WrapperContents>
+      <S.WrapperContents ref={props.scrollRef}>
         {props.questions.map((question) => (
           <S.CommunityQuestionBlock
             isAnswered={question.answerNum > 0}
@@ -15,45 +23,40 @@ export default function CommunityQuestionUI(props) {
           >
             <S.QuestionInfoBlock>
               <S.QuestionProfile>
-                <Image
-                  src="/images/community/community_questions_profile.svg"
-                  alt="community_questions_profile"
-                  width={40}
-                  height={40}
-                />
-                {question.name}
+                <S.CircularImage>
+                  <Image
+                    src={
+                      question?.profileURL
+                        ? question?.profileURL
+                        : "/images/community/community_questions_profile.svg"
+                    }
+                    alt="community_questions_profile"
+                    width={40}
+                    height={40}
+                  />
+                </S.CircularImage>
+                <S.QuestionUserInfo>
+                  <S.QuestionNickName>{question.nickName}</S.QuestionNickName>
+                  <S.QuestionDate>
+                    {props.useFormatDateTime(question.date)}
+                  </S.QuestionDate>
+                </S.QuestionUserInfo>
               </S.QuestionProfile>
-              <S.QuestionDate>
-                {question.date.slice(2, 4)}.{question.date.slice(5, 7)}.
-                {question.date.slice(8, 10)}
-              </S.QuestionDate>
             </S.QuestionInfoBlock>
             <S.QuestionTtile>
-              {props.truncateString(question.title, 21)}
+              {props.truncateString(question.title, 50)}
             </S.QuestionTtile>
             <S.QuestionText>
-              {props.truncateString(question.content, 70)}
+              {/* {question.content} */}
+              {props.truncateString(question.content, 140)}
             </S.QuestionText>
             <S.NumberOfAnswers>답변 {question.answerNum}</S.NumberOfAnswers>
           </S.CommunityQuestionBlock>
         ))}
-
-        <S.CommunityAddIcon
-          onClick={() =>
-            props.handleRequireModal("/community/write?type=question")
-          }
-        >
-          <Image
-            src="/images/community/community_add_icon.svg"
-            alt="community_add_icon"
-            width={28}
-            height={28}
-          />
-        </S.CommunityAddIcon>
-        {props.questions.length > 0 && (
-          <S.MoreButton onClick={props.handleLoadQuestions}>
-            더 보기
-          </S.MoreButton>
+        {props.scrollLoading && ( // 스크롤 로딩 중일 때 로딩 아이콘 표시
+          <S.LoadingImgBox isLoading={props.scrollLoading}>
+            <S.LoadingImg />
+          </S.LoadingImgBox>
         )}
       </S.WrapperContents>
     </>

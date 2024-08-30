@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function AdpotShelterRescuesUI(props) {
   return (
     <>
-      <S.WrapperContents>
+      <S.WrapperContents ref={props.scrollRef}>
         <S.AdoptPetMenuBlock>
           <S.AdoptPetMenuDate sort={props.sort} onClick={props.handleDateClick}>
             최근 날짜
@@ -22,15 +22,20 @@ export default function AdpotShelterRescuesUI(props) {
             기타
           </S.AdoptPetMenuOthers>
         </S.AdoptPetMenuBlock>
-        {props.pets?.map((pet) => (
+        {props.pets?.map((pet, index) => (
           <S.AdoptPet key={pet.id}>
+            {!props.loadedImages[index] && (
+              <S.PetLoadingSkeleton></S.PetLoadingSkeleton>
+            )}
             <S.PetImg
               src={pet.profileURL}
               alt={pet.name}
               width={344}
               height={344}
               priority
+              onLoad={() => props.handleImageLoad(index)}
               onClick={props.navigateTo(`/adopt/${pet.id}`)}
+              style={{ display: props.loadedImages[index] ? "block" : "none" }}
             />
             <S.AdoptLikeToggle onClick={() => props.handleToggleLike(pet)}>
               <Image
@@ -106,10 +111,10 @@ export default function AdpotShelterRescuesUI(props) {
             </S.AdoptInfoBlock>
           </S.AdoptPet>
         ))}
-        {props.pets.length > 0 && (
-          <S.MoreButton onClick={props.handleLoadPetsData}>
-            더 보기
-          </S.MoreButton>
+        {props.scrollLoading && ( // 스크롤 로딩 중일 때 로딩 아이콘 표시
+          <S.LoadingImgBox isLoading={props.scrollLoading}>
+            <S.LoadingImg />
+          </S.LoadingImgBox>
         )}
       </S.WrapperContents>
     </>

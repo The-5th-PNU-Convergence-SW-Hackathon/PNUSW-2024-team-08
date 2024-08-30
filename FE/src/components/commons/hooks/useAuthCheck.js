@@ -14,9 +14,9 @@ const useAuthCheck = () => {
 
   useEffect(() => {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-    console.log("useEffect triggered");
-    console.log("isLoggedIn:", isLoggedIn);
-    console.log("accessToken before check:", accessToken);
+    // console.log("useEffect triggered");
+    // console.log("isLoggedIn:", isLoggedIn);
+    // console.log("accessToken before check:", accessToken);
 
     if (isLoggedIn && !accessToken) {
       console.log(

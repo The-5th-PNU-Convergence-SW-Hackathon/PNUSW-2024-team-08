@@ -16,7 +16,11 @@ export default function VolunteerHandlerUI(props) {
             추천모임
           </S.VolunteerMenu>
           <S.VolunteerMenu
-            onClick={props.navigateTo(props.paths.region)}
+            onClick={
+              !props.isActive(props.paths.region)
+              ? props.navigateTo(props.paths.region)
+              :undefined
+            }
             active={props.isActive(props.paths.region)}
           >
             지역별 모임

@@ -1,103 +1,178 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { CheckEmailDuplication, CheckCodeDuplication } from '../Signup02.queries';
+import {
+  CheckEmailDuplication,
+  ResendCode,
+  VerifySignupCode,
+} from "../Signup02.queries";
+import { useTimer } from "../../../../../../src/components/commons/hooks/useTimer";
 
-export const useEmailCheck = () => {
-  const [email, setEmail] = useState(""); //이메일 id입력을 받을 값
-  const [emailOption, setEmailOption] = useState(""); // select의 값을 찾아내는 함수
-  const [isEmailAvailable, setIsEmailAvailable] = useState(false);  //이메일 사용가능 여부
-  const [isVisible, setIsvisible] = useState(false); //중복확인 누르면 true로 나오게 하는 값 처음에는 안보이게 하기 위해서 설정하는 값
-  const [timer, setTimer] = useState(80); // 타이머 초 초기값
-  const [timerId, setTimerId] = useState(null); // 타이머 인터벌 ID
-  const [code, setCode] = useState(""); //랜덤된 인증번호 4자리
+const getSessionStorageKey = (email) => `emailRequestTimestamp_${email}`;
+
+const calculateRemainingTime = (savedTimestamp, totalDuration = 180) => {
+  const timePassed = Math.floor((Date.now() - savedTimestamp) / 1000);
+  return totalDuration - timePassed;
+};
+
+export const useEmailCheck = (selectedEmail) => {
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [isEmailAvailable, setIsEmailAvailable] = useState(null);
+  const [isCodeAvailable, setIsCodeAvailable] = useState(null);
+  const [emailMsg, setEmailMsg] = useState("이메일을 입력해주세요.");
+  const [codeMsg, setCodeMsg] = useState("인증번호를 입력해주세요.");
   const router = useRouter();
 
-  const name = router.query.name;
+  const { timer, startTimer, resetTimer, setTimerToZero } = useTimer(180);
 
-  const handleEmailIdValueChange = (e) => { //이메일 입력을 받는 함수
+  const validateLocalPart = (localPart) => {
+    const regex = /^[a-zA-Z0-9._%+-]+$/;
+    return regex.test(localPart);
+  };
+
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
-  }
-  const handleSelectOptionChange = (e) => { //select창에서 주소를 받는 값
-    setEmailOption(e.target.value);
+    if (isEmailAvailable) {
+      setCode("");
+      setIsCodeAvailable(null);
+      setCodeMsg("인증번호를 입력해주세요.");
+      resetTimer();
+    }
+
+    if (e.target.value.trim() === "") {
+      setIsEmailAvailable(null);
+      setEmailMsg("이메일을 입력해주세요.");
+    } else if (validateLocalPart(e.target.value.trim())) {
+      setIsEmailAvailable(null);
+      setEmailMsg("버튼을 눌러 중복확인해주세요.");
+    } else {
+      setIsEmailAvailable(false);
+      setEmailMsg("영문, 숫자, 특수문자(._%+-)를 입력해주세요.");
+    }
   };
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
-  }
+    if (event.target.value.trim() === "") {
+      setIsCodeAvailable(null);
+      setCodeMsg("인증번호를 입력해주세요.");
+    }
+  };
 
-  const StartTimer = () => {
-    if (isEmailAvailable) {
-      const id = setInterval(() => {
-        setTimer(prevTimer => {
-          if (prevTimer === 0) {
-            clearInterval(id);
-            return 0;
+  const verifyEmail = async () => {
+    try {
+      const fullEmail = `${email}@${selectedEmail}`;
+      const isAvailable = await CheckEmailDuplication(fullEmail);
+
+      const sessionStorageKey = getSessionStorageKey(fullEmail);
+      const savedTimestamp = sessionStorage.getItem(sessionStorageKey);
+
+      if (isAvailable) {
+        if (savedTimestamp) {
+          const remaining = calculateRemainingTime(savedTimestamp);
+          if (remaining > 0 && remaining <= 180) {
+            console.log("타이머 재설정 시작.");
+            setIsEmailAvailable(true);
+            setEmailMsg("인증번호를 이미 발송하였습니다.");
+            resetTimer();
+            startTimer(remaining);
+          } else {
+            sessionStorage.setItem(sessionStorageKey, Date.now());
+            setIsEmailAvailable(true);
+            setEmailMsg("사용할 수 있는 이메일입니다.");
+            resetTimer();
+            startTimer(180);
           }
-          return prevTimer - 1;
-        });
-      }, 1000);
-      setTimerId(id); // 타이머 인터벌 ID 저장
+        } else {
+          sessionStorage.setItem(sessionStorageKey, Date.now());
+          setIsEmailAvailable(true);
+          setEmailMsg("사용할 수 있는 이메일입니다.");
+          resetTimer();
+          startTimer(180);
+        }
+      } else {
+        setIsEmailAvailable(false);
+        setEmailMsg("이미 존재하는 이메일입니다.");
+      }
+    } catch (error) {
+      console.error("이메일 중복 확인 중 오류 발생:", error);
+      setIsEmailAvailable(false);
+      setEmailMsg("이메일 중복 확인 중 오류가 발생했습니다.");
+    }
+  };
+
+  const verifyCode = async () => {
+    try {
+      const fullEmail = `${email}@${selectedEmail}`;
+      const isMatching = await VerifySignupCode(fullEmail, code);
+      setIsCodeAvailable(isMatching ? true : false);
+      setCodeMsg(
+        isMatching ? "인증번호가 일치합니다." : "인증번호가 일치하지 않습니다."
+      );
+    } catch (error) {
+      setIsCodeAvailable(false);
+      setCodeMsg("인증번호 확인 중 오류가 발생했습니다.");
+      console.error("인증번호 확인 중 오류 발생:", error);
     }
   };
 
   useEffect(() => {
-    StartTimer();
-  }, [isEmailAvailable]);
-
-
-  const verifyEmail = async () => { //중복확인 버튼을 눌리면 실행이 되는 함수
-    try {
-      const fullId = `${email}@${emailOption}`;
-      const data = await CheckEmailDuplication(fullId);
-      if (data.success) {
-        setIsEmailAvailable(true);
-        setIsvisible(true);
-        setTimer(80);
-        if (timerId !== null) {
-          clearInterval(timerId);
-        }
+    const timer = setTimeout(async () => {
+      if (code) {
+        await verifyCode();
       }
-      else {
-        setIsEmailAvailable(false);
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [code]);
+
+  useEffect(() => {
+    if (timer === 0) {
+      setIsCodeAvailable(false);
+      setCode("");
+      setCodeMsg("인증번호 확인 시간이 만료되었습니다.");
+    }
+  }, [timer]);
+
+  const resendCode = async () => {
+    try {
+      const fullEmail = `${email}@${selectedEmail}`;
+      const result = await ResendCode(fullEmail);
+      if (result) {
+        setCode("");
+        setIsCodeAvailable(null);
+        setCodeMsg("인증번호를 입력해주세요.");
+        resetTimer();
+        startTimer(180);
       }
     } catch (error) {
-      setIsEmailAvailable(false);
-      console.log("잘못된 이메일입니다.", error);
+      setCode("");
+      setIsCodeAvailable(false);
+      setCodeMsg("인증번호 요청 중 오류가 발생했습니다.");
+      console.error("인증번호 요청 중 오류 발생:", error);
     }
-  }
+  };
 
-  const verifyCode = async (path) => { //코드 일치 확인여부 그리고 다음버튼에 들어가는 값
-    try {
-      const fullId = `${email}@${emailOption}`;
-      const data = await CheckCodeDuplication(fullId, code);
-      if (data.success) {
-        router.push({
-          pathname: path,
-          query: {
-            email: fullId, //이메일 값을 다음 페이지에 넘김
-            name: name
-          },
-        },
-          `${path}` //url값에 path를 숨기기 위하여 넣는 값
-        );
-      }
-    } catch (error) {
-      console.log("인증번호가 일치하지 않습니다.", error);
-    }
-  }
+  const handledNextButton = (path) => {
+    if (!isEmailAvailable || !isCodeAvailable) return;
+
+    sessionStorage.setItem("email", `${email}@${selectedEmail}`);
+    router.push(path);
+  };
 
   return {
     email,
-    emailOption,
-    isEmailAvailable,
-    isVisible,
-    timer,
-    timerId,
     code,
-    handleEmailIdValueChange,
-    handleSelectOptionChange,
+    isEmailAvailable,
+    isCodeAvailable,
+    emailMsg,
+    codeMsg,
+    timer,
+    handleEmailChange,
     handleCodeChange,
     verifyEmail,
     verifyCode,
-  }
-}
+    resendCode,
+    handledNextButton,
+  };
+};

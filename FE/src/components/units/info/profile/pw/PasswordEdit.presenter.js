@@ -12,7 +12,7 @@ export default function PasswordEditUI(props) {
               alt="arrow_left_icon"
               width={15}
               height={25}
-              onClick={props.navigateBack}
+              onClick={props.navigateTo("/info/profile")}
             />
             <S.Title>비밀번호 변경</S.Title>
           </S.LeftArrowTitleContainer>

@@ -8,7 +8,7 @@ export function useNavigate() {
   const navigateBack = () => router.back();
 
   const isActive = (path) => {
-    return router.pathname === path;
+    return router.asPath === path;
   };
 
   return { navigateTo, navigateBack, isActive };

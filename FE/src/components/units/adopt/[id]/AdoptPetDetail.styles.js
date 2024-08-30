@@ -75,6 +75,11 @@ export const WrapperPetDetail = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 95px - 60px);
+  }
 `;
 
 export const PetImgBlock = styled.div`
@@ -122,27 +127,6 @@ export const PetInfoContainer = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   background-color: white;
-  padding-left: 10px;
-
-  /* Chrome, Safari 등 */
-  &::-webkit-scrollbar {
-    width: 10px; /* 스크롤바의 너비 */
-  }
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0); /* 스크롤바 뒷 배경을 투명 처리한다 */
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #f6f6f6; /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥근 처리 */
-    border: 3px solid #f6f6f6; /* 스크롤바 외곽선(선택사항) */
-  }
-  &::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-
-  /* Firefox */
-  scrollbar-width: thin; /* "auto" 또는 "thin" */
-  scrollbar-color: #f6f6f6 rgba(0, 0, 0, 0); /* 스크롤바 색상과 트랙 색상 */
 `;
 
 export const PetInfoBlock = styled.div`
@@ -263,36 +247,13 @@ export const PetContentTitle = styled.div`
 
 export const PetContentText = styled.div`
   width: 350px;
-  height: 200px;
   line-height: 1.3;
   font-size: 16px;
   font-weight: 400;
   margin-top: 12px;
   display: flex;
-  overflow-y: auto;
-  overflow-x: hidden;
   text-align: justify; /* 양쪽 정렬 */
   text-justify: inter-word; /* 단어 간격을 조정하여 정렬 */
-
-  /* Chrome, Safari 등 */
-  &::-webkit-scrollbar {
-    width: 10px; /* 스크롤바의 너비 */
-  }
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0); /* 스크롤바 뒷 배경을 투명 처리한다 */
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #f6f6f6; /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥근 처리 */
-    border: 3px solid #f6f6f6; /* 스크롤바 외곽선(선택사항) */
-  }
-  &::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-
-  /* Firefox */
-  scrollbar-width: thin; /* "auto" 또는 "thin" */
-  scrollbar-color: #f6f6f6 rgba(0, 0, 0, 0); /* 스크롤바 색상과 트랙 색상 */
 `;
 
 export const PetAdoptionPeriod = styled.div`

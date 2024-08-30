@@ -1,11 +1,16 @@
 import { requestLoginToken } from "../Login.queries";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import useAuthStore from "../../../../../src/store/useAuthStore";
+import { useState } from "react";
 
 export const useLoginCheck = (email, password) => {
   const router = useRouter();
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const [isLoginFailed, setIsLoginFailed] = useState(false);
+  const [resultModalText, setResultModalText] = useState({
+    text: "로그인에 실패하였습니다.",
+    subText: "이메일 또는 비밀번호를 다시 확인해주세요.",
+    confirmText: "확인",
+  });
 
   const verifyLogin = async () => {
     try {
@@ -18,16 +23,19 @@ export const useLoginCheck = (email, password) => {
           secure: false,
           sameSite: "Strict",
         });
-
-        //   // Zustand 스토어에 accessToken 저장
-        //   setAccessToken(data.accessToken);
-
-        //   // 세션 스토리지에 로그인 상태 저장
-        //   sessionStorage.setItem("isLoggedIn", "true");
+        setIsLoginFailed(false);
 
         router.push("/home");
       }
     } catch (error) {
+      // const errorMessage = JSON.parse(error.message).message;
+      const errorMessage = JSON.parse(error.message).message;
+      console.log("errorMessage: ", errorMessage);
+      setResultModalText((prev) => ({
+        ...prev,
+        subText: errorMessage,
+      }));
+      setIsLoginFailed(true);
       console.error("로그인 안됨:", error);
     }
   };
@@ -37,5 +45,15 @@ export const useLoginCheck = (email, password) => {
     router.push("/home");
   };
 
-  return { verifyLogin, browseAsGeust };
+  const handleLoginModalChange = () => {
+    setIsLoginFailed(false);
+  };
+
+  return {
+    verifyLogin,
+    browseAsGeust,
+    isLoginFailed,
+    resultModalText,
+    handleLoginModalChange,
+  };
 };

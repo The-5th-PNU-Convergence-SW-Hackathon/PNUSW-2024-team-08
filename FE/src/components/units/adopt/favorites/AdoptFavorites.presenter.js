@@ -6,15 +6,32 @@ export default function AdpotFavoritesUI(props) {
   return (
     <>
       <S.WrapperContents>
-        {props.favPets?.map((pet) => (
+        {props.favPets.length === 0 && (
+          <S.AddPetBox>
+            <S.AddIcon onClick={props.navigateTo("/adopt/pets")}>
+              <S.VerticaDottedlLine></S.VerticaDottedlLine>
+              <S.HorizontalDottedLine></S.HorizontalDottedLine>
+            </S.AddIcon>
+            <S.AddPetText>
+              좋아하는 동물을 <br />
+              추가해보세요
+            </S.AddPetText>
+          </S.AddPetBox>
+        )}
+        {props.favPets?.map((pet, index) => (
           <S.AdoptPet key={pet.id}>
+            {!props.loadedImages[index] && (
+              <S.PetLoadingSkeleton></S.PetLoadingSkeleton>
+            )}
             <S.PetImg
               src={pet.profileURL}
               alt={pet.name}
               width={344}
               height={344}
               priority
+              onLoad={() => props.handleImageLoad(index)}
               onClick={props.navigateTo(`/adopt/${pet.id}`)} // 함수로 감싸기
+              style={{ display: props.loadedImages[index] ? "block" : "none" }}
             />
             <S.AdoptLikeToggle onClick={() => props.handleToggleLike(pet)}>
               <Image
@@ -84,7 +101,7 @@ export default function AdpotFavoritesUI(props) {
             </S.AdoptInfoBlock>
           </S.AdoptPet>
         ))}
-        {props.favPets.length > 0 && !props.isLastPage && (
+        {props.favPets?.length > 0 && !props.isLastPage && (
           <S.MoreButton onClick={props.handleLoadPetsData}>
             더 보기
           </S.MoreButton>

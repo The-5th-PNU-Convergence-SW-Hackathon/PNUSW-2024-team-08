@@ -1,93 +1,57 @@
-import { useState } from "react";
-import { districtName } from "../../../../../components/commons/district/districtName";
-import { useFetchUserInfo } from "./useFetchUserInfo";
-import { useRegionSelection } from "../../../../../../src/components/commons/hooks/useRegionSelection";
 import { sendNewVolunteerInfo } from "../Create_Volunteer.queries";
+import useS3Upload from "../../../../commons/hooks/useS3Upload";
 import { useRouter } from "next/router";
 
-export const useSendVolunteerInfo = () => {
+export const useSendVolunteerInfo = (photo) => {
   const router = useRouter();
-  const { userInfo } = useFetchUserInfo();
-  const regions = districtName;
-  const [name, setName] = useState("");
+  const { uploadFile } = useS3Upload("pnucoding", "volunteer");
 
-  const handleVolunteerNameChange = (e) => {
-    const inputName = e.target.value;
-    setName(inputName);
-  }
+  const uploadImageToS3 = async (photo) => {
+    console.log("Uploading photo:", photo);
+    const imageUrl = await uploadFile(photo.file);
+    console.log("Uploaded image URL:", imageUrl);
+    return imageUrl !== null ? imageUrl : null;
+  };
 
-  const {
-    selectedProvince,
-    isProvinceDropdownOpen,
-    isProvinceFocused,
-    selectedDistrict,
-    isDistrictDropdownOpen,
-    isDistrictFocused,
-    selectedSubdistrict,
-    isSubdistrictDropdownOpen,
-    isSubdistrictFocused,
-    wrapperRef,
-    handleProvinceSelect,
-    handleDistrictSelect,
-    handleSubdistrictSelect,
-    toggleDropdown,
-  } = useRegionSelection(
-    userInfo.province,
-    userInfo.district,
-    userInfo.subdistrict
-  );
-
-  const navigateTo = (path) => {
-    router.push(path);
-  }
-
-  const handleSendVolunteerInfo= async (userInfo, path) => {
-    if (
-      userInfo.isPossibleNickName === true &&
+  const handleSendVolunteerInfo = async (userInfo, path) => {
+    const isUserInfoValid = (
       userInfo.selectedProvince !== "시/도 선택" &&
       userInfo.selectedDistrict !== "구/군/시" &&
       userInfo.selectedSubdistrict !== "동/읍/면"
-    ) {
+    );
+
+    if (isUserInfoValid) {
       try {
-        await sendNewVolunteerInfo({
-          name: name,
-          province: selectedProvince,
-          district: selectedDistrict,
-          subdistrict: selectedSubdistrict,
-          description: "ㅇㅇ",
-          category: "봉사",
-          profileURL: "https://s3.xxxx.xx.com"
-        });
-        if (data.success) {
-          navigateTo(path);
+        if (photo) {
+          const uploadedImageUrl = await uploadImageToS3(photo);
+
+          // 업로드된 이미지 URL을 userInfo에 추가
+          const updatedUserInfo = {
+            ...userInfo,
+            profileURL: uploadedImageUrl,
+          };
+
+          const data = await sendNewVolunteerInfo({
+            name: updatedUserInfo.name,
+            province: updatedUserInfo.selectedProvince,
+            district: updatedUserInfo.selectedDistrict,
+            subDistrict: updatedUserInfo.selectedSubDistrict,
+            description: updatedUserInfo.description,
+            category: updatedUserInfo.selectedCategory,
+            profileURL: updatedUserInfo.profileURL,
+            maxNum: updatedUserInfo.selectedPeopleNum,
+          });
+          if (data.success) {
+            router.push(`/volunteer/${data.result.id}`);
+          }
         }
       } catch (error) {
-        console.log("새로운 봉사활동 모임을 만들 수 없습니다.")
-        // console.error("Error updating user info:", error);
-      } finally {
-      }
+        console.error("새로운 봉사활동 모임을 만들 수 없습니다.", error);
+      } 
     }
   };
 
   return {
-    name,
-    handleVolunteerNameChange,
-    regions,
-    selectedProvince,
-    isProvinceDropdownOpen,
-    isProvinceFocused,
-    selectedDistrict,
-    isDistrictDropdownOpen,
-    isDistrictFocused,
-    selectedSubdistrict,
-    isSubdistrictDropdownOpen,
-    isSubdistrictFocused,
-    wrapperRef,
-    handleProvinceSelect,
-    handleDistrictSelect,
-    handleSubdistrictSelect,
-    toggleDropdown,
     handleSendVolunteerInfo,
-    navigateTo
   }
 }

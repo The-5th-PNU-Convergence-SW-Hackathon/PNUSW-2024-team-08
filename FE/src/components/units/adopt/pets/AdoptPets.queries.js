@@ -10,9 +10,9 @@ export async function fetchPetsDataWithAuth(page, sort) {
     }
 
     const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    console.log(`Fetching pets with auth for page: ${page}, sort: ${sort}`);
+    console.log(`Fetching pets with auth for page: ${page}, type: ${sort}`);
     const response = await fetch(
-      `${baseURL}/animals?page=${page}&size=5&sort=${sort}`,
+      `${baseURL}/animals?page=${page}&size=5&type=${sort}`,
       {
         method: "GET",
         headers: {
@@ -27,7 +27,7 @@ export async function fetchPetsDataWithAuth(page, sort) {
     }
     const data = await response.json();
     console.log("Response to pets data with auth:", data);
-    return data.result.animals;
+    return data.result;
   } catch (error) {
     console.error("Failed to fetch pets data with auth:", error);
     return null;
@@ -40,7 +40,7 @@ export async function fetchPetsDataWithoutAuth(page, sort) {
     const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     console.log(`Fetching pets without auth for page: ${page}, sort: ${sort}`);
     const response = await fetch(
-      `${baseURL}/animals?page=${page}&size=5&sort=${sort}`,
+      `${baseURL}/animals?page=${page}&size=5&type=${sort}`,
       {
         method: "GET",
         headers: {
@@ -53,7 +53,7 @@ export async function fetchPetsDataWithoutAuth(page, sort) {
     }
     const data = await response.json();
     console.log("Response to pets data without auth:", data);
-    return data.result.animals;
+    return data.result;
   } catch (error) {
     console.error("Failed to fetch pets data without auth:", error);
     return null;

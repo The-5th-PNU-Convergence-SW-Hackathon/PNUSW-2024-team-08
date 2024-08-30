@@ -41,12 +41,18 @@ export default function HeadersUI(props) {
           <S.ProfileIconContainer
             onClick={() => props.handleIconClick(props.paths.profile)}
           >
-            <Image
-              src="/images/header/profile_icon.svg"
-              alt="profile_icon"
-              width={44}
-              height={44}
-            />
+            <S.CircleImage>
+              <Image
+                src={
+                  props.isSSRLoggedIn && props.profileURL
+                    ? props.profileURL
+                    : "/images/header/profile_icon.svg"
+                }
+                alt="profile_icon"
+                width={44}
+                height={44}
+              />
+            </S.CircleImage>
           </S.ProfileIconContainer>
         </S.InfoContainer>
       </S.Header>

@@ -1,7 +1,8 @@
 export const checkNickNameDuplication = async (nickName) => {
   try {
+    const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const response = await fetch(
-      "http://54.180.244.93:8080/api/accounts/check/nick",
+      `${baseURL}/accounts/check/nick`,
       {
         method: "POST",
         headers: {
@@ -26,7 +27,8 @@ export const checkNickNameDuplication = async (nickName) => {
 
 export const sendUserInfo = async (userInfo) => {
   try {
-    const response = await fetch("http://54.180.244.93:8080/api/accounts", {
+    const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const response = await fetch(`${baseURL}/accounts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

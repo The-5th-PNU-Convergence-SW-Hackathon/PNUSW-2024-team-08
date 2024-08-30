@@ -35,7 +35,7 @@ export default function AdpotSheltersUI(props) {
         </S.MapCurrentLocationIcon>
         <S.MapInfoContainer id="map-info-container">
           <S.MapInfoDragBlock id="map-info-drag-block">
-            <S.MapInfoDragIcon></S.MapInfoDragIcon>
+            <S.MapInfoDragIcon id="map-info-drag-icon"></S.MapInfoDragIcon>
           </S.MapInfoDragBlock>
           <S.MapInfoBlock>
             {props.isMapLoaded &&

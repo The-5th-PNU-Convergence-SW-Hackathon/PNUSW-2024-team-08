@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 
 export const WrapperContents = styled.div`
   width: 390px;
@@ -72,8 +73,11 @@ export const VolunteerTitleBlock = styled.div`
 `;
 
 export const VolunteerTitle = styled.p`
-  width: auto;
+  width: 332px;
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const VolunteerText = styled.div`
@@ -138,6 +142,33 @@ export const VolunteerRegion = styled.p`
   padding: 0 15px;
 `;
 
+const loading = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingImgBox = styled.div`
+  height: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoadingImg = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ff6636;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ${loading} 1s linear infinite;
+`;
+
 export const MoreBtn = styled.button`
   margin-top: 15px;
   cursor: pointer;
@@ -154,6 +185,8 @@ export const VolunteerAddIcon = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 12%;
+  bottom: ${(props) => (props.showModal ? '15%' : '12%')};
+  transition: bottom 0.3s ease-in-out;
   right: calc(50% - 172px);
+  cursor: pointer;
 `;

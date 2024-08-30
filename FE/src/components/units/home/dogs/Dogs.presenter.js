@@ -41,6 +41,7 @@ export default function DogsUI(props) {
             alt="eat_meal"
             width={344}
             height={200}
+            priority
           />
         </S.DogsContentsContainer>
         <S.DogsContentsContainer style={{ marginTop: "60px" }}>
@@ -57,6 +58,7 @@ export default function DogsUI(props) {
             alt="about_sick"
             width={344}
             height={200}
+            priority
           />
         </S.DogsContentsContainer>
         <S.DogsContentsContainer style={{ marginTop: "60px" }}>
@@ -73,6 +75,7 @@ export default function DogsUI(props) {
             alt="for_a_walk"
             width={344}
             height={200}
+            priority
           />
         </S.DogsContentsContainer>
         <S.DogsContentsContainer style={{ marginTop: "60px" }}>
@@ -88,6 +91,7 @@ export default function DogsUI(props) {
             alt="dangerous_environment"
             width={344}
             height={200}
+            priority
           />
         </S.DogsContentsContainer>
         <S.DogsContentsContainer style={{ marginTop: "60px" }}>
@@ -103,6 +107,7 @@ export default function DogsUI(props) {
             alt="most_important"
             width={344}
             height={200}
+            priority
           />
         </S.DogsContentsContainer>
         <S.ConcludingWords>

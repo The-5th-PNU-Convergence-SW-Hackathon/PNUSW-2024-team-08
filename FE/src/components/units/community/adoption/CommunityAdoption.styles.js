@@ -1,4 +1,6 @@
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import Image from "next/image";
 
 export const WrapperContents = styled.div`
   width: 390px;
@@ -8,53 +10,105 @@ export const WrapperContents = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  overflow-y: auto;
+  overflow-y: scroll;
   background-color: white;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 
-  /* 스크롤 바 숨기기 */
-  ::-webkit-scrollbar {
-    display: none;
+  /* 크롬, 사파리 등에서 스크롤 바 숨기기 */
+  &::-webkit-scrollbar {
+    display: none; /* 스크롤 바 숨기기 */
   }
-  scrollbar-width: none; /* Firefox */
+
+  /* 파이어폭스에서 스크롤 바 숨기기 */
+  scrollbar-width: none;
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 231px - 60px);
+  }
 `;
 
-export const CommunityMenuBlock = styled.div`
-  width: 190px;
-  height: 43px;
+export const CommunityMenuContainer = styled.div`
+  width: 43px;
+  height: 14px;
+  align-self: flex-end;
+  margin-top: 15px;
+  margin-right: 28px;
+  position: relative;
+  cursor: pointer;
+`;
+
+export const CommunityMenuBlock = styled.ul`
+  width: 60px;
+  border-radius: 10px;
+  background-color: white;
+  position: absolute;
+  top: 20px;
+  right: -5px;
+
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.1);
+
+  display: ${(props) => (props.active ? "flex" : "none")};
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 101;
+`;
+
+export const CommunityMenuNewest = styled.li`
+  width: 100%;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  color: ${(props) => (props.isActive ? "#646464" : "#bbb")};
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CommunityMenuPopularity = styled.li`
+  width: 100%;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  color: ${(props) => (props.isActive ? "#646464" : "#bbb")};
+  border-top: 1px solid #dbdbdb;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const pulse = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+export const CommunityLoadingSkeleton = styled.div`
+  width: 344px;
+  height: 143px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  font-size: 20px;
-  font-weight: 400;
-  text-align: center;
-  margin-top: 20px;
-  margin-right: 155px;
-  margin-bottom: 5px;
-`;
-
-export const CommunityMenuPopularity = styled.div`
-  width: 91px;
-  height: 43px;
-  line-height: 43px;
-  background-color: ${(props) =>
-    props.sort === "likeNum" ? "#ff6636" : "#eeeeee"};
-  border-radius: 22px;
-  color: ${(props) => (props.sort === "likeNum" ? "#ffffff" : "#000000")};
+  margin-top: 12px;
+  flex-shrink: 0;
   cursor: pointer;
-`;
-
-export const CommunityMenuNewest = styled.div`
-  width: 91px;
-  height: 43px;
-  line-height: 43px;
-  background-color: ${(props) =>
-    props.sort === "createdDate" ? "#ff6636" : "#eeeeee"};
-  color: #646464;
-  border-radius: 22px;
-  color: ${(props) => (props.sort === "createdDate" ? "#ffffff" : "#000000")};
-  cursor: pointer;
+  animation: ${pulse} 1.5s infinite;
 `;
 
 export const CommunityBlock = styled.div`
@@ -75,13 +129,16 @@ export const CommunityBlock = styled.div`
 export const CommunityImg = styled.div`
   width: 115px;
   height: 117px;
-  border-radius: 7px;
   margin-left: 15px;
-  margin-right: 20px;
+  margin-right: 15px;
+`;
+
+export const StyledImage = styled(Image)`
+  border-radius: 7px;
 `;
 
 export const CommunityInfoBlock = styled.div`
-  width: 210px;
+  width: 170px;
   height: 117px;
   display: flex;
   flex-direction: column;
@@ -90,38 +147,58 @@ export const CommunityInfoBlock = styled.div`
   position: relative;
 `;
 
+export const CommunityCategory = styled.div`
+  font-size: 10px;
+  font-weight: 300;
+  margin-top: 5px;
+`;
+
 export const CommunityTitle = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 export const CommunityText = styled.div`
   font-size: 16px;
   font-weight: 300;
-  width: 162px;
-  margin-top: 10px;
+  width: 180px;
+  height: 58px;
+  margin-top: 5px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
 `;
 
-export const CommunityName = styled.div`
-  font-size: 12px;
+export const CommunityNickNameDate = styled.div`
+  font-size: 11px;
   font-weight: 300;
   color: #434240;
   position: absolute;
-  top: 91px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  top: 98px;
+  gap: 7px;
 `;
 
+export const CommunityNickName = styled.div``;
+
+export const CommunityDate = styled.div``;
+
 export const CommunityLikeBlock = styled.div`
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 11px;
+  font-weight: 400;
   position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 1px;
-  top: 89px;
-  left: 103px;
+  top: 94px;
+  left: 120px;
+  font-family: "Roboto", sans-serif;
 `;
 
 export const CommunityLike = styled.div`
@@ -134,15 +211,16 @@ export const CommunityLike = styled.div`
 `;
 
 export const CommunityViewBlock = styled.div`
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 11px;
+  font-weight: 400;
   position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  top: 89px;
-  left: 147px;
+  top: 94px;
+  left: 156px;
+  font-family: "Roboto", sans-serif;
 `;
 
 export const CommunityView = styled.div`
@@ -154,23 +232,29 @@ export const CommunityView = styled.div`
   align-items: center;
 `;
 
-export const CommunityAddIcon = styled.div`
-  width: 60px;
-  height: 60px;
-  background-color: #ff6636;
-  border-radius: 50%;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+const loading = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingImgBox = styled.div`
+  height: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 12%;
-  right: calc(50% - 172px);
-  cursor: pointer;
 `;
 
-export const MoreButton = styled.button`
-  margin-top: 12px;
-  cursor: pointer;
+export const LoadingImg = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ff6636;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ${loading} 1s linear infinite;
 `;

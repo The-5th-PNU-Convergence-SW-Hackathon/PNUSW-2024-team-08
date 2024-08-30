@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCurrentLocation } from "./useCurrentLocation";
 import useSortedShelters from "./useSortedShelters";
 import useGoogleMapsScript from "./useGoogleMapsScript";
@@ -30,10 +30,10 @@ export const useGoogleMaps = (
   );
   const [sheltersToDisplay, setSheltersToDisplay] = useState(sortedShelters);
   const { createLatLng } = useCreateLatLng();
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   useEffect(() => {
     if (userLocation.lat && userLocation.lng) {
-      console.log(userLocation);
       setInitialLocation(userLocation);
     }
   }, [userLocation]);
@@ -47,7 +47,6 @@ export const useGoogleMaps = (
   }, [searchSuccess, searchResults, sortedShelters]);
 
   useEffect(() => {
-    // sheltersToDisplay가 변경될 때마다 실행될 로직
     if (sheltersToDisplay.length > 0) {
       if (searchSuccess && searchResults.length > 0) {
         shelterLocationDetail(searchResults[0]);
@@ -58,7 +57,9 @@ export const useGoogleMaps = (
   }, [sheltersToDisplay]);
 
   useGoogleMapsScript(async () => {
-    if (!locationLoaded) return;
+    setIsScriptLoaded(true);
+
+    if (!locationLoaded || !isScriptLoaded) return;
 
     if (window.google && ref.current) {
       const { Map } = await google.maps.importLibrary("maps");
@@ -83,14 +84,26 @@ export const useGoogleMaps = (
           fullscreenControl: false,
           center: initialMarkerPosition,
           zoom: 15,
-          mapId: "e5dafb91d67d6c4d", // 추가된 부분
+          mapId: "e5dafb91d67d6c4d",
+          disableDoubleClickZoom: true,
         });
+
         setIsMapLoaded(true);
+
+        // 현재 위치 마커 추가 (커스텀 스타일 적용)
+        const markerElement = document.createElement("div");
+        markerElement.style.backgroundColor = "#66B2FF"; // 연한 파란색 배경
+        markerElement.style.borderRadius = "50%"; // 원형으로 만들기
+        markerElement.style.width = "20px"; // 마커의 너비
+        markerElement.style.height = "20px"; // 마커의 높이
+        markerElement.style.boxShadow = "1px 1px 15px rgba(0, 0, 0, 0.3)";
+        markerElement.style.boxSizing = "border-box"; // 테두리를 포함하여 크기 계산
 
         new AdvancedMarkerElement({
           position: initialMarkerPosition,
           map: mapRef.current,
           title: "Initial Location",
+          content: markerElement, // 커스텀 HTML 요소를 content로 설정
         });
       } else {
         const centerPosition = createLatLng(
@@ -107,14 +120,12 @@ export const useGoogleMaps = (
   const setCurrentLocation = (location) => {
     if (!isMapLoaded) return;
 
-    setSelectedShelterId(location.id); // 선택된 보호소 ID 업데이트
+    setSelectedShelterId(location.id);
 
-    // 선택된 보호소 요소로 스크롤
     let selectedShelterElement = document.querySelector(
       `[data-id="${location.id}"]`
     );
 
-    // 선택된 보호소 요소가 없을 경우 첫 번째 보호소로 스크롤
     if (!selectedShelterElement) {
       selectedShelterElement = document.querySelector(
         `[data-id="${sheltersToDisplay[0].id}"]`
@@ -122,8 +133,6 @@ export const useGoogleMaps = (
     }
 
     if (selectedShelterElement) {
-      console.log(selectedShelterElement);
-      // 사파리 호환성을 위해 scrollIntoView 옵션 수정
       selectedShelterElement.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -131,11 +140,10 @@ export const useGoogleMaps = (
       });
     }
 
-    // 상태가 업데이트된 후에 중앙으로 이동
-    setTimeout(() => {
+    google.maps.event.addListenerOnce(mapRef.current, "idle", () => {
       mapRef.current.panTo(new google.maps.LatLng(location.lat, location.lng));
       mapRef.current.setZoom(15);
-    }, 200);
+    });
   };
 
   const shelterLocationDetail = (shelter) => {
@@ -159,7 +167,8 @@ export const useGoogleMaps = (
     markersRef,
     userLocation,
     setCurrentLocation,
-    selectedShelterId // 선택된 보호소 ID 전달
+    selectedShelterId,
+    isMapLoaded
   );
 
   return {
@@ -168,7 +177,7 @@ export const useGoogleMaps = (
     initialLocation,
     setCurrentLocation,
     shelterLocationDetail,
-    selectedShelterId, // 선택된 보호소 ID 반환
-    sheltersToDisplay, // 상태로 관리되는 sheltersToDisplay 반환
+    selectedShelterId,
+    sheltersToDisplay,
   };
 };

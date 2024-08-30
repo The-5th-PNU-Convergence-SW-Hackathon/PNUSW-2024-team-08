@@ -5,12 +5,18 @@ export const WrapperContainer = styled.div`
   height: 100vh;
   margin: 0 auto;
   background-color: white;
-`;
+  overflow-y: auto;
 
-export const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: white;
+  /* 스크롤 바 숨기기 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 60px);
+  }
 `;
 
 export const WraaperLogoAndImage = styled.div`
@@ -51,7 +57,7 @@ export const WrapperLogo = styled.div`
 
 export const WrapperLoginContents = styled.div`
   width: 100%;
-  height: calc(100vh - 223px);
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -147,7 +153,7 @@ export const OrContainer = styled.div`
   margin-top: 24px;
 `;
 
-export const KakaoAndNaverBlock = styled.div`
+export const KakaoAndGoogleBlock = styled.div`
   width: 344px;
   height: 128px;
   margin-top: 24px;
@@ -163,9 +169,12 @@ export const KakaoButton = styled.button`
   gap: 12px;
   font-size: 20px;
   cursor: pointer;
+  color: #000;
 `;
-export const NaverButton = styled.button`
-  background-color: #00b63b;
+
+export const GoogleButton = styled.button`
+  background-color: #f9f9f9;
+  border: 2px solid #dcdcdc;
   border-radius: 30px;
   display: flex;
   flex-direction: row;
@@ -173,9 +182,10 @@ export const NaverButton = styled.button`
   align-items: center;
   gap: 12px;
   font-size: 20px;
-  color: white;
+  color: #000;
   cursor: pointer;
   margin-top: 8px;
+  padding-right: 15px;
 `;
 
 export const AccoutAndInfoContainer = styled.div`

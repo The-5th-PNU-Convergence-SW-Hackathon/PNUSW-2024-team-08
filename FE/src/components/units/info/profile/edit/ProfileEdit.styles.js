@@ -61,6 +61,11 @@ export const WrapperProfileEdit = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 95px - 60px);
+  }
 `;
 
 export const ProfileEditPhotoContainer = styled.div`
@@ -76,8 +81,13 @@ export const ProfileEditPhotoContainer = styled.div`
 `;
 
 export const ProfileEditPhoto = styled.div`
-  width: 105px;
-  height: 105px;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 103px;
+  height: 103px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
 `;
 
@@ -87,6 +97,7 @@ export const EditText = styled.div`
   z-index: 1;
   position: absolute;
   top: 87px;
+  cursor: pointer;
 `;
 
 export const NameText = styled.div`
@@ -172,7 +183,8 @@ export const NickNameEditButton = styled.button`
 `;
 
 export const NickNameMsg = styled.div`
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   position: absolute;
   top: 76px;
   left: 5px;
@@ -474,5 +486,82 @@ export const ProfileEditButton = styled.button`
   background-color: #ff6636;
   color: white;
   margin-top: 120px;
+  cursor: pointer;
+`;
+
+export const CropModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: calc(50% - 195px);
+  width: 390px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+export const CropModalContent = styled.div`
+  background: white;
+  width: 350px;
+  height: 55vh;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  z-index: 101;
+`;
+
+export const CropTitle = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+`;
+
+export const CropContainer = styled.div`
+  width: 320px;
+  height: 40vh;
+  position: relative;
+  margin-bottom: 20px;
+
+  .reactEasyCrop_Container {
+    border-radius: 50px; /* 크롭퍼 모서리를 둥글게 */
+    background-color: #fff;
+    /* overflow: hidden; 크롭퍼 영역 외부의 이미지 숨김 */
+  }
+
+  /* 크롭퍼 내부 캔버스 스타일 변경 */
+  .reactEasyCrop_CropArea {
+    border: 0.5px solid #fff; /* 크롭 영역의 테두리 스타일 변경 */
+    border-radius: 50%;
+  }
+`;
+
+export const CropBtnBlock = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const UploadBtn = styled.button`
+  width: 155px;
+  font-size: 18px;
+  background-color: #ff6636;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+`;
+
+export const CancelBtn = styled.button`
+  width: 155px;
+  font-size: 18px;
+  background-color: #eeeeee;
+  border-radius: 10px;
   cursor: pointer;
 `;

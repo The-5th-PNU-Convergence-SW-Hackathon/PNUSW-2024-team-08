@@ -43,6 +43,7 @@ export default function CatsUI(props) {
             alt="about_eat_meal"
             width={344}
             height={200}
+            priority
           />
         </S.CatsContentsContainer>
         <S.CatsContentsContainer style={{ marginTop: "60px" }}>
@@ -59,6 +60,7 @@ export default function CatsUI(props) {
             alt="about_sick"
             width={344}
             height={200}
+            priority
           />
         </S.CatsContentsContainer>
         <S.CatsContentsContainer style={{ marginTop: "60px" }}>
@@ -75,6 +77,7 @@ export default function CatsUI(props) {
             alt="play_with_cat"
             width={344}
             height={200}
+            priority
           />
         </S.CatsContentsContainer>
         <S.CatsContentsContainer style={{ marginTop: "60px" }}>
@@ -91,6 +94,7 @@ export default function CatsUI(props) {
             alt="cat_nail_clippers"
             width={344}
             height={200}
+            priority
           />
         </S.CatsContentsContainer>
         <S.CatsContentsContainer style={{ marginTop: "60px" }}>
@@ -107,6 +111,7 @@ export default function CatsUI(props) {
             alt="most_important"
             width={344}
             height={200}
+            priority
           />
         </S.CatsContentsContainer>
         <S.ConcludingWords>

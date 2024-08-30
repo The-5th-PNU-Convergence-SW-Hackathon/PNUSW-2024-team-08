@@ -11,8 +11,8 @@ import useSearchShelters from "./hooks/useSearchShelters";
 import { useTruncateString } from "../../../../../src/components/commons/hooks/useTruncateString";
 import useRequireLogin from "../../../../../src/components/commons/hooks/useRequireLogin";
 
-export default function AdpotShelters({ isSSRLoggedIn }) {
-  console.log("AdoptShelters isSSRLoggedIn: ", isSSRLoggedIn);
+export default function AdpotShelters({ isSSRLoggedIn, profileURL }) {
+  // console.log("AdoptShelters isSSRLoggedIn: ", isSSRLoggedIn);
 
   const { shelters } = useFetchSheltersData();
   const mapRef = useRef(null);
@@ -33,7 +33,7 @@ export default function AdpotShelters({ isSSRLoggedIn }) {
 
   return (
     <>
-      <Headers />
+      <Headers isSSRLoggedIn={isSSRLoggedIn} profileURL={profileURL} />
       <AdoptHandler handleRequireModal={handleRequireModal} />
       <AdpotSheltersUI
         mapRef={mapRef}

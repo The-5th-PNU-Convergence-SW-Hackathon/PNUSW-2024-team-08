@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Image from "next/image";
 
 export const WrapperHomeContents = styled.div`
   width: 390px;
@@ -8,15 +9,20 @@ export const WrapperHomeContents = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  overflow-y: auto;
+  overflow-y: scroll;
   background-color: white;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 
   /* 스크롤 바 숨기기 */
   ::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 219px - 60px);
+  }
 `;
 
 export const HomeIntroContainer = styled.div`
@@ -163,21 +169,28 @@ export const HomeTitle = styled.h1`
 
 export const AdoptPetBlock = styled.div`
   width: 390px;
-  /* max-width: 390px; */
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
   margin-top: 10px;
-  padding: 0 20px;
-  overflow-x: auto;
-  cursor: pointer;
 
-  /* 스크롤 바 숨기기 */
-  ::-webkit-scrollbar {
-    display: none;
+  .slick-slide {
+    width: 254px;
+    height: 254px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  scrollbar-width: none; /* Firefox */
+
+  .slick-center {
+    opacity: 1;
+  }
+
+  .slick-prev,
+  .slick-next {
+    display: none !important; // 화살표 버튼을 숨깁니다.
+  }
+
+  .slick-track {
+    margin-left: -45px;
+  }
 `;
 
 export const AdoptPet = styled.div`
@@ -188,9 +201,14 @@ export const AdoptPet = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
-  margin-right: 20px;
   flex-shrink: 0;
   position: relative;
+  cursor: pointer;
+  outline: none; /* 포커스 시 테두리 제거 */
+
+  &:focus {
+    outline: none; /* 포커스 시 테두리 제거 */
+  }
 `;
 
 export const PetImg = styled.img`
@@ -207,7 +225,8 @@ export const AdoptInfoBlock = styled.div`
   background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
   position: absolute;
-  margin-bottom: 10px;
+  top: 165px;
+  left: 8px;
 `;
 
 export const AdoptNameGender = styled.div`
@@ -271,18 +290,20 @@ export const AdoptView = styled.div`
 `;
 
 export const AdoptArrow = styled.div`
-  width: 254px;
-  height: 254px;
+  width: 254px !important;
+  height: 254px !important;
   background-color: #ff6636;
   border-radius: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
   flex-shrink: 0;
+  cursor: pointer;
+  outline: none; /* 포커스 시 테두리 제거 */
 
-  :hoevr {
-    cursor: pointer;
+  &:focus {
+    outline: none; /* 포커스 시 테두리 제거 */
   }
 `;
 
@@ -339,8 +360,11 @@ export const VolunteerTitleBlock = styled.div`
 `;
 
 export const VolunteerTitle = styled.p`
-  width: auto;
+  width: 332px;
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const VolunteerText = styled.div`
@@ -423,13 +447,16 @@ export const CommunityBlock = styled.div`
 export const CommunityImg = styled.div`
   width: 115px;
   height: 117px;
-  border-radius: 7px;
   margin-left: 15px;
-  margin-right: 20px;
+  margin-right: 15px;
+`;
+
+export const StyledImage = styled(Image)`
+  border-radius: 7px;
 `;
 
 export const CommunityInfoBlock = styled.div`
-  width: 210px;
+  width: 170px;
   height: 117px;
   display: flex;
   flex-direction: column;
@@ -438,38 +465,58 @@ export const CommunityInfoBlock = styled.div`
   position: relative;
 `;
 
+export const CommunityCategory = styled.div`
+  font-size: 10px;
+  font-weight: 300;
+  margin-top: 5px;
+`;
+
 export const CommunityTitle = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 export const CommunityText = styled.div`
   font-size: 16px;
   font-weight: 300;
-  width: 162px;
-  margin-top: 10px;
+  width: 180px;
+  height: 58px;
+  margin-top: 5px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
 `;
 
-export const CommunityName = styled.div`
-  font-size: 12px;
+export const CommunityNickNameDate = styled.div`
+  font-size: 11px;
   font-weight: 300;
   color: #434240;
   position: absolute;
-  top: 91px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  top: 98px;
+  gap: 7px;
 `;
 
+export const CommunityNickName = styled.div``;
+
+export const CommunityDate = styled.div``;
+
 export const CommunityLikeBlock = styled.div`
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 11px;
+  font-weight: 400;
   position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 1px;
-  top: 89px;
-  left: 103px;
+  top: 94px;
+  left: 120px;
+  font-family: "Roboto", sans-serif;
 `;
 
 export const CommunityLike = styled.div`
@@ -482,15 +529,16 @@ export const CommunityLike = styled.div`
 `;
 
 export const CommunityViewBlock = styled.div`
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 11px;
+  font-weight: 400;
   position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  top: 89px;
-  left: 147px;
+  top: 94px;
+  left: 156px;
+  font-family: "Roboto", sans-serif;
 `;
 
 export const CommunityView = styled.div`

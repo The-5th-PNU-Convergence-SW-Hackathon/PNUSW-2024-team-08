@@ -11,20 +11,39 @@ import {
   findDistrictKo,
 } from "../../../commons/district/districtName";
 import useRequireLogin from "../../../../../src/components/commons/hooks/useRequireLogin";
+import usePaginationScroll from "../../../../../src/components/commons/hooks/usePaginationScroll";
+import useScrollToTop from "../../../../../src/components/commons/hooks/useScrollToTop";
 
-export default function AdpotPets({ isSSRLoggedIn }) {
-  console.log("AdoptPets isSSRLoggedIn: ", isSSRLoggedIn);
+export default function AdpotPets({ isSSRLoggedIn, profileURL }) {
+  // console.log("AdoptPets isSSRLoggedIn: ", isSSRLoggedIn);
 
-  const { pets, handleToggleLike, handleLoadPetsData, sort, setSort } =
-    useFetchPetsData(isSSRLoggedIn);
+  const {
+    pets,
+    isLastPage,
+    loadedImages,
+    setLoadedImages,
+    handleImageLoad,
+    handleToggleLike,
+    handleLoadPetsData,
+    sort,
+    setSort,
+    loading,
+    loadingSkeleton,
+  } = useFetchPetsData(isSSRLoggedIn);
   const { handleDateClick, handleDogClick, handleCatClick, handleOtherClick } =
-    useSortSelection(setSort);
+    useSortSelection(sort, setSort, loading);
+  const { scrollRef, scrollLoading } = usePaginationScroll(
+    handleLoadPetsData,
+    isLastPage,
+    [sort]
+  );
+  const { showScrollTop, scrollToTop } = useScrollToTop(scrollRef, 1500);
   const { navigateTo } = useNavigate();
   const handleRequireModal = useRequireLogin(isSSRLoggedIn);
 
   return (
     <>
-      <Headers isSSRLoggedIn={isSSRLoggedIn} />
+      <Headers isSSRLoggedIn={isSSRLoggedIn} profileURL={profileURL} />
       <AdoptHandler handleRequireModal={handleRequireModal} />
       <AdpotPetsUI
         sort={sort}
@@ -34,11 +53,22 @@ export default function AdpotPets({ isSSRLoggedIn }) {
         handleCatClick={handleCatClick}
         handleOtherClick={handleOtherClick}
         pets={pets}
+        isLastPage={isLastPage}
+        scrollRef={scrollRef}
+        scrollLoading={scrollLoading}
+        loadedImages={loadedImages}
+        setLoadedImages={setLoadedImages}
+        loading={loading}
+        loadingSkeleton={loadingSkeleton}
+        handleImageLoad={handleImageLoad}
         handleToggleLike={handleToggleLike}
         findProvinceKo={findProvinceKo}
         findDistrictKo={findDistrictKo}
+        showScrollTop={showScrollTop}
+        scrollToTop={scrollToTop}
         navigateTo={navigateTo}
       />
+
       <Navigation handleRequireModal={handleRequireModal} />
     </>
   );

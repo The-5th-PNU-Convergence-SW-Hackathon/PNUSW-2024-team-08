@@ -1,136 +1,96 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchRegularMeetings } from "../Regular_Meetings.quries";
-
-const example = {
-  success: true,
-  code: 200,
-  message: "ok",
-  result: {
-    meetings: [
-      {
-        id: 23,
-        name: "5차 동물 사랑 봉사",
-        date: "2024-04-20T14:30",
-        location: "범어역 1번 출구",
-        cost: 15000,
-        participantCnt: 7,
-        maxNum: 15,
-        profileURL: "/images/volunteer/volunteerDetail/meeting_detail_main.svg",
-        description: "동물을 사랑하는 사람들의 봉사 활동입니다~",
-        participants: [
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-        ],
-      },
-      {
-        id: 24,
-        name: "6차 동물 사랑 봉사",
-        date: "2024-04-28T14:30",
-        location: "범어역 1번 출구",
-        cost: 15000,
-        participantCnt: 3,
-        maxNum: 15,
-        profileURL: "/images/volunteer/volunteerDetail/meeting_detail_main.svg",
-        description: "동물을 사랑하는 사람들의 봉사 활동입니다~",
-        participants: [
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-        ],
-      },
-      {
-        id: 25,
-        name: "6차 동물 사랑 봉사",
-        date: "2024-04-30T14:30",
-        location: "범어역 1번 출구",
-        cost: 15000,
-        participantCnt: 3,
-        maxNum: 15,
-        profileURL: "/images/volunteer/volunteerDetail/meeting_detail_main.svg",
-        description: "동물을 사랑하는 사람들의 봉사 활동입니다~",
-        participants: [
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-          { profileURL: "/images/volunteer/volunteerDetail/user_3.svg" },
-        ],
-      },
-    ],
-  },
-};
-
-function formatDateTime(dateTimeStr) {
-  // 주어진 문자열을 Date 객체로 변환
-  const date = new Date(dateTimeStr);
-
-  // 월 추출
-  const month = date.getMonth() + 1;
-
-  // 일 추출
-  const day = ("0" + date.getDate()).slice(-2);
-
-  // 시간 추출
-  const hours = ("0" + date.getHours()).slice(-2);
-
-  // 분 추출
-  const minutes = ("0" + date.getMinutes()).slice(-2);
-
-  // 요일 추출
-  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-  const weekdayIndex = date.getDay();
-  const weekday = weekdays[weekdayIndex];
-
-  // 오전/오후 구분
-  const ampm = hours >= 12 ? "오후" : "오전";
-  const hour12 = hours % 12 || 12; // 12시간 형식으로 변환
-
-  // 추출된 정보를 조합하여 원하는 형식으로 반환
-  const formattedDateTime = `${month}/${day} (${weekday}) ${ampm} ${hour12}:${minutes}`;
-
-  return formattedDateTime;
-};
-
-function formatCost(cost) {
-  // 숫자를 문자열로 변환하고, 천 단위마다 ','를 추가
-  return cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
+import { useFormatDate, useFormatCost } from "../../hooks/useFormat";
+import { useRouter } from "next/router";
 
 export default function useFetchRegularMeetings() {
-  const [regularMeetingsInfos, setRegularMeetingsInfos] = useState(
-    example.result
-  );
-
+  const [regularMeetingsInfos, setRegularMeetingsInfos] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const { id } = router.query;
   const [daysDifferences, setDaysDifferences] = useState([]); // 각 미팅의 일수 차이를 저장할 배열 변수 추가
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
-    async function loadVolunteerDetail() {
-      try {
-        const regularMeetingsData = regularMeetingsInfos; //await fetchVolunteerDetail();
-        const updatedMeetings = regularMeetingsData.meetings.map((meeting) => ({
-          ...meeting,
-          date: formatDateTime(meeting.date),
-          cost: formatCost(meeting.cost)
-        }));
-        setRegularMeetingsInfos({
-          ...regularMeetingsData,
-          meetings: updatedMeetings,
-        });
+    if (!router.isReady || !id) return;
 
-        const currentDate = new Date();
-        const differences = regularMeetingsData.meetings.map((meeting) => {
-          const receivedDate = new Date(meeting.date);
-          const timeDiff = receivedDate - currentDate;
-          return Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        });
-        setDaysDifferences(differences);
+    async function loadInitialMeetings() {
+      setIsLoading(true);
+      try {
+        const regularMeetingsData = await fetchRegularMeetings(id, page);
+        if (regularMeetingsData && regularMeetingsData.meetings) {
+          const formattedMeetings = formatMeetings(regularMeetingsData.meetings);
+          setRegularMeetingsInfos(formattedMeetings);
+          updateDaysDifferences(regularMeetingsData.meetings);
+          setHasMore(regularMeetingsData.meetings.length >= 5);
+        } else {
+          setHasMore(false);
+        }
       } catch (error) {
-        console.error("Error fetching volunteer detail:", error);
+        console.error("Failed to load initial meetings data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
-    loadVolunteerDetail();
-  }, []);
+    loadInitialMeetings();
+  }, [router.isReady, id]);
 
-  return { regularMeetingsInfos , daysDifferences};
+  const loadMoreMeetings = useCallback(async () => {
+    if (!hasMore || isLoading) return;
+
+    setIsLoading(true);
+    try {
+      const nextPage = page + 1;
+      const regularMeetingsData = await fetchRegularMeetings(id, nextPage);
+      if (regularMeetingsData && regularMeetingsData.meetings && regularMeetingsData.meetings.length > 0) {
+        const formattedMeetings = formatMeetings(regularMeetingsData.meetings);
+        setRegularMeetingsInfos(prevMeetings => [...prevMeetings, ...formattedMeetings]);
+        updateDaysDifferences(regularMeetingsData.meetings);
+        setPage(nextPage);
+        setHasMore(regularMeetingsData.meetings.length >= 5);
+      } else {
+        setHasMore(false);
+        setShowModal(true);
+        setTimeout(() => setShowModal(false), 1400)
+        setModalMessage("모든 모임을 표시했습니다.");
+      }
+    } catch (error) {
+      console.error("Failed to load more meetings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [hasMore, isLoading, id, page]);
+
+  const formatMeetings = (meetings) => {
+    return meetings.map(meeting => ({
+      ...meeting,
+      meetDate: useFormatDate(meeting.meetDate),
+      cost: useFormatCost(meeting.cost)
+    }));
+  };
+
+  const updateDaysDifferences = (meetings) => {
+    const currentDate = new Date();
+    const differences = meetings.map(meeting => {
+      const receivedDate = new Date(meeting.meetDate);
+      const timeDiff = receivedDate - currentDate;
+      return Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    });
+    setDaysDifferences(prevDifferences => [...prevDifferences, ...differences]);
+  };
+
+  return {
+    regularMeetingsInfos,
+    loadMoreMeetings,
+    daysDifferences,
+    hasMore,
+    id,
+    isLoading,
+    showModal,
+    modalMessage
+  };
 }

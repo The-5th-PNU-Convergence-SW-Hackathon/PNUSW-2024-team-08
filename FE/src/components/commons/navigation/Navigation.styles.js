@@ -10,6 +10,7 @@ export const WrapperNavigation = styled.div`
   margin: 0 auto;
   border-top: 1px solid #dbdbdb;
   background-color: white;
+  padding-bottom: env(safe-area-inset-bottom); /* 하단 안전 영역 고려 */
   position: relative;
   z-index: 10;
   filter: ${(props) => (props.active ? "brightness(0.8)" : "brightness(1.0)")};

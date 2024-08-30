@@ -34,6 +34,7 @@ export const useGoogleMaps = (mapRef, shelter) => {
           center: initialMarkerPosition,
           zoom: 16,
           mapId: "e5dafb91d67d6c4d", // Ensure you have a valid Map ID
+          disableDoubleClickZoom: true,
         });
         setIsMapLoaded(true);
       }

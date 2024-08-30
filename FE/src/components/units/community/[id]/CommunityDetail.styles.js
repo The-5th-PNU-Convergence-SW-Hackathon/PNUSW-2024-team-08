@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Image from "next/image";
 
 export const WrapperHeader = styled.div`
   width: 390px;
@@ -10,7 +11,6 @@ export const WrapperHeader = styled.div`
   margin: 0 auto;
   z-index: 1;
   background-color: white;
-  /* opacity: 0; */
 `;
 
 export const Header = styled.div`
@@ -59,30 +59,27 @@ export const HeaderMenuContainer = styled.div`
 
 export const HeaderMenuBlock = styled.ul`
   width: 127px;
-  height: 87px;
   border-radius: 10px;
   background-color: white;
   position: absolute;
   top: 42px;
   right: 0;
 
-  visibility: ${(props) => (props.active ? "visible" : "hidden")};
-
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.1);
 
-  display: flex;
+  display: ${(props) => (props.active ? "flex" : "none")};
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 101;
 `;
 
-export const FirstSubMenu = styled.li`
+export const EditSubMenu = styled.li`
   width: 100%;
-  height: 56px;
+  height: 45px;
   font-size: 16px;
   font-weight: 500;
-  border-bottom: 1px solid #dbdbdb;
-  color: black;
+  color: #000;
 
   display: flex;
   flex-direction: column;
@@ -90,9 +87,23 @@ export const FirstSubMenu = styled.li`
   align-items: center;
 `;
 
-export const SecondSubMenu = styled.li`
+export const DeleteSubMenu = styled.li`
   width: 100%;
-  height: 56px;
+  height: 45px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ff6636;
+  border-top: 1px solid #dbdbdb;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ReportSubMenu = styled.li`
+  width: 100%;
+  height: 45px;
   font-size: 16px;
   font-weight: 500;
   color: #ff6636;
@@ -105,12 +116,14 @@ export const SecondSubMenu = styled.li`
 
 export const WrapperContents = styled.div`
   width: 390px;
-  height: calc(100vh - 179px);
+  height: ${(props) =>
+    props.active ? "calc(100vh - 219px)" : "calc(100vh - 179px)"};
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
+  overflow-x: hidden;
   overflow-y: auto;
   background-color: white;
   padding-bottom: 10px;
@@ -120,6 +133,14 @@ export const WrapperContents = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: ${(props) =>
+      props.active
+        ? "calc(100vh - 219px - 60px)"
+        : "calc(100vh - 179px - 60px)"};
+  }
 `;
 
 export const UserContainer = styled.div`
@@ -134,6 +155,17 @@ export const UserContainer = styled.div`
 export const UserPhoto = styled.div`
   width: 40px;
   height: 40px;
+`;
+
+export const CircularImage = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 `;
 
 export const UserInfoBlock = styled.div`
@@ -156,7 +188,7 @@ export const UpdatedTime = styled.div`
   margin-top: 3px;
 `;
 
-export const BoardContainer = styled.div`
+export const CommunityContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -164,48 +196,107 @@ export const BoardContainer = styled.div`
   align-items: flex-start;
 `;
 
-export const BoardTitle = styled.div`
-  width: 90%;
+export const CommunityTitle = styled.div`
+  width: 340px;
   font-size: 20px;
   font-weight: 600;
   margin-top: 22px;
   margin-left: 25px;
 `;
 
-export const BoardText = styled.div`
-  width: 80%;
+export const CommunityText = styled.div`
+  width: 340px;
   margin-top: 12px;
   margin-left: 25px;
   font-size: 16px;
   font-weight: 400;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
-export const BoardImgBlock = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  overflow-x: auto;
+export const CommunityImgBlock = styled.div`
+  width: 390px;
   margin-top: 20px;
-  margin-left: 25px;
+  margin-bottom: 35px;
 
-  /* 스크롤 바 숨기기 */
-  ::-webkit-scrollbar {
-    display: none;
+  .slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  scrollbar-width: none; /* Firefox */
+
+  .slick-center {
+    opacity: 1;
+  }
+
+  .slick-prev,
+  .slick-next {
+    display: none !important; // 화살표 버튼을 숨깁니다.
+  }
+
+  .slick-dots li {
+    margin: 0;
+  }
+
+  .slick-dots li button:before {
+    font-size: 10px;
+    color: #aaa; /* 기본 점 색상 */
+    border-radius: 50%;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: #555; /* 활성 점 색상 */
+  }
+
+  .slick-track {
+    margin-left: ${(props) => (props.imageCount > 1 ? "-67px" : "0px")};
+  }
 `;
 
-export const BoardImg = styled.div`
+export const CommunityImgItem = styled.div`
   width: 224px;
   height: 197px;
-  border-radius: 20px;
-  margin-right: 20px;
   flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    div {
+      visibility: visible;
+    }
+  }
 `;
 
-export const BoardInfoBlock = styled.div`
+export const CommunityImg = styled(Image)`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+`;
+
+export const ZoomIconBlock = styled.div`
+  width: 35px;
+  height: 35px;
+  font-size: 17px;
+  color: #eee;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  visibility: hidden;
+  position: absolute;
+  top: 147px;
+  left: 177px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CommunityInfoBlock = styled.div`
   width: 200px;
   height: 20px;
   line-height: 20px;
@@ -215,418 +306,165 @@ export const BoardInfoBlock = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-left: 25px;
   gap: 12px;
 `;
 
-export const BoardLikes = styled.div`
+export const CommunityLikes = styled.div`
   height: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
+  font-family: "Roboto", sans-serif;
+
+  .fa-heart {
+    font-size: 23px;
+    color: ${(props) => (props.isLiked ? "#FF5353" : "#9C9C9C")};
+    cursor: ${(props) => (props.isMine ? "not-allowed" : "pointer")};
+  }
 `;
 
-export const BoardComments = styled.div`
+export const CommunityComments = styled.div`
   height: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
+  font-family: "Roboto", sans-serif;
 `;
 
-export const BoardShare = styled.div`
+export const CommunityShare = styled.div`
   height: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
+  font-family: "Roboto", sans-serif;
 `;
 
-export const BoardAdBanner = styled.div`
+export const CommunityAdBanner = styled.div`
   width: 390px;
-  height: 60px;
-  margin-top: 40px;
-`;
-
-export const CommentContainer = styled.div`
-  width: 390px;
-  height: auto;
-  position: relative;
-  z-index: 0;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  flex-shrink: 0;
-`;
-
-export const Comments = styled.div`
-  margin-top: 25px;
-  width: 344px;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  flex-shrink: 0;
-`;
-
-export const CommentBlock = styled.div`
-  width: 100%; /*344px*/
-  height: auto;
-`;
-
-export const UserInfoItems = styled.div`
-  width: 100%; /*344px*/
-  height: 40px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-shrink: 0;
-`;
-
-export const UserImgbox = styled.div`
-  width: 40px;
-  height: 40px;
-`;
-
-export const CommentUser = styled.div`
-  width: 296px;
-  height: 40px;
-  margin-left: 8px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  flex-shrink: 0;
-`;
-
-export const UserName = styled.div`
-  width: 304px;
-  height: 20px;
-  font-size: 14px;
-  font-weight: bold;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-shrink: 0;
-`;
-
-export const CommentTime = styled.div`
-  width: 304px;
-  height: 20px;
-  font-size: 12px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  flex-shrink: 0;
-`;
-
-export const CommentText = styled.div`
-  width: 100%; /*344px*/
-  height: auto;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-shrink: 0;
-`;
-
-export const Name = styled.span`
-  width: auto;
-  height: auto;
-  font-size: 16px;
-  font-weight: 500;
-  color: #1f507d;
-`;
-
-export const Comment = styled.p`
-  width: 265px;
-  height: auto;
-  font-size: 16px;
-  font-weight: 500;
-  word-wrap: break-word;
-  letter-spacing: -0.5px;
-
-  margin-left: 48px;
-  padding-top: 6px;
-`;
-
-export const CommentMenuImg = styled.div`
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-`;
-
-export const LikeBlock = styled.div`
-  margin-top: 3px;
-  width: 230px; /*344px*/
-  height: 30px;
-  position: relative;
-  z-index: 1;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-shrink: 0;
-`;
-
-export const LikeImg = styled.div`
-  width: 30px;
-  height: 30px;
-  margin-left: 48px;
-  cursor: pointer;
-`;
-
-export const LikeText = styled.p`
-  width: 14px;
-  height: 14px;
-  font-size: 15px;
-  letter-spacing: -0.4px;
-  margin-left: 5px;
-
-  padding-top: 1px;
-`;
-
-export const AddReplyText = styled.p`
-  width: 44px;
-  height: 14px;
-  font-size: 12px;
-  letter-spacing: -0.4px;
-  margin-left: 5px;
-  cursor: pointer;
-
-  padding-top: 3px;
-`;
-
-export const ReplyBlock = styled.div`
+  height: 73px;
   margin-top: 20px;
-  width: 296px;
-  height: auto;
-`;
 
-export const ReplyUser = styled.div`
-  width: 256px;
-  height: 40px;
-  padding-left: 8px;
-`;
-
-export const Reply = styled.p`
-  width: 215px;
-  height: auto;
-  font-size: 16px;
-  font-weight: 500;
-  word-wrap: break-word;
-  letter-spacing: -0.5px;
-
-  margin-left: 48px;
-  padding-top: 6px;
-`;
-
-export const ReplyMenuImg = styled.div`
-  width: 30px;
-  height: 30px;
-
-  cursor: pointer;
-`;
-
-/*답글 달기 판단여부가 사실 일 때 div*/
-export const ToReplyBlock = styled.div`
-  width: 390px;
-  height: 40px;
-  flex-shrink: 0;
-  font-size: 16px;
-  background-color: white;
-  color: #888888;
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-`;
-
-export const ToReply = styled.p`
-  width: 95%;
-  height: 100%;
-  background-color: #f6f6f6;
-  flex-shrink: 0;
-  padding-left: 15px;
-  font-weight: 500;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
-export const ToReplyClose = styled.p`
-  width: 5%;
-  height: 100%;
-  background-color: #f6f6f6;
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-/*답글 클릭여부가 거짓일 때 div*/
-export const Blank = styled.div`
-  width: 390px;
-  height: 40px;
-  background-color: white;
-  margin: 0 auto;
-  flex-shrink: 0;
-`;
-
-/*답글을 쓰는 컨테이너*/
-export const AddCommentContainer = styled.div`
-  width: 390px;
-  height: 84px;
-  margin: 0 auto;
-  background-color: white;
-  border-top: 1px solid #dbdbdb;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-export const AddCommentBlock = styled.div`
-  width: 344px;
-  height: 44px;
-  margin-top: 8px;
-
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-
-  position: relative;
-`;
-
-export const OpenMenu = styled.div`
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: #ff6636;
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const CommentInput = styled.input`
-  width: 232px;
-  height: 44px;
-  border: none;
-  border-radius: 22px;
-  background-color: #f6f6f6;
-  padding-left: 15px;
-
-  :focus {
-    outline: none;
+  .slick-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  ::placeholder {
-    color: #888888;
-    font-size: 14px;
+  .slick-center {
+    opacity: 1;
+  }
+
+  .slick-prev,
+  .slick-next {
+    display: none !important; // 화살표 버튼을 숨깁니다.
+  }
+
+  .slick-track {
+    margin-left: 0;
   }
 `;
 
-export const AddComment = styled.div`
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: #240d05;
-  cursor: pointer;
+export const StyledAdBannerImage = styled(Image)`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;
 
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 `;
 
-export const ArrowBlock = styled.div`
-  width: 13px;
-  height: 13px;
-  border-top: 2px solid white;
-  border-right: 2px solid white;
-  transform: rotate(45deg);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ArrowLine = styled.div`
-  width: 15px;
-  height: 2px;
-  border: 1px solid white;
-  background-color: white;
-
-  position: absolute;
-  right: 15px;
-`;
-
-export const MenuBlock = styled.div`
-  width: 110px;
-  height: 70px;
+export const ModalContent = styled.div`
+  background: white;
+  padding: 15px;
   border-radius: 10px;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  font-size: 15px;
-  right: 80px;
 
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.1);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  img {
+    width: 360px;
+    max-height: 80%;
+    border-radius: 10px;
+    object-fit: contain;
+  }
 `;
 
-export const Edit = styled.p`
-  width: 100%;
-  height: 56px;
-  font-weight: 500;
-  color: black;
-
+export const PrevBtn = styled.div`
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 30px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  top: calc(50% - 30px);
+  left: 25px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
 `;
 
-export const Delete = styled.p`
-  width: 100%;
-  height: 56px;
-  font-weight: 500;
-  color: #ff6636;
-
+export const NextBtn = styled.div`
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 30px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  top: calc(50% - 30px);
+  right: 25px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const PhotoIndexBlock = styled.div`
+  width: 60px;
+  padding: 5px 12px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  text-align: center;
+  position: absolute;
+  bottom: 25px;
+  left: calc(50% - 30px);
 `;

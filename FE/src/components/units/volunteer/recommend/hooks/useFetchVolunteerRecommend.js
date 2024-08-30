@@ -1,23 +1,29 @@
 import { useState, useEffect } from "react";
-import useFetchVolunteer from "../../hooks/useFetchVolunteer"; // 위에서 정의한 훅
+import { volunteerLike } from "../../Volunteer.quries";
 
-export default function useFetchVolunteerRecommend() {
-  const { volunteerInfos } = useFetchVolunteer();
-  const [volunteerRecommendInfos, setVolunteerRecommendInfos] = useState([]);
+export default function useFetchVolunteerRecommend(recommendVolunteer) {
+  const [volunteerRecommendInfos, setVolunteerRecommendInfos] = useState(recommendVolunteer);
 
-  useEffect(() => {
-    console.log("volunteerRecommend data : ", volunteerInfos);
-    if (volunteerInfos && volunteerInfos.recommendGroups) {
-      setVolunteerRecommendInfos(volunteerInfos.recommendGroups);
+  const handleToggleLike = async (recommendID) => {
+    try {
+      const data = await volunteerLike(recommendID);
+      if (data.success) {
+        setVolunteerRecommendInfos((currentVolunteer) => {
+          const updatedVolunteer = currentVolunteer.map((recommendGroups) =>
+            recommendGroups.id === recommendID
+              ? { 
+                  ...recommendGroups, 
+                  isLike: !recommendGroups.isLike, // 현재 상태를 반전
+                  likeNum: recommendGroups.isLike ? recommendGroups.likeNum - 1 : recommendGroups.likeNum + 1 // 현재 상태에 따라 likeNum 조정
+                }
+              : recommendGroups
+          );
+          return [...updatedVolunteer]; // 새로운 배열 반환
+        });
+      }
+    } catch (error) {
+      console.log("volunteer Like failed: ", error);
     }
-  }, [volunteerInfos]);
-
-  const handleToggleLike = (recommendId) => {
-    setVolunteerRecommendInfos((currentVolunteer) =>
-      currentVolunteer.map((recommend) =>
-        recommend.id === recommendId ? { ...recommend, isLike: !recommend.isLike } : recommend
-      )
-    );
   };
 
   return {

@@ -18,6 +18,11 @@ export const WrapperContents = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 179px - 60px);
+  }
 `;
 
 export const MapDisplay = styled.div`
@@ -26,6 +31,13 @@ export const MapDisplay = styled.div`
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   z-index: 0;
+
+  .gm-style,
+  .gm-style * {
+    border: none !important;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+  }
 `;
 
 export const ShelterInfoContainer = styled.div`

@@ -1,0 +1,15 @@
+{
+  "name": "ForPaw",
+  "short_name": "ForPaw",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/forpaw.svg",
+      "sizes": "54x42",
+      "type": "image/svg"
+    }
+  ]
+}

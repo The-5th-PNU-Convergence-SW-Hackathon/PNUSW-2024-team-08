@@ -19,6 +19,11 @@ export const WrapperContents = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 334px - 60px);
+  }
 `;
 
 export const AddressInput = styled.input`
@@ -103,6 +108,13 @@ export const MapDisplay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 0;
+
+  .gm-style,
+  .gm-style * {
+    border: none !important;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+  }
 `;
 
 const loading = keyframes`
@@ -148,6 +160,9 @@ export const MapInfoDragBlock = styled.div`
 
   :hover {
     cursor: pointer;
+    #map-info-drag-icon {
+      border-bottom: 3px solid #555;
+    }
   }
 `;
 

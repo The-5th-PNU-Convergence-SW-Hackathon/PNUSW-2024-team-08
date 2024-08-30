@@ -13,7 +13,7 @@ export default function CommunityHandlerUI(props) {
             }
             active={props.isActive(props.paths.adoption)}
           >
-            입양스토리
+            입양 스토리
           </S.CommunityMenu>
           <S.CommunityMenu
             onClick={

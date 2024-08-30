@@ -17,6 +17,11 @@ export const WrapperContents = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 179px - 60px);
+  }
 `;
 
 export const ChattingTextContainer = styled.div`
@@ -114,8 +119,8 @@ export const ChattingDate = styled.div`
   font-weight: 600;
   color: #828282;
   position: absolute;
-  top: 2px;
-  left: 155px;
+  top: 1px;
+  right: 15px;
 `;
 
 export const ChattingContent = styled.div`

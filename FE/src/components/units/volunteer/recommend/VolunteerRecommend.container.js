@@ -8,13 +8,14 @@ import { useNavigate } from "../../../commons/hooks/useNavigate";
 import useRequireLogin from "../../../../../src/components/commons/hooks/useRequireLogin";
 import useModalStore from "../../../../store/useModalStore";
 
-export default function VolunteerRecommend({ isSSRLoggedIn }) {
+export default function VolunteerRecommend({ isSSRLoggedIn, profileURL, recommendVolunteer }) {
   console.log("volunteer recommend isSSRLoggedIn: ", isSSRLoggedIn);
+  console.log(recommendVolunteer);
 
   const { openModal } = useModalStore()
   const { navigateTo } = useNavigate();
 
-  const { volunteerRecommendInfos, handleToggleLike } = useFetchVolunteerRecommend();
+  const { volunteerRecommendInfos, handleToggleLike } = useFetchVolunteerRecommend(recommendVolunteer);
   const handleRequireModal = useRequireLogin(isSSRLoggedIn);
 
   const handleToggleClick = (volunteerId) => {
@@ -27,7 +28,7 @@ export default function VolunteerRecommend({ isSSRLoggedIn }) {
 
   return (
     <>
-      <Headers isSSRLoggedIn={isSSRLoggedIn}/>
+      <Headers isSSRLoggedIn={isSSRLoggedIn} profileURL={profileURL}/>
       <VolunteerHandler handleRequireModal={handleRequireModal} />
       <VolunteerRecommendUI
         navigateTo={navigateTo}
@@ -35,6 +36,7 @@ export default function VolunteerRecommend({ isSSRLoggedIn }) {
         findProvinceKo={findProvinceKo}
         findDistrictKo={findDistrictKo}
         handleToggleClick={handleToggleClick}
+        handleRequireModal={handleRequireModal}
       />
       <Navigation handleRequireModal={handleRequireModal} />
     </>

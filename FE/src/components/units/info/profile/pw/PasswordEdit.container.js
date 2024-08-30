@@ -3,6 +3,7 @@ import PasswordEditUI from "./PasswordEdit.presenter";
 import { useCurrentPasswordCheck } from "./hooks/useCurrentPasswordCheck";
 import { useNewPasswordCheck } from "./hooks/useNewPasswordCheck";
 import { useUpdatePassword } from "./hooks/useUpdateNewPassword";
+import { useNavigate } from "../../../../../../src/components/commons/hooks/useNavigate";
 
 export default function PasswordEdit() {
   const router = useRouter();
@@ -34,9 +35,7 @@ export default function PasswordEdit() {
     isPasswordMatching
   );
 
-  const navigateBack = () => {
-    router.back();
-  };
+  const { navigateTo } = useNavigate();
 
   return (
     <PasswordEditUI
@@ -53,7 +52,7 @@ export default function PasswordEdit() {
       handleNewPasswordChange={handleNewPasswordChange}
       handleConfirmPasswordChange={handleConfirmPasswordChange}
       updatePasswords={updatePasswords}
-      navigateBack={navigateBack}
+      navigateTo={navigateTo}
     />
   );
 }

@@ -11,10 +11,20 @@ export default function ProfileEditPage({ isSSRLoggedIn, profileData }) {
 export async function getServerSideProps(context) {
   try {
     console.log("getServerSideProps called for /info/profile/edit");
-
     const authResult = await checkAuth(context);
     console.log("authResult in /info/profile/edit:", authResult);
+    const { isSSRLoggedIn, profileURL } = authResult.props;
     const accessToken = context.req.cookies.accessToken;
+
+    if (!isSSRLoggedIn) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
+
     let profileData = null;
 
     if (authResult.props.isSSRLoggedIn && accessToken) {
@@ -24,7 +34,8 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
-        ...authResult.props,
+        isSSRLoggedIn,
+        profileURL,
         profileData,
       },
     };
