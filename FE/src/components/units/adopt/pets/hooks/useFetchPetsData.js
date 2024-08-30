@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   fetchPetsDataWithAuth,
   fetchPetsDataWithoutAuth,
@@ -7,60 +7,69 @@ import useLikeToggle from "../../../../../../src/components/commons/hooks/useLik
 
 export default function useFetchPetsData(isSSRLoggedIn) {
   const [pets, setPets] = useState([]);
+  const [isLastPage, setIsLastPage] = useState(false);
+  const [loadedImages, setLoadedImages] = useState([]);
   const [sort, setSort] = useState("date");
-  const handleToggleLike = useLikeToggle(isSSRLoggedIn); // useLikeToggle 훅 사용
+  const [loading, setLoading] = useState(false);
+  const [loadingSkeleton, setLoadingSkeleton] = useState(false);
+  const handleToggleLike = useLikeToggle(isSSRLoggedIn);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const loadInitialPets = async () => {
-        const page = getPageNumber(sort);
-        let initialPets = [];
-        for (let i = 0; i <= page; i++) {
-          const fetchedPetsData = isSSRLoggedIn
-            ? await fetchPetsDataWithAuth(i, sort)
-            : await fetchPetsDataWithoutAuth(i, sort);
-          if (fetchedPetsData) {
-            initialPets = [...initialPets, ...fetchedPetsData];
-          }
+    const loadInitialPets = async () => {
+      setLoading(true);
+      setLoadingSkeleton(true);
+      const page = getPageNumber(sort);
+      setPets([]); // 기존 데이터를 초기화
+      setLoadedImages([]); // 기존 이미지 로드 상태 초기화
+
+      for (let i = 0; i <= page; i++) {
+        const fetchedPetsData = isSSRLoggedIn
+          ? await fetchPetsDataWithAuth(i, sort)
+          : await fetchPetsDataWithoutAuth(i, sort);
+
+        if (fetchedPetsData) {
+          setPets((prevPets) => [...prevPets, ...fetchedPetsData.animals]);
+          setLoadedImages((prevImages) => [
+            ...prevImages,
+            ...Array(fetchedPetsData.animals.length).fill(false),
+          ]);
+          setIsLastPage(fetchedPetsData.isLastPage);
+          setLoadingSkeleton(false);
         }
+      }
+      setLoading(false);
+    };
 
-        setPets(initialPets);
-      };
-
-      console.log(
-        `${sort}Page = `,
-        parseInt(sessionStorage.getItem(`${sort}Page`), 10)
-      );
-
-      setPets([]);
-      loadInitialPets();
-    }
+    loadInitialPets();
   }, [sort, isSSRLoggedIn]);
 
   const getPageNumber = (sort) => {
-    if (typeof window !== "undefined") {
-      const page = parseInt(sessionStorage.getItem(`${sort}Page`), 10);
-      return isNaN(page) ? 0 : page;
-    }
-    return 0;
+    const page = parseInt(sessionStorage.getItem(`${sort}Page`), 10);
+    return isNaN(page) ? 0 : page;
   };
 
   const setPageNumber = (sort, page) => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem(`${sort}Page`, page.toString());
-    }
+    sessionStorage.setItem(`${sort}Page`, page.toString());
   };
 
-  const loadPetsData = async (sort, page) => {
+  const loadPetsData = async (page, sort) => {
+    setLoading(true);
     const fetchedPetsData = isSSRLoggedIn
       ? await fetchPetsDataWithAuth(page, sort)
       : await fetchPetsDataWithoutAuth(page, sort);
     if (fetchedPetsData) {
-      const updatedPetsData = [...pets, ...fetchedPetsData];
-
-      setPets(updatedPetsData);
+      setPets((prevPets) => {
+        const updatedPets = [...prevPets, ...fetchedPetsData.animals];
+        return updatedPets;
+      });
+      setIsLastPage(fetchedPetsData.isLastPage);
+      setLoadedImages((prev) => [
+        ...prev,
+        ...Array(fetchedPetsData.animals.length).fill(false),
+      ]);
       setPageNumber(sort, page);
     }
+    setLoading(false);
   };
 
   const handleToggleLikeWrapper = async (petData) => {
@@ -74,16 +83,30 @@ export default function useFetchPetsData(isSSRLoggedIn) {
     }
   };
 
-  const handleLoadPetsData = async () => {
+  const handleLoadPetsData = useCallback(async () => {
     const page = getPageNumber(sort) + 1;
-    await loadPetsData(sort, page);
+    await loadPetsData(page, sort);
+  }, [sort]);
+
+  const handleImageLoad = (index) => {
+    setLoadedImages((prev) => {
+      const updatedLoadedImages = [...prev];
+      updatedLoadedImages[index] = true;
+      return updatedLoadedImages;
+    });
   };
 
   return {
     pets,
+    isLastPage,
+    loadedImages,
+    setLoadedImages,
+    handleImageLoad,
     handleToggleLike: handleToggleLikeWrapper,
     handleLoadPetsData,
     sort,
     setSort,
+    loading,
+    loadingSkeleton,
   };
 }

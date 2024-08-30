@@ -63,6 +63,16 @@ export const ProfileIconContainer = styled.div`
   }
 `;
 
+export const CircleImage = styled.div`
+  border-radius: 50%;
+  overflow: hidden;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const HeaderLogo = styled.div`
   width: 100%;
   height: 40px;

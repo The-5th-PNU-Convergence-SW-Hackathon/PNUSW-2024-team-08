@@ -1,94 +1,37 @@
-import { useEffect, useState } from "react";
-import { fetchAdoptionList } from "../CommunityAdoption.queries";
-
-const example = {
-  success: true,
-  code: 200,
-  message: "ok",
-  result: {
-    adoptions: [
-      {
-        id: 23,
-        name: "김동영",
-        title: "진도개 입양 후기 올립니다~",
-        content: "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-03-28T14:30",
-        commentNum: 3,
-        likeNum: 5,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 24,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 25,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 26,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 27,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-    ],
-  },
-};
+import { useEffect, useState, useCallback } from "react";
+import {
+  fetchAdoptionList,
+  fetchPopularAdoptionList,
+} from "../CommunityAdoption.queries";
 
 export default function useFetchAdoptionList() {
   const [adoptions, setAdoptions] = useState([]);
-  const [sort, setSort] = useState("likeNum");
+  const [isLastPage, setIsLastPage] = useState(false);
+  const [sort, setSort] = useState("newest");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const loadInitialAdoptions = async () => {
+        setLoading(true);
         const page = getPageNumber(sort);
-        let initialAdoptions = [];
+        setAdoptions([]);
         for (let i = 0; i <= page; i++) {
-          const fetchedAdoptions = await fetchAdoptionList(i, sort);
+          const fetchedAdoptions =
+            sort === "newest"
+              ? await fetchAdoptionList(i)
+              : await fetchPopularAdoptionList(i);
           if (fetchedAdoptions) {
-            initialAdoptions = [...initialAdoptions, ...fetchedAdoptions];
+            setAdoptions((prevAdoptions) => [
+              ...prevAdoptions,
+              ...fetchedAdoptions.posts,
+            ]);
+            setIsLastPage(fetchedAdoptions.isLastPage);
           }
         }
-
-        setAdoptions(initialAdoptions);
+        setLoading(false);
       };
-      console.log(
-        `${sort}AdoptionPage = `,
-        parseInt(sessionStorage.getItem(`${sort}AdoptionPage`), 10)
-      );
 
-      setAdoptions([]);
       loadInitialAdoptions();
     }
   }, [sort]);
@@ -108,19 +51,26 @@ export default function useFetchAdoptionList() {
   };
 
   const loadAdoptions = async (page, sort) => {
-    const fetchedAdoptions = await fetchAdoptionList(page, sort);
+    setLoading(true);
+    const fetchedAdoptions =
+      sort === "newest"
+        ? await fetchAdoptionList(page)
+        : await fetchPopularAdoptionList(page);
     if (fetchedAdoptions) {
-      const updatedAdoptions = [...adoptions, ...fetchedAdoptions];
-
-      setAdoptions(updatedAdoptions);
+      setAdoptions((prevAdoptions) => [
+        ...prevAdoptions,
+        ...fetchedAdoptions.posts,
+      ]);
+      setIsLastPage(fetchedAdoptions.isLastPage);
       setPageNumber(sort, page);
     }
+    setLoading(false);
   };
 
-  const handleLoadAdoptions = async () => {
+  const handleLoadAdoptions = useCallback(async () => {
     const page = getPageNumber(sort) + 1;
-    await loadAdoptions(sort, page);
-  };
+    await loadAdoptions(page, sort);
+  }, [sort]);
 
-  return { adoptions, handleLoadAdoptions, sort, setSort };
+  return { adoptions, isLastPage, handleLoadAdoptions, sort, setSort, loading };
 }

@@ -1,104 +1,172 @@
-import Navigation from "../../../../../src/components/commons/navigation/Navigation.container";
 import CommunityDetailUI from "./CommunityDetail.presenter";
 import { useNavigate } from "../../../../../src/components/commons/hooks/useNavigate";
-import { useEffect, useRef, useState } from "react";
-import { useComment } from "./hooks/useComment";
-import LikeImage from "./hooks/LikeImage";
+import useMenuToggle from "../../../../../src/components/commons/hooks/useMenuToggle";
+import { useComment } from "../../../../../src/components/commons/comment/hooks/useComment";
+import { useFormatDateTime } from "../../../units/volunteer/hooks/useFormat";
+import { usePhotoModal } from "../../../../../src/components/commons/hooks/usePhotoModal";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/router";
+import { useCommunityDelete } from "./hooks/useCommunityDelete";
+import { useCommunityLike } from "./hooks/useCommunityLike";
+import { useRequestReport } from "../reportModal/hooks/useRequestReport";
+import ReportModalUI from "../reportModal/ReportModal.presenter";
+import ResultModalUI from "../../../../../src/components/commons/resultModal/ResultModal.presenter";
 
-export default function CommunityDetail() {
+export default function CommunityDetail({
+  isSSRLoggedIn,
+  profileURL,
+  communityDetailData,
+  profileData,
+  communityId,
+}) {
+  console.log("communityDetailData: ", communityDetailData);
+  console.log("profileData: ", profileData);
+  console.log("communityId: ", communityId);
+
   const router = useRouter();
-  const { id } = router.query;
-  console.log(id);
-  const { navigateTo, navigateBack } = useNavigate();
-  const [isMenuClicked, setIsMenuClicked] = useState(false);
-  const headerMenuRef = useRef(null);
+  const { type } = router.query;
+  const { isMenuClicked, handleMenuClick, menuRefs } = useMenuToggle(1);
 
-  //매뉴를 눌렀을 때 메뉴창이 나오도록 하는 기능 (헤더 컴포넌트에 넘겨줄값이다.)
-  const handleHeaderMenuClick = () => {
-    if (isMenuClicked) setIsMenuClicked(false);
-    else setIsMenuClicked(true);
+  const getSliderSettings = (imageCount) => {
+    return {
+      dots: imageCount > 1 ? true : false,
+      infinite: imageCount > 1,
+      centerMode: imageCount > 1,
+      centerPadding: imageCount > 1 ? "75px" : "0px",
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      speed: 500,
+    };
   };
 
-  useEffect(() => {
-    // 외부 클릭을 감지하는 함수
-    function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        // 메뉴창 닫기
-        setIsMenuClicked(false);
-      }
-    }
-
-    // 이벤트 리스너 등록
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []); // 빈 배열을 넘겨 컴포넌트 마운트 시에만 실행되도록 함
+  const AdBannerSliderSettings = {
+    dots: false,
+    infinite: true,
+    // centerMode: true,
+    // centerPadding: "0px",
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    speed: 500,
+  };
 
   const {
-    handleCommentLikeClick,
-    handleReplyLikeClick,
-    noticeInfos,
-    isCommentMenuClicked,
-    clickedCommentID,
-    isReplyMenuClicked,
-    clickedReplyID,
-    wrapperRef,
-    handleMenuClick,
-    focus,
+    communityDeleteResult,
+    handleCommunityDelete,
+    handleCommunityDeleteResult,
+    resultModalText,
+  } = useCommunityDelete(type);
+
+  const {
+    isPhotoModalOpen,
+    openPhotoModal,
+    closePhotoModal,
+    currentIndex,
+    photosModal,
+    handleNext,
+    handlePrev,
+    photoModalHandlers,
+  } = usePhotoModal();
+
+  const { isLiked, likeNum, toggleLikeButton } = useCommunityLike(
+    communityId,
+    communityDetailData.isLike,
+    communityDetailData.likeNum
+  );
+
+  const {
     comments,
-    content,
-    isActiveComment,
-    handleContentValue,
-    name,
-    isClickedReply,
-    activeReply,
-    isClickedEdit,
-    activeCommentEdit,
-    isClickedReplyEdit,
-    activeReplyEdit,
-    handleContentSubmit,
-    handleJudegeXClick,
-    handleDelete,
-  } = useComment();
+    replyingToId,
+    replyingToName,
+    editingContent,
+    isEditing,
+    editingId,
+    addComment,
+    handleReplyClick,
+    handleEditClick,
+    handleCancelReply,
+    editComment,
+    addReply,
+    deleteComment,
+    deleteReply,
+    handleCommentToggleLike,
+    handleReplyToggleLike,
+  } = useComment(communityDetailData.comments, profileData, communityId);
+
+  const {
+    isModalOpen,
+    selectedReportType,
+    reportOptions,
+    handleReportSelect,
+    handleOpen,
+    handleClose,
+    handleOutsideClick,
+    handleRequestReport,
+  } = useRequestReport();
+
+  const { navigateTo, navigateBack } = useNavigate();
+
   return (
     <>
       <CommunityDetailUI
-        headerMenuRef={headerMenuRef}
         isMenuClicked={isMenuClicked}
-        handleHeaderMenuClick={handleHeaderMenuClick}
+        handleMenuClick={handleMenuClick}
+        menuRefs={menuRefs}
+        handleOpen={handleOpen}
+        communityId={communityId}
+        type={type}
+        communityDetailData={communityDetailData}
+        useFormatDateTime={useFormatDateTime}
+        getSliderSettings={getSliderSettings}
+        AdBannerSliderSettings={AdBannerSliderSettings}
+        handleCommunityDelete={handleCommunityDelete}
+        isPhotoModalOpen={isPhotoModalOpen}
+        openPhotoModal={openPhotoModal}
+        closePhotoModal={closePhotoModal}
+        currentIndex={currentIndex}
+        photosModal={photosModal}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+        photoModalHandlers={photoModalHandlers}
+        isLiked={isLiked}
+        likeNum={likeNum}
+        toggleLikeButton={toggleLikeButton}
+        comments={comments}
+        addComment={addComment}
+        addReply={addReply}
+        deleteComment={deleteComment}
+        deleteReply={deleteReply}
+        handleReplyClick={handleReplyClick}
+        handleEditClick={handleEditClick}
+        handleCancelReply={handleCancelReply}
+        editComment={editComment}
+        replyingToId={replyingToId}
+        replyingToName={replyingToName}
+        editingContent={editingContent}
+        isEditing={isEditing}
+        editingId={editingId}
+        profileData={profileData}
+        handleCommentToggleLike={handleCommentToggleLike}
+        handleReplyToggleLike={handleReplyToggleLike}
         navigateTo={navigateTo}
         navigateBack={navigateBack}
-        handleCommentLikeClick={handleCommentLikeClick}
-        handleReplyLikeClick={handleReplyLikeClick}
-        noticeInfos={noticeInfos}
-        LikeImage={LikeImage} //좋아요 버튼을 위한 컴포넌트
-        wrapperRef={wrapperRef} //메뉴창 내/외부 판단
-        handleMenuClick={handleMenuClick} //댓글 or 답글 메뉴 판단
-        isCommentMenuClicked={isCommentMenuClicked} //댓글 메뉴 true
-        clickedCommentID={clickedCommentID} //클릭한 된 댓들 id취득
-        isReplyMenuClicked={isReplyMenuClicked} //답글 메뉴 true
-        clickedReplyID={clickedReplyID} //클릭한 닷글 id취득
-        focus={focus} //input태그에 항상 focus를 유지
-        comments={comments} //댓글이나 답글을 담아둘 배열
-        content={content} //input에 있는 댓글
-        isActiveComment={isActiveComment}
-        handleContentValue={handleContentValue} //댓글 텍스트를 받아오는 값
-        handleContentSubmit={handleContentSubmit} //댓글을 등록하기 위한 기능
-        isClickedReply={isClickedReply} //답글 달기를 눌렀는지를 판단하는 변수
-        activeReply={activeReply} //답글 모드 활성화
-        isClickedEdit={isClickedEdit} //수정하기를 클릭하였는지 판단
-        activeCommentEdit={activeCommentEdit}
-        isClickedReplyEdit={isClickedReplyEdit} //답글 수정하기를 눌렀는가 판단
-        activeReplyEdit={activeReplyEdit}
-        handleJudegeXClick={handleJudegeXClick}
-        handleDelete={handleDelete} //댓글 삭제 기능
-        name={name}
       />
-      <Navigation />
+      <ResultModalUI
+        modalText={resultModalText}
+        isModalOpen={communityDeleteResult}
+        handleConfrimBtn={handleCommunityDeleteResult}
+      />
+      <ReportModalUI
+        isModalOpen={isModalOpen}
+        selectedReportType={selectedReportType}
+        handleReportSelect={handleReportSelect}
+        reportOptions={reportOptions}
+        handleClose={handleClose}
+        handleOutsideClick={handleOutsideClick}
+        handleRequestReport={handleRequestReport}
+      />
     </>
   );
 }

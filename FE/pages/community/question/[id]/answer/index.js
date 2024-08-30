@@ -10,8 +10,25 @@ export default function QuestionAnswerPage({ isSSRLoggedIn }) {
 }
 
 export async function getServerSideProps(context) {
-  console.log("getServerSideProps called for /adopt/pets");
+  console.log("getServerSideProps called for /community/question/[id]/answer");
   const authResult = await checkAuth(context);
-  console.log("getServerSideProps authResult for /adopt/pets:", authResult);
-  return authResult;
+  console.log("authResult in /community/question/[id]/answer:", authResult);
+
+  const { isSSRLoggedIn, profileURL } = authResult.props;
+
+  if (!isSSRLoggedIn) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      isSSRLoggedIn,
+      profileURL,
+    },
+  };
 }

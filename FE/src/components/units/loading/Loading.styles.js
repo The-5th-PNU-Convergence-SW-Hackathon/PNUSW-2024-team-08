@@ -6,6 +6,11 @@ export const WrapperLoading = styled.div`
   background-color: #ff6636;
   margin: 0px auto;
   position: relative;
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 60px);
+  }
 `;
 
 export const BlurryElement = styled.div`

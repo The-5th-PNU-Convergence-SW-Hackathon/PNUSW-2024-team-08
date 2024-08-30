@@ -28,6 +28,9 @@ export async function getServerSideProps(context) {
     const authResult = await checkAuth(context);
     console.log("authResult in /adopt/[id]:", authResult);
     const accessToken = context.req.cookies.accessToken;
+
+    const { isSSRLoggedIn, profileURL } = authResult.props;
+
     let petDetailData = null;
 
     if (authResult.props.isSSRLoggedIn && accessToken) {
@@ -40,7 +43,8 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
-        ...authResult.props,
+        isSSRLoggedIn,
+        profileURL,
         petDetailData,
       },
     };
@@ -51,8 +55,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         isSSRLoggedIn: false,
+        profileURL: null,
         petDetailData: null,
-        error: "Failed to fetch pet details",
       },
     };
   }

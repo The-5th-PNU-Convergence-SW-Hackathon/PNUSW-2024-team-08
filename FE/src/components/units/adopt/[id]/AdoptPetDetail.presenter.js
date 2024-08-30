@@ -93,9 +93,7 @@ export default function AdoptPetDetailUI(props) {
         </S.PetAdoptionPeriod>
         <S.PetAdoptionButton
           onClick={() =>
-            props.handleRequireModal(
-              `/adopt/detail/inquire/${props.petDetail?.id}`
-            )
+            props.handleRequireModal(`/adopt/${props.petDetail?.id}/inquire`)
           }
         >
           입양 문의하기

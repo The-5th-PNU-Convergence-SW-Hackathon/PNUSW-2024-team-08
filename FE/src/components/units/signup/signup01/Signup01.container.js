@@ -1,15 +1,34 @@
-import SignUpUI01 from "./Signup01.presenter";
+import Signup01UI from "./Signup01.presenter";
 import { useUserName } from "./hooks/useUserName";
+import { useUserType } from "./hooks/useUserType";
 
-export default function SignUp01() {
-  const { name, handleNameValueChange, navigateTo } = useUserName();
+export default function Signup01() {
+  const { name, handleNameChange, navigateTo } = useUserName();
+  const {
+    selectedUserType,
+    handleUserTypeChange,
+    isUserDropdownOpen,
+    toggleDropdown,
+    isUserFocused,
+    isAgreed,
+    handleAgreedChange,
+    handledNextButton,
+  } = useUserType(name);
 
   return (
     <>
-      <SignUpUI01
+      <Signup01UI
         navigateTo={navigateTo}
         name={name}
-        handleNameValueChange={handleNameValueChange}
+        handleNameChange={handleNameChange}
+        selectedUserType={selectedUserType}
+        handleUserTypeChange={handleUserTypeChange}
+        isUserDropdownOpen={isUserDropdownOpen}
+        toggleDropdown={toggleDropdown}
+        isUserFocused={isUserFocused}
+        isAgreed={isAgreed}
+        handleAgreedChange={handleAgreedChange}
+        handledNextButton={handledNextButton}
       />
     </>
   );

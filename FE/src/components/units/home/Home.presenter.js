@@ -1,5 +1,7 @@
-import * as S from "./Home.styles";
+import React from "react";
+import Slider from "react-slick";
 import Image from "next/image";
+import * as S from "./Home.styles";
 
 export default function HomeUI(props) {
   return (
@@ -84,55 +86,69 @@ export default function HomeUI(props) {
           />
         </S.HomeTitleBlock>
         <S.AdoptPetBlock>
-          {props.homeData?.animals?.map((pet) => (
-            <S.AdoptPet
-              key={pet.id}
-              onClick={props.navigateTo(`/adopt/${pet.id}`)}
+          <Slider
+            {...props.getSliderSettings}
+            beforeChange={props.handleMouseDown}
+            afterChange={props.handleMouseUp(props.paths.adopt)}
+            onMouseMove={props.handleMouseMove}
+          >
+            {props.homeData?.animals?.map((pet, index) => (
+              <S.AdoptPet
+                key={pet.id}
+                onMouseDown={props.handleMouseDown}
+                onMouseMove={props.handleMouseMove}
+                onMouseUp={props.handleMouseUp(`/adopt/${pet.id}`)}
+              >
+                <S.PetImg
+                  src={pet.profileURL}
+                  alt="dog_1"
+                  width={254}
+                  height={254}
+                />
+                <S.AdoptInfoBlock>
+                  <S.AdoptNameGender>
+                    {pet.name}
+                    <Image
+                      src={
+                        pet.gender === "M"
+                          ? "/images/pets/male_icon.svg"
+                          : "/images/pets/female_icon.svg"
+                      }
+                      alt="gender_icon"
+                      width={17}
+                      height={17}
+                      priority
+                    />
+                  </S.AdoptNameGender>
+                  <S.AdoptBirthAddress>
+                    {pet.age.slice(0, 4)}년생{" "}
+                    {props.findProvinceKo(pet.region.split(" ")[0])}{" "}
+                    {props.findDistrictKo(pet.region.split(" ")[1])}
+                  </S.AdoptBirthAddress>
+                  <S.AdoptLikeBlock>
+                    <S.AdoptLike></S.AdoptLike>
+                    {pet.likeNum}
+                  </S.AdoptLikeBlock>
+                  <S.AdoptViewBlock>
+                    <S.AdoptView></S.AdoptView>
+                    {pet.inquiryNum}
+                  </S.AdoptViewBlock>
+                </S.AdoptInfoBlock>
+              </S.AdoptPet>
+            ))}
+            <S.AdoptArrow
+              onMouseDown={props.handleMouseDown}
+              onMouseMove={props.handleMouseMove}
+              onMouseUp={props.handleMouseUp(props.paths.adopt)}
             >
-              <S.PetImg
-                src={pet.profileURL}
-                alt="dog_1"
-                width={254}
-                height={254}
+              <Image
+                src="/images/home/arrow_right_adopt.svg"
+                alt="arrow_right_adopt"
+                width={87.51}
+                height={63.46}
               />
-              <S.AdoptInfoBlock>
-                <S.AdoptNameGender>
-                  {pet.name}
-                  <Image
-                    src={
-                      props.petDetail?.gender === "M"
-                        ? "/images/pets/male_icon.svg"
-                        : "/images/pets/female_icon.svg"
-                    }
-                    alt="male_icon"
-                    width={17}
-                    height={17}
-                  />
-                </S.AdoptNameGender>
-                <S.AdoptBirthAddress>
-                  {pet.age.slice(0, 4)}년생{" "}
-                  {props.findProvinceKo(pet.region.split(" ")[0])}{" "}
-                  {props.findDistrictKo(pet.region.split(" ")[1])}
-                </S.AdoptBirthAddress>
-                <S.AdoptLikeBlock>
-                  <S.AdoptLike></S.AdoptLike>
-                  {pet.likeNum}
-                </S.AdoptLikeBlock>
-                <S.AdoptViewBlock>
-                  <S.AdoptView></S.AdoptView>
-                  {pet.inquiryNum}
-                </S.AdoptViewBlock>
-              </S.AdoptInfoBlock>
-            </S.AdoptPet>
-          ))}
-          <S.AdoptArrow onClick={props.navigateTo(props.paths.adopt)}>
-            <Image
-              src="/images/home/arrow_right_adopt.svg"
-              alt="arrow_right_adopt"
-              width={87.51}
-              height={63.46}
-            />
-          </S.AdoptArrow>
+            </S.AdoptArrow>
+          </Slider>
         </S.AdoptPetBlock>
       </S.HomeContentsContainer>
       <S.HomeContentsContainer>
@@ -146,21 +162,32 @@ export default function HomeUI(props) {
             onClick={props.navigateTo(props.paths.volunteer)}
           />
         </S.HomeTitleBlock>
-        {props.homeData?.groups?.map((group) => (
+        {props.homeVolunteer?.slice(0, 3).map((group) => (
           <S.VolunteerBlock
             key={group.id}
-            onClick={props.navigateTo(`/volunteer/detail/${group.id}`)}
+            onClick={props.navigateTo(`/volunteer/${group.id}`)}
           >
             <S.VolunteerImg>
               <Image
-                src="/images/volunteer/volunteer_1.svg"
+                src={group.profileURL}
                 alt="volunteer_1"
                 width={324}
                 height={183}
+                objectFit="cover"
+                priority
               />
-              <S.VolunteerLikeBlock>
+              <S.VolunteerLikeBlock
+                onClick={(event) => {
+                  event.stopPropagation();
+                  props.handleToggleClick(group.id);
+                }}
+              >
                 <Image
-                  src="/images/volunteer/volunteer_like_icon.svg"
+                  src={
+                    group.isLike
+                      ? "/images/volunteer/volunteer_like_icon.svg"
+                      : "/images/volunteer/volunteer_unlike_icon.svg"
+                  }
                   alt="volunteer_like_icon"
                   width={17}
                   height={14}
@@ -176,7 +203,7 @@ export default function HomeUI(props) {
             </S.VolunteerText>
             <S.VolunteerInfoBlock>
               <S.VolunteerNumberOfMember>
-                {group.participation}명 참여중
+                {group.participationNum}명 참여중
               </S.VolunteerNumberOfMember>
               <S.VolunteerCategoryBlock>
                 <S.VolunteerCategory>{group.category}</S.VolunteerCategory>
@@ -200,33 +227,51 @@ export default function HomeUI(props) {
             width={15}
             height={25}
             onClick={props.navigateTo(props.paths.community)}
+            priority
           />
         </S.HomeTitleBlock>
-        {props.homeData?.posts?.map((post) => (
-          <S.CommunityBlock key={post.id}>
+        {props.homeData.posts?.map((post) => (
+          <S.CommunityBlock
+            key={post.id}
+            onClick={() =>
+              props.handleRequireModal(
+                `/community/${post.id}?type=${
+                  post.postType === "ADOPTION" ? "adoption" : "fostering"
+                }`
+              )
+            }
+          >
             <S.CommunityImg>
-              <Image
-                src="/images/community/community_1.svg"
+              <S.StyledImage
+                src={post.imageURL}
                 alt="community_1"
                 width={115}
                 height={117}
+                objectFit="cover"
               />
             </S.CommunityImg>
             <S.CommunityInfoBlock>
+              <S.CommunityCategory>
+                {post.postType === "ADOPTION"
+                  ? "입양 스토리"
+                  : "임시보호 스토리"}
+              </S.CommunityCategory>
               <S.CommunityTitle>
-                {props.truncateString(post.title, 13)}
+                {props.truncateString(post.title, 30)}
               </S.CommunityTitle>
-              <S.CommunityText>
-                {props.truncateString(post.content, 26)}
-              </S.CommunityText>
-              <S.CommunityName>{post.name}</S.CommunityName>
+              <S.CommunityNickNameDate>
+                <S.CommunityNickName>{post.nickName}</S.CommunityNickName>
+                <S.CommunityDate>
+                  {props.useFormatDateTime(post.date)}
+                </S.CommunityDate>
+              </S.CommunityNickNameDate>
               <S.CommunityLikeBlock>
                 <S.CommunityLike>
                   <Image
                     src="/images/community/like_icon_active.svg"
                     alt="active_icon"
-                    width={20}
-                    height={20}
+                    width={15}
+                    height={15}
                   />
                 </S.CommunityLike>
                 {post.likeNum}
@@ -236,8 +281,8 @@ export default function HomeUI(props) {
                   <Image
                     src="/images/community/comment_icon.svg"
                     alt="comment_icon"
-                    width={16}
-                    height={16}
+                    width={12}
+                    height={12}
                   />
                 </S.CommunityView>
                 {post.commentNum}

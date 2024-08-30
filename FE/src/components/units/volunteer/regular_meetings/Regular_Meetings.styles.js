@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 
 export const WrapperContents = styled.div`
   width: 390px;
@@ -22,6 +23,7 @@ export const WrapperContents = styled.div`
 export const Container = styled.div`
   width: 344px;
   height: auto;
+  margin-top: 24px;
 
   display: flex;
   flex-direction: column;
@@ -30,15 +32,108 @@ export const Container = styled.div`
   gap: 8px;
 `;
 
+export const SearchAndInviteContainer = styled.div`
+  width: 390px;
+  height: ${(props) => (props.active ? "70px" : "116px")};
+  border-bottom: 1px solid #DBDBDB;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+`;
+
+export const SearchContainer = styled.div`
+  width: 344px;
+  height: 44px;
+  position: relative;
+`;
+
+export const Search = styled.input`
+  width: 100%;
+  height: 100%;
+  background-color: #fef8f2;
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 10px;
+  font-size: 16px;
+  padding-left: 50px;
+
+   ::placeholder {
+    color: #bea597;
+  }
+
+  :focus {
+    border: 2px solid #bea597;
+    color: #bea597;
+  }
+`;
+
+export const SearchImageContainer = styled.div`
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 14px;
+  top: 7px;
+`;
+
+export const InviteContainer = styled.div`
+  width: 344px;
+  height: 41px;
+  margin-bottom: 13px;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: row;
+`;
+
+export const InviteImg = styled.div`
+  width: 40px;
+  height: 100%;
+  padding-left: 8px;
+`;
+
+export const InviteBlock = styled.div`
+  width: 221px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+`;
+
+export const InviteTitle = styled.div`
+  width: 100%;
+  height: 21px;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+export const InviteExplain = styled.div`
+  width: 100%;
+  height: 20px;
+  font-size: 13px;
+  color: #AFAEAD;
+`;
+
 export const WrapperMeetingDetail = styled.div`
   width: 100%; /*344px*/
-  margin-top: 6px;
+  margin-top: 20px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 8px;
+`;
+
+export const MeetingInfo = styled.div`
+  margin-top: 17px;
+  width: 100%;
+  height: 21px;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 /*정기모임 큰 박스*/
@@ -202,20 +297,54 @@ export const UserImg = styled.div`
   position: relative;
 `;
 
+export const ParticipantImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2.5px solid #FEF8F2;
+`;
+
 export const ParticipateBtn = styled.button`
   width: 86px;
   height: 30px;
-  background-color: #240d05;
+  background-color: ${(props) => (props.active ? "#240d05" : "white")};
+  color: ${(props) => (props.active ? "white" : "#ff6636")};
+  border: ${(props) => (props.active ? "none" : "1px solid #ff6636")};
   border-radius: 20px;
   cursor: pointer;
-
   font-size: 16px;
-  color: white;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const loading = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingImgBox = styled.div`
+  height: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoadingImg = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ff6636;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ${loading} 1s linear infinite;
 `;
 
 export const AddMeeting = styled.div`
@@ -225,7 +354,6 @@ export const AddMeeting = styled.div`
   border-radius: 50%;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  visibility: hidden;
 
   display: flex;
   flex-direction: row;

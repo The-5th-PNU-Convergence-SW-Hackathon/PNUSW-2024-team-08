@@ -4,12 +4,14 @@ import { fetchQuestionDetail } from "../../../../src/components/units/community/
 
 export default function QuestionDetailPage({
   isSSRLoggedIn,
+  profileURL,
   questionDetailData,
 }) {
   return (
     <>
       <QuestionDetail
         isSSRLoggedIn={isSSRLoggedIn}
+        profileURL={profileURL}
         questionDetailData={questionDetailData}
       />
     </>
@@ -27,16 +29,30 @@ export async function getServerSideProps(context) {
 
     const authResult = await checkAuth(context);
     console.log("authResult in /community/question/[id]:", authResult);
+    const { isSSRLoggedIn, profileURL } = authResult.props;
+
+    if (!isSSRLoggedIn) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
+
     const accessToken = context.req.cookies.accessToken;
+
     let questionDetailData = null;
 
-    if (authResult.props.isSSRLoggedIn && accessToken) {
+    if (isSSRLoggedIn && accessToken) {
       console.log(`Fetching question detail for id: ${id}`);
       questionDetailData = await fetchQuestionDetail(id, accessToken);
     }
+
     return {
       props: {
-        ...authResult.props,
+        isSSRLoggedIn,
+        profileURL,
         questionDetailData,
       },
     };
@@ -47,8 +63,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         isSSRLoggedIn: false,
+        profileURL: null,
         questionDetailData: null,
-        error: "Failed to fetch question detail",
       },
     };
   }

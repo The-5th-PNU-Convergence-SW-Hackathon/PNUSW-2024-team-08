@@ -45,8 +45,8 @@ export const AdoptMenu = styled.div`
   align-items: flex-end;
   color: ${(props) => (props.active ? "black" : "#bdbdbd")};
   font-weight: ${(props) => (props.active ? 600 : "normal")};
-  border-bottom: ${(props) => (props.active ? "3px solid #ff6636" : "none")};
-  padding-bottom: ${(props) => (props.active ? "9px" : "12px")};
+  border-bottom: ${(props) => (props.active ? "4px solid #ff6636" : "none")};
+  padding-bottom: ${(props) => (props.active ? "8px" : "12px")};
   margin: 0 5px;
 
   :hover {

@@ -96,6 +96,7 @@ export const SearchWindow = styled.input`
   border-radius: 10px;
   font-size: 16px;
   padding-left: 50px;
+  color: #bea597;
 
   ::placeholder {
     color: #bea597;
@@ -141,7 +142,8 @@ export const SearchContentsContainer = styled.div`
   background-color: white;
 `;
 
-export const SearchContent = styled.div` //나중에 height auto로 변경*
+export const SearchContent = styled.div`
+  //나중에 height auto로 변경*
   width: 342px;
   height: auto;
   flex-shrink: 0;
@@ -156,7 +158,8 @@ export const ContentTitle = styled.p`
   font-weight: bold;
 `;
 
-export const ContentBlocks = styled.div` //나중에 height auto로 변경*
+export const ContentBlocks = styled.div`
+  //나중에 height auto로 변경*
   width: 100%;
   height: auto;
   display: flex;
@@ -171,6 +174,7 @@ export const ContentBlock = styled.div`
   flex-direction: row;
   gap: 16px;
   border-bottom: 1px solid #DBDBDB;
+  cursor: pointer;
 `;
 
 export const ImageContainer = styled.div`
@@ -189,23 +193,131 @@ export const ContentInfos = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+`;
+
+export const NameAndDateBlock  = styled.div` /*post에만 붙어줄것*/
+  width: 252px;
+  height: 20px;
+
+  display: flex;
+  flex-direction: row;
 `;
 
 export const ContentName = styled.p`
-  width: auto;
-  height: 19px;
+  width: 170px;
+  height: 20px;
   font-size: 16px;
   font-weight: bold;
   color: black;
   letter-spacing: -0.4px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
-export const ContentDetail = styled.p`
+export const Date = styled.div`
+  width: auto;
+  height: 100%;
+  color: #B6B6B6;
+`;
+
+export const NickName = styled.div`
+  width: 50px;
+  height: 100%;
+  color: #B6B6B6;
+`;
+
+export const ContentDetail = styled.div`
   width: 100%;
-  height: 43px;
-  font-size: 12px;
+  height: 30px;
+  font-size: 16px;
   letter-spacing: -0.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+export const ContentDetailInfo = styled.div`
+  width: auto;
+  height: 25px;
+  padding-top: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+export const ContentCategory = styled.div`
+  width: auto;
+  height: 100%;
+  background-color: #D9D9D9;
+  border-radius: 20px;
+  padding-left: 7px;
+  padding-right: 7px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LikeImg = styled.div`
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LikeNum = styled.div`
+  width: 17px;
+  height: 100%;
+  margin-left: 1px;
+
+`;
+
+export const ContentDistrict = styled.div`
+  width: auto;
+  height: 100%;
+  padding-left: 5px;
+  color: #B6B6B6;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ContentParticipantNum = styled.div`
+  width: auto;
+  height: 100%;
+  padding-left: 5px;
+  color: #B6B6B6;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ContentMeetingNum = styled.div`
+  width: auto;
+  height: 100%;
+  padding-left: 5px;
+  color: #FF6636;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ReqInfosBtn = styled.div`
@@ -214,7 +326,7 @@ export const ReqInfosBtn = styled.div`
   font-size: 20px;
   font-weight: 500;
   border-radius: 30px;
-  border: 2px solid #FF6636;
+  border: 2px solid #ff6636;
   color: black;
   margin-top: 24px;
   margin: 24px auto;
@@ -228,4 +340,3 @@ export const ReqInfosBtn = styled.div`
   box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.05),
     0 2px 2px 1px rgba(0, 0, 0, 0.15);
 `;
-

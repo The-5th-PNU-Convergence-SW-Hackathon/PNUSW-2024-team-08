@@ -47,7 +47,7 @@ export const HeaderTitle = styled.p`
 export const IntroContainer = styled.div`
   width: 390px;
   overflow-y: auto;
-  bacground-color: white;
+  background-color: white;
 
   ::-webkit-scrollbar {
     display: none;

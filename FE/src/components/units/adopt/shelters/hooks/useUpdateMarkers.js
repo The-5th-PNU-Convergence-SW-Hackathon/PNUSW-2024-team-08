@@ -8,7 +8,8 @@ const useUpdateMarkers = (
   markersRef,
   userLocation,
   setCurrentLocation,
-  selectedShelterId
+  selectedShelterId,
+  isMapLoaded
 ) => {
   const router = useRouter();
   const { createLatLng } = useCreateLatLng();
@@ -16,6 +17,7 @@ const useUpdateMarkers = (
   useEffect(() => {
     if (
       !map ||
+      !isMapLoaded ||
       !window.google ||
       !window.google.maps ||
       !window.google.maps.marker
@@ -35,7 +37,6 @@ const useUpdateMarkers = (
       // 보호소 마커 추가
       sheltersToDisplay.forEach((markerData) => {
         const markerPosition = createLatLng(markerData.lat, markerData.lng);
-        console.log("Marker Position:", markerPosition); // 디버깅을 위한 로그 추가
         if (!markerPosition) return;
 
         const marker = new AdvancedMarkerElement({
@@ -43,7 +44,9 @@ const useUpdateMarkers = (
           map,
           title: markerData.name,
         });
-        console.log("Marker Created at:", marker.position); // 디버깅을 위한 로그 추가
+
+        // 마커에 커서 포인터 스타일 적용
+        marker.element.style.cursor = "pointer";
 
         const contentString = `
           <div>
@@ -68,7 +71,6 @@ const useUpdateMarkers = (
           const panes = this.getPanes();
           panes.floatPane.appendChild(div);
 
-          // InfoWindow가 열릴 때 '자세히 보기' 클릭 이벤트 추가
           document
             .getElementById(`shelter-${markerData.id}`)
             .addEventListener("click", () => {
@@ -77,22 +79,27 @@ const useUpdateMarkers = (
         };
 
         CustomInfoWindow.draw = function () {
-          if (!this.div) return; // this.div가 정의되어 있는지 확인
+          if (!this.div) return;
           const overlayProjection = this.getProjection();
           const position = overlayProjection.fromLatLngToDivPixel(
             marker.position
           );
           const div = this.div;
 
-          // Adjust the position to be above the marker
           const divHeight = div.offsetHeight;
           const divWidth = div.offsetWidth;
-          const markerHeight = 40; // Approximate height of the marker icon
+          const markerHeight = 40;
 
           div.style.left = position.x - divWidth / 2 + "px";
           div.style.top = position.y - divHeight - markerHeight - 3 + "px";
 
-          console.log("InfoWindow Draw Position:", position); // 디버깅을 위한 로그 추가
+          console.log(
+            `Custom InfoWindow Position for shelter ${markerData.id}:`,
+            {
+              left: div.style.left,
+              top: div.style.top,
+            }
+          );
         };
 
         CustomInfoWindow.onRemove = function () {
@@ -107,9 +114,7 @@ const useUpdateMarkers = (
         markersRef.current.push({
           marker,
           infoWindow: CustomInfoWindow,
-        }); // 마커와 InfoWindow 배열에 추가
-
-        let clickTimer = null;
+        });
 
         const handleClick = () => {
           if (CustomInfoWindow.getMap()) {
@@ -121,45 +126,25 @@ const useUpdateMarkers = (
             );
             CustomInfoWindow.setMap(map);
 
-            // InfoWindow 위치를 약간 지연시켜 계산
-            google.maps.event.addListenerOnce(map, "idle", () => {
-              CustomInfoWindow.draw();
-            });
+            CustomInfoWindow.draw();
           }
         };
 
-        const handleDoubleClick = () => {
-          clearTimeout(clickTimer);
-          setCurrentLocation(markerData); // 더블 클릭 시 마커 위치로 이동
-        };
+        marker.element.addEventListener("click", handleClick);
 
-        marker.element.addEventListener("click", () => {
-          clickTimer = setTimeout(handleClick, 200); // 200ms 내에 더블 클릭이 발생하지 않으면 클릭 이벤트 실행
-        });
-
-        marker.element.addEventListener("dblclick", () => {
-          clearTimeout(clickTimer);
-          handleDoubleClick();
-        });
-
-        // 선택된 보호소 ID와 일치하면 InfoWindow 열기
+        // 만약 selectedShelterId와 일치하면 해당 마커를 클릭
         if (markerData.id === selectedShelterId) {
-          if (!CustomInfoWindow.getMap()) {
-            CustomInfoWindow.setMap(map);
-
-            // InfoWindow 위치를 약간 지연시켜 계산
-            google.maps.event.addListenerOnce(map, "idle", () => {
-              CustomInfoWindow.draw();
-            });
-          }
+          setTimeout(() => {
+            handleClick();
+          }, 300); // 500ms 지연
         }
       });
     };
 
     updateMarkers();
-    console.log("markersRef: ", markersRef);
   }, [
     map,
+    isMapLoaded,
     sheltersToDisplay,
     markersRef,
     userLocation,

@@ -1,9 +1,9 @@
-import SignUpComplete from "../../../../src/components/units/signup/complete/Complete.container";
+import SignupComplete from "../../../../src/components/units/signup/complete/SignupComplete.container";
 
-export default function SignUpCompletePage() {
+export default function SignupCompletePage() {
   return (
     <>
-      <SignUpComplete />
+      <SignupComplete />
     </>
-  )
+  );
 }

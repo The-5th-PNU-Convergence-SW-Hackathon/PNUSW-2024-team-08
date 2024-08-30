@@ -61,6 +61,11 @@ export const WrapperPasswordEdit = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 95px - 60px);
+  }
 `;
 
 export const PasswordEditContainer = styled.div`
@@ -95,6 +100,7 @@ export const PasswordInput = styled.input`
   font-size: 16px;
   padding-left: 12px;
   margin-top: 10px;
+  color: #bea597;
 
   ::placeholder {
     color: #bea597;
@@ -117,7 +123,8 @@ export const ConfrimMessageBlock = styled.div`
 export const ConfirmMessage = styled.div`
   height: 20px;
   line-height: 20px;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   color: ${(props) => {
     if (props.isValid === null) {
       return "#c6c6c6"; // 디폴트 색상 (예: 검정)

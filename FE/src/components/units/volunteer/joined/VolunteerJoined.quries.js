@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export async function fetchVolunteerJoined(region, size, page) {
+export async function fetchVolunteerJoined(page) {
   try {
     // 쿠키에서 accessToken을 가져옴
     const accessToken = Cookies.get("accessToken");
@@ -9,7 +9,7 @@ export async function fetchVolunteerJoined(region, size, page) {
     }
 
     const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL
-    const response = await fetch(`${baseURL}/groups/my?region=${region}&size=${size}&page=${page}`, {
+    const response = await fetch(`${baseURL}/groups/my?page=${page}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -21,10 +21,11 @@ export async function fetchVolunteerJoined(region, size, page) {
       throw new Error(`API call failed with status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("Response to volunteer joined data with auth:", data);
-    return data;
+    console.log("Response to volunteer joined data with auth:", data.result);
+
+    return data.result.myGroups;
   } catch (error) {
     console.error("Fetching volunteerjoined failed:", error);
-    return null;
+    return [];
   }
 }

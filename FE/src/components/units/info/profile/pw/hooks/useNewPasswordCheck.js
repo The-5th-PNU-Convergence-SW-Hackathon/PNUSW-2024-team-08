@@ -17,6 +17,7 @@ export const useNewPasswordCheck = (currentPassword) => {
     if (event.target.value.trim() === "") {
       setIsPasswordValid(null);
       setValidationMessage("새로운 비밀번호를 입력해주세요.");
+      setConfirmMessage("");
     }
   };
 
@@ -39,24 +40,28 @@ export const useNewPasswordCheck = (currentPassword) => {
         newPassword.length <= 20
       ) {
         setIsPasswordValid(true);
-        setValidationMessage("비밀번호가 유효합니다.");
+        setValidationMessage("사용할 수 있는 비밀번호입니다.");
       } else {
         setIsPasswordValid(false);
         setValidationMessage(
           "비밀번호는 8-20자, 문자, 숫자, 특수문자를 포함해야 합니다."
         );
+        setConfirmPassword("");
+        // setConfirmMessage("");
       }
     }
 
-    if (newPassword && confirmPassword) {
+    if (isPasswordValid && newPassword && confirmPassword) {
       setIsPasswordMatching(newPassword === confirmPassword);
       setConfirmMessage(
         newPassword === confirmPassword
           ? "비밀번호가 일치합니다."
           : "비밀번호가 일치하지 않습니다."
       );
+    } else {
+      setConfirmMessage("");
     }
-  }, [newPassword, confirmPassword]);
+  }, [newPassword, confirmPassword, isPasswordValid]);
 
   return {
     newPassword,

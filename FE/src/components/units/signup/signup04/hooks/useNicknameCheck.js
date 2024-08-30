@@ -1,52 +1,61 @@
+import { checkNickNameDuplication } from "../../../../../../src/components/units/info/profile/edit/ProfileEdit.queries";
 import { useState } from "react";
-import { checkNickNameDuplication } from "../Signup04.queries";
 
 export const useNickNameCheck = () => {
-  const [nickName, setNickName] = useState(""); //닉네임을 넣어줄 변수
-  const [isPossibleNickName, setIsPossibleNickName] = useState(undefined); //사용가능한 닉네임인지 판단하는 값을 넣어주는 변수
-  const nickNameConfirm = "";
+  const [nickName, setNickName] = useState("");
+  const [isPossibleNickName, setIsPossibleNickName] = useState(null);
+  const [nickNameMsg, setNickNameMsg] = useState(
+    "닉네임은 2자 이상 8자 이하로 설정해주세요."
+  );
 
-  const handleNicknameValueChange = (e) => {
-    //닉네임 값을 받아온다
-    const inputNickName = e.target.value;
+  const handleNickNameChange = (event) => {
+    const inputNickName = event.target.value;
     setNickName(inputNickName);
 
     // 입력값이 유효성 검사를 통과할 때 메시지 업데이트
     if (validateNickName(inputNickName)) {
-      setIsPossibleNickName(true); // 중복검사 전 상태로 리셋
+      setNickNameMsg("버튼을 눌러 중복검사를 해주세요.");
+      setIsPossibleNickName(null); // 중복검사 전 상태로 리셋
     } else {
       // 유효성 검사를 통과하지 못하면 즉시 메시지 업데이트
-      setIsPossibleNickName(false);
+      setNickNameMsg("닉네임은 2자 이상 8자 이하로 설정해주세요.");
+      setIsPossibleNickName(null);
     }
   };
 
   const validateNickName = (nickName) => {
-    // 정규 표현식을 사용하여 2자 이상, 12자 이하인지 확인
-    const regex = /^.{2,12}$/;
+    // 정규 표현식을 사용하여 2자 이상, 8자 이하인지 확인
+    const regex = /^.{2,8}$/;
     return regex.test(nickName);
   };
 
-  const verifyNickname = async () => {
-    nickNameConfirm = nickName;
+  const verifyNickName = async (nickName) => {
+    if (!validateNickName(nickName)) return;
+
     try {
-      const data = await checkNickNameDuplication(nickNameConfirm);
-      if (data.success) {
+      const result = await checkNickNameDuplication(nickName);
+      console.log("result: ", result);
+      if (!result.isDuplicate) {
         setIsPossibleNickName(true);
+        setNickNameMsg("사용 가능한 닉네임입니다.");
       } else {
         setIsPossibleNickName(false);
-        nickNameConfirm = "";
+        setNickNameMsg("이미 사용 중인 닉네임입니다.");
       }
     } catch (error) {
-      setIsPossibleNickName(undefined);
-      nickNameConfirm = "";
-      console.log("중복된 닉네임 입니다.");
+      console.error("닉네임 체크 중 오류 발생:", error);
+      // 여기에 에러 처리 로직 추가
+      setIsPossibleNickName(false);
+      // 에러 상황에 대한 적절한 메시지 설정
+      setNickNameMsg("닉네임 검사 중 오류가 발생했습니다.");
     }
   };
 
   return {
     nickName,
     isPossibleNickName,
-    handleNicknameValueChange,
-    verifyNickname, //중복확인 버튼에 들어가는 값이다.
+    nickNameMsg,
+    handleNickNameChange,
+    verifyNickName,
   };
 };

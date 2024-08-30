@@ -11,6 +11,9 @@ RUN yarn install
 # 소스코드 복사하기
 COPY . .
 
+# .env.local 파일 복사하기
+COPY .env.local .env.local
+
 # 빌드 명령어 실행
 RUN yarn build
 

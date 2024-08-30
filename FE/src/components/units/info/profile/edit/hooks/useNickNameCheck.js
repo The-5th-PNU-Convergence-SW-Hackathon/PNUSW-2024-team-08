@@ -5,27 +5,24 @@ export const useNickNameCheck = (currentNickName) => {
   const [nickName, setNickName] = useState("");
   const [isPossibleNickName, setIsPossibleNickName] = useState(null);
   const [nickNameMsg, setNickNameMsg] = useState(
-    "닉네임은 2자 이상 12자 이하로 설정해주세요."
+    "닉네임은 2자 이상 8자 이하로 설정해주세요."
   );
 
   const handleNickNameChange = (event) => {
     const inputNickName = event.target.value;
     setNickName(inputNickName);
 
-    // 입력값이 유효성 검사를 통과할 때 메시지 업데이트
     if (validateNickName(inputNickName)) {
-      setNickNameMsg("버튼을 눌러 중복검사를 해주세요.");
-      setIsPossibleNickName(null); // 중복검사 전 상태로 리셋
-    } else {
-      // 유효성 검사를 통과하지 못하면 즉시 메시지 업데이트
-      setNickNameMsg("닉네임은 2자 이상 12자 이하로 설정해주세요.");
       setIsPossibleNickName(null);
+      setNickNameMsg("버튼을 눌러 중복검사를 해주세요.");
+    } else {
+      setIsPossibleNickName(null);
+      setNickNameMsg("닉네임은 2자 이상 8자 이하로 설정해주세요.");
     }
   };
 
   const validateNickName = (nickName) => {
-    // 정규 표현식을 사용하여 2자 이상, 12자 이하인지 확인
-    const regex = /^.{2,12}$/;
+    const regex = /^.{2,8}$/;
     return regex.test(nickName);
   };
 
@@ -40,19 +37,17 @@ export const useNickNameCheck = (currentNickName) => {
 
     try {
       const result = await checkNickNameDuplication(nickName);
-      if (result) {
+      if (!result.isDuplicate) {
         setIsPossibleNickName(true);
-        setNickNameMsg("사용 가능한 닉네임입니다.");
+        setNickNameMsg("사용할 수 있는 닉네임입니다.");
       } else {
         setIsPossibleNickName(false);
         setNickNameMsg("이미 사용 중인 닉네임입니다.");
       }
     } catch (error) {
       console.error("닉네임 체크 중 오류 발생:", error);
-      // 여기에 에러 처리 로직 추가
       setIsPossibleNickName(false);
-      // 에러 상황에 대한 적절한 메시지 설정
-      setNickNameMsg("닉네임 검사 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setNickNameMsg("닉네임 확인 중 오류가 발생했습니다.");
     }
   };
 

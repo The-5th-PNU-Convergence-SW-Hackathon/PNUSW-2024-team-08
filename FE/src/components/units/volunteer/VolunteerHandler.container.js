@@ -3,7 +3,6 @@ import { useNavigate } from "../../commons/hooks/useNavigate";
 
 export default function VolunteerHandler({ handleRequireModal }) {
   const { navigateTo, isActive } = useNavigate();
-  console.log(typeof handleFavClick);
 
   const paths = {
     recommend: "/volunteer/recommend",

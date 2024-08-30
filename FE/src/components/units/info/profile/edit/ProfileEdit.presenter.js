@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import * as S from "./ProfileEdit.styles";
 import Image from "next/image";
+import Cropper from "react-easy-crop";
 
 export default function ProfileEditUI(props) {
   return (
@@ -13,7 +13,7 @@ export default function ProfileEditUI(props) {
               alt="arrow_left_icon"
               width={15}
               height={25}
-              onClick={props.navigateBack}
+              onClick={props.navigateTo("/info/profile")}
             />
             <S.Title>프로필 수정</S.Title>
           </S.LeftArrowTitleContainer>
@@ -23,7 +23,11 @@ export default function ProfileEditUI(props) {
         <S.ProfileEditPhotoContainer>
           <S.ProfileEditPhoto>
             <Image
-              src="/images/info/profile_photo_icon.svg"
+              src={
+                props.cropComplete && props.croppedImage
+                  ? props.croppedImage
+                  : props.profile.profileURL
+              }
               alt="profile_photo_icon"
               width={103}
               height={103}
@@ -37,7 +41,15 @@ export default function ProfileEditUI(props) {
               height={103}
             />
           </S.ProfileEditPhoto>
-          <S.EditText>편집</S.EditText>
+          <S.EditText onClick={props.handlePhotoAddClick}>
+            <input
+              type="file"
+              ref={props.fileInputRef}
+              style={{ display: "none" }}
+              onChange={props.handlePhotoUpload}
+            />
+            편집
+          </S.EditText>
         </S.ProfileEditPhotoContainer>
         <S.NameText>{props.profile?.name}</S.NameText>
         <S.ProfileEditContainer>
@@ -51,8 +63,8 @@ export default function ProfileEditUI(props) {
             <S.NickNameInput
               type="text"
               placeholder={props.profile?.nickName}
-              value={props.nickName} // 입력 필드에 상태 값을 연결
-              onChange={props.handleNickNameChange} // 입력 변경 시 핸들러 호출
+              value={props.nickName}
+              onChange={props.handleNickNameChange}
             />
             <S.NickNameEditButton
               onClick={() => props.verifyNickName(props.nickName)}
@@ -177,6 +189,31 @@ export default function ProfileEditUI(props) {
           프로필 수정
         </S.ProfileEditButton>
       </S.WrapperProfileEdit>
+
+      {props.isCropModalOpen && (
+        <S.CropModalOverlay onClick={props.closeCropModal}>
+          <S.CropModalContent onClick={(e) => e.stopPropagation()}>
+            <S.CropTitle>사진 자르기</S.CropTitle>
+            <S.CropContainer>
+              <Cropper
+                image={props.photo ? props.photo.preview : ""}
+                crop={props.crop}
+                zoom={props.zoom}
+                aspect={1}
+                onCropChange={props.setCrop}
+                onZoomChange={props.setZoom}
+                onCropComplete={props.onCropComplete}
+              />
+            </S.CropContainer>
+            <S.CropBtnBlock>
+              <S.CancelBtn onClick={props.closeCropModal}>취소</S.CancelBtn>
+              <S.UploadBtn onClick={props.handleCroppedImageUpload}>
+                전송
+              </S.UploadBtn>
+            </S.CropBtnBlock>
+          </S.CropModalContent>
+        </S.CropModalOverlay>
+      )}
     </>
   );
 }

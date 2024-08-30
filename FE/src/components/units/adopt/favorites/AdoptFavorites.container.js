@@ -10,25 +10,37 @@ import {
 } from "../../../commons/district/districtName";
 import useRequireLogin from "../../../../../src/components/commons/hooks/useRequireLogin";
 
-export default function AdpotFavorites({ isSSRLoggedIn }) {
+export default function AdpotFavorites({
+  isSSRLoggedIn,
+  profileURL,
+  initialFavPetsData,
+}) {
   console.log("AdoptFavorites isSSRLoggedIn: ", isSSRLoggedIn);
+
+  console.log("AdoptFavorites initialFavPetsData: ", initialFavPetsData);
 
   const {
     favPets,
+    loadedImages,
+    setLoadedImages,
+    handleImageLoad,
     handleToggleLike,
     loadFavPetsData,
     handleLoadPetsData,
     isLastPage,
-  } = useFetchFavPetsData(isSSRLoggedIn);
+  } = useFetchFavPetsData(isSSRLoggedIn, initialFavPetsData);
   const { navigateTo } = useNavigate();
   const handleRequireModal = useRequireLogin(isSSRLoggedIn);
 
   return (
     <>
-      <Headers isSSRLoggedIn={isSSRLoggedIn} />
+      <Headers isSSRLoggedIn={isSSRLoggedIn} profileURL={profileURL} />
       <AdoptHandler handleRequireModal={handleRequireModal} />
       <AdpotFavoritesUI
         favPets={favPets}
+        loadedImages={loadedImages}
+        setLoadedImages={setLoadedImages}
+        handleImageLoad={handleImageLoad}
         loadFavPetsData={loadFavPetsData}
         handleToggleLike={handleToggleLike}
         handleLoadPetsData={handleLoadPetsData}

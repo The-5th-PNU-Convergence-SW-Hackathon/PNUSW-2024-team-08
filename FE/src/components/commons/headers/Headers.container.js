@@ -3,7 +3,7 @@ import HeadersUI from "./Headers.presenter";
 import useModalStore from "../../../../src/store/useModalStore";
 import { useNavigate } from "../hooks/useNavigate";
 
-export default function Headers({ isSSRLoggedIn }) {
+export default function Headers({ isSSRLoggedIn, profileURL }) {
   const router = useRouter();
   const { openModal } = useModalStore();
   const { navigateTo, navigateBack } = useNavigate();
@@ -18,6 +18,8 @@ export default function Headers({ isSSRLoggedIn }) {
       pathname === "/volunteer/detail/regular_meetings/regular_meeting"
     ) {
       return "모임명";
+    } else if (pathname === "/volunteer/[id]/approve") {
+      return "가입승인 대기";
     } else if (pathname === "/volunteer/detail/regular_meetings") {
       return "정기모임";
     } else if (pathname.startsWith("/volunteer")) {
@@ -80,8 +82,10 @@ export default function Headers({ isSSRLoggedIn }) {
 
   const handleArrowClick = () => {
     const currentPath = router.pathname;
-    if (currentPath.includes("community/questions/")) {
+    if (currentPath.includes("community/question/") || currentPath === "/volunteer/[id]/approve" || currentPath === "/volunteer/create_volunteer") {
       navigateBack();
+    } else if (currentPath.startsWith("/community/question/")) {
+      navigateTo("/community/question")();
     } else {
       navigateTo("/home")();
     }
@@ -95,6 +99,8 @@ export default function Headers({ isSSRLoggedIn }) {
       handleIconClick={handleIconClick}
       paths={paths}
       currentPath={router.pathname} // 현재 경로를 전달
+      isSSRLoggedIn={isSSRLoggedIn}
+      profileURL={profileURL}
     />
   );
 }

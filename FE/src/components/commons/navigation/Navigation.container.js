@@ -1,12 +1,8 @@
 import NavigationUI from "./Navigation.present";
 import { useRouter } from "next/router";
-import useModalStore from "../../../../src/store/useModalStore";
-import { useLoginStatusCheck } from "../hooks/useLoginStatusCheck";
 
 export default function Navigation(props) {
   const router = useRouter();
-  const { isLoggedIn } = useLoginStatusCheck();
-  const { openModal } = useModalStore();
 
   // 현재 경로에 따라 아이콘 이미지를 선택하는 함수이다.
   // 기본 아이콘과 활성화된 아이콘 중에서 해당 경로에서 활성화된 아이콘을 선택한다.

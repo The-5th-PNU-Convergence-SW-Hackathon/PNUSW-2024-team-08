@@ -12,6 +12,7 @@ export default function SignupHeaderUI(props) {
               alt="forpaw_icon"
               width={57}
               height={47}
+              priority
             />
           </S.ImgBlock>
         </S.ImgContainer>
@@ -22,12 +23,13 @@ export default function SignupHeaderUI(props) {
               alt="forpaw_logo"
               width={73}
               height={20}
+              priority
             />
           </S.LogoBlock>
         </S.LogoContainer>
-        <S.LeftArrowContainer onClick={props.PrevPage}> 
-          <S.LeftArrowBlock>
-            <Image 
+        <S.LeftArrowContainer>
+          <S.LeftArrowBlock onClick={props.PrevPage}>
+            <Image
               src="/images/header/arrow_left_icon.svg"
               alt="left_arrow"
               width={15}
@@ -37,5 +39,5 @@ export default function SignupHeaderUI(props) {
         </S.LeftArrowContainer>
       </S.WrapperHeader>
     </>
-  )
+  );
 }

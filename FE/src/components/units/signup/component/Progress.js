@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export const Progress = ({ startValue, max, interval }) => {
   const [progress, setProgress] = useState(startValue);
@@ -6,7 +6,7 @@ export const Progress = ({ startValue, max, interval }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       if (progress < max) {
-        setProgress(prevProgress => prevProgress + 1);
+        setProgress((prevProgress) => prevProgress + 1);
       } else {
         clearInterval(timer);
       }

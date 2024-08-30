@@ -38,9 +38,7 @@ export const useCurrentPasswordCheck = () => {
     } catch (error) {
       console.error("비밀번호 검증 중 오류 발생:", error);
       setIsCorrectPassword(false);
-      setCorrectMessage(
-        "비밀번호 확인 중 오류가 발생했습니다. 다시 시도해주세요."
-      );
+      setCorrectMessage("비밀번호 확인 중 오류가 발생했습니다.");
     }
   };
 

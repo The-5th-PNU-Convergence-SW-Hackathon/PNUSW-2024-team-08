@@ -6,9 +6,9 @@ export const useCategorySelection = (type) => {
 
   useEffect(() => {
     // 쿼리 파라미터에 따라 category 상태 설정
-    if (type === "adoption") setCategory("입양 스토리");
-    else if (type === "fostering") setCategory("임시보호 스토리");
-    else if (type === "question") {
+    if (type === "ADOPTION") setCategory("입양 스토리");
+    else if (type === "FOSTERING") setCategory("임시보호 스토리");
+    else if (type === "QUESTION") {
       setCategory("궁금해요");
       setTitle("질문하기");
     }

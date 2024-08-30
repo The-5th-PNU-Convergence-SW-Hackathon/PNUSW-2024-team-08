@@ -1,34 +1,41 @@
+import { useNavigate } from "../../../../../src/components/commons/hooks/useNavigate";
 import FindAccount02UI from "./FIndAccount02.presenter";
-import { useRouter } from "next/router";
-import { useNewPasswordCheck } from "./hooks/useNewPasswordCheck";
+import { useGetUserInfo } from "./hooks/useGetUserInfo";
+import { usePasswordCheck } from "./hooks/usePasswordCheck";
 
-export default function FindAccount02(){
-  const router = useRouter();
-
-  const navigateTo = (path) => () => router.push(path);
+export default function FindAccount02() {
+  const { code } = useGetUserInfo();
 
   const {
     password,
-    isPasswordAvailable,
-    confirmPassword,
-    isPasswordMatch,
-    isVisible,
+    passwordConfirm,
+    isPasswordValid,
+    isPasswordMatching,
+    validationMessage,
+    confirmMessage,
     handlePasswordChange,
-    handleConfirmPasswordChange
-  } = useNewPasswordCheck();
+    handlePasswordConfirmChange,
+    isPasswordChangeSuccess,
+    changePassword,
+  } = usePasswordCheck(code);
 
-  return(
+  const { navigateTo } = useNavigate();
+
+  return (
     <>
-      <FindAccount02UI 
-        navigateTo={navigateTo}
+      <FindAccount02UI
         password={password}
-        isPasswordAvailable={isPasswordAvailable}
-        confirmPassword={confirmPassword}
-        isPasswordMatch={isPasswordMatch}
+        passwordConfirm={passwordConfirm}
+        isPasswordValid={isPasswordValid}
+        isPasswordMatching={isPasswordMatching}
+        validationMessage={validationMessage}
+        confirmMessage={confirmMessage}
         handlePasswordChange={handlePasswordChange}
-        handleConfirmPasswordChange={handleConfirmPasswordChange}
-        isVisible={isVisible}
+        handlePasswordConfirmChange={handlePasswordConfirmChange}
+        isPasswordChangeSuccess={isPasswordChangeSuccess}
+        changePassword={changePassword}
+        navigateTo={navigateTo}
       />
     </>
-  )
+  );
 }

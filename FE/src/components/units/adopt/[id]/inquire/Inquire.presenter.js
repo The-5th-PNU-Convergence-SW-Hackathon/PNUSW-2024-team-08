@@ -1,5 +1,6 @@
 import * as S from "./Inquire.styles";
 import Image from "next/image";
+import DaumPostcode from "react-daum-postcode";
 
 export default function InquireUI(props) {
   return (
@@ -23,20 +24,38 @@ export default function InquireUI(props) {
           <S.InfoTitle>동물 정보</S.InfoTitle>
           <S.InfoLargeBlock>
             <S.InfoLabel>동물 이름</S.InfoLabel>
-            <S.InfoLargeInput type="text" placeholder="포리" disabled />
+            <S.InfoLargeInput
+              type="text"
+              placeholder={props.petDetailData.name}
+              disabled
+            />
           </S.InfoLargeBlock>
           <S.InfoLargeBlock>
             <S.InfoLabel>동물 품종</S.InfoLabel>
-            <S.InfoLargeInput type="text" placeholder="리트리버" disabled />
+            <S.InfoLargeInput
+              type="text"
+              placeholder={props.petDetailData.kind}
+              disabled
+            />
           </S.InfoLargeBlock>
           <S.GenderAgeBlock>
             <S.InfoSmallBlock>
               <S.InfoLabel>성별</S.InfoLabel>
-              <S.InfoSmallInput type="text" placeholder="수컷" disabled />
+              <S.InfoSmallInput
+                type="text"
+                placeholder={
+                  props.petDetailData.gender === "M" ? "수컷" : "암컷"
+                }
+                disabled
+              />
             </S.InfoSmallBlock>
             <S.InfoSmallBlock>
               <S.InfoLabel>나이</S.InfoLabel>
-              <S.InfoSmallInput type="text" placeholder="4살" disabled />
+              <S.InfoSmallInput
+                type="text"
+                placeholder={props.petDetailData.age.slice(0, 4) + "년생"}
+                disabled
+              />
             </S.InfoSmallBlock>
           </S.GenderAgeBlock>
         </S.InfoContainer>
@@ -44,23 +63,32 @@ export default function InquireUI(props) {
           <S.InfoTitle>신청인 정보</S.InfoTitle>
           <S.InfoLargeBlock>
             <S.InfoLabel>이름</S.InfoLabel>
-            <S.InfoLargeInput type="text" placeholder="이름을 입력해주세요." />
+            <S.InfoLargeInput
+              type="text"
+              placeholder="이름을 입력해주세요."
+              value={props.name}
+              onChange={props.handleNameChange}
+            />
           </S.InfoLargeBlock>
           <S.InfoLargeBlock>
             <S.InfoLabel>연락처</S.InfoLabel>
             <S.InfoLargeInput
               type="text"
               placeholder="연락처를 입력해주세요."
+              value={props.phone}
+              onChange={props.handlePhoneChange}
             />
           </S.InfoLargeBlock>
           <S.InfoLargeBlock>
             <S.InfoLabel>거주지</S.InfoLabel>
             <S.InfoAddressSearchBlock>
-              <S.InfoMiddleInput
+              <S.InfoPostalCodeInput
                 type="text"
-                placeholder="도로명, 건물명, 번지 검색"
+                placeholder="우편번호"
+                value={props.postalCode}
+                disabled
               />
-              <S.InfoSearchButton>
+              <S.InfoSearchButton onClick={props.openAddressModal}>
                 <Image
                   src="/images/pets/address_search_icon.svg"
                   alt="address_search_icon"
@@ -71,12 +99,28 @@ export default function InquireUI(props) {
             </S.InfoAddressSearchBlock>
             <S.InfoLargeInput
               type="text"
-              placeholder="연락처를 입력해주세요."
+              placeholder="도로명, 건물명, 번지"
+              value={props.selectedAddress}
+              style={{ marginBottom: "10px" }}
+              disabled
+            />
+            <S.InfoLargeInput
+              type="text"
+              placeholder="상세주소를 입력해주세요."
             />
           </S.InfoLargeBlock>
         </S.InfoContainer>
         <S.InquireButton>입양 문의하기</S.InquireButton>
       </S.WrapperInquire>
+
+      {props.isAddressModalOpen && (
+        <S.AddressModalOverlay onClick={props.closeAddressModal}>
+          <S.AddressModalContent>
+            <S.AddressTitle>주소 상세 검색</S.AddressTitle>
+            <DaumPostcode onComplete={props.handleComplete}></DaumPostcode>
+          </S.AddressModalContent>
+        </S.AddressModalOverlay>
+      )}
     </>
   );
 }

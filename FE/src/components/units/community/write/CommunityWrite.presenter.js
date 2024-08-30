@@ -21,18 +21,19 @@ export default function CommunityWriteUI(props) {
       </S.WrapperHeader>
       <form onSubmit={props.handleSubmit}>
         <S.WrapperWrite>
-          {props.category !== "궁금해요" && (
+          {/* {props.category !== "궁금해요" && (
             <S.CategoryInput
               type="text"
               placeholder={props.category}
               disabled
             ></S.CategoryInput>
-          )}
+          )} */}
           <S.TitleInput
             type="text"
             name="title"
             placeholder="제목을 작성해주세요."
             onChange={props.handleChange}
+            maxLength={50}
           />
           <S.TextInput
             type="text"
@@ -40,14 +41,24 @@ export default function CommunityWriteUI(props) {
             placeholder="내용을 작성해주세요."
             onChange={props.handleChange}
           />
+          <S.TextMinLengthMessage isValid={props.isContentValid}>
+            최소 50자 이상의 내용을 포함해야 합니다.
+          </S.TextMinLengthMessage>
           <S.PhotoWrapper>
             <S.PhotoUploadTitle>사진 첨부</S.PhotoUploadTitle>
             <S.PhotoContainer>
               {props.photos.map((photo, index) => (
                 <S.AddedPhotoBlock key={photo.id}>
-                  <S.PhotoBox onClick={() => props.openPhotoModal(index)}>
+                  <S.PhotoBox
+                    onClick={() =>
+                      props.openPhotoModal(
+                        props.photos.map((photo) => photo.preview),
+                        index
+                      )
+                    }
+                  >
                     <S.PhotoImg
-                      src={photo.file}
+                      src={photo.preview}
                       alt={photo.name}
                       width={100}
                       height={100}
@@ -81,33 +92,33 @@ export default function CommunityWriteUI(props) {
               )}
             </S.PhotoContainer>
           </S.PhotoWrapper>
+          <S.PhotoMinCountMessage isValid={props.isPhotoRequired}>
+            사진이 최소 1장 필요합니다.
+          </S.PhotoMinCountMessage>
         </S.WrapperWrite>
         <S.SubmitButtonWrapper>
           <S.SubmitButton type="submit">게시글 등록</S.SubmitButton>
         </S.SubmitButtonWrapper>
       </form>
 
-      {props.isPhotoModalOpen &&
-        props.photos.length > 0 &&
-        props.currentIndex >= 0 &&
-        props.currentIndex < props.photos.length && (
-          <S.ModalOverlay onClick={props.closePhotoModal}>
-            <S.ModalContent
-              {...props.photoModalHandlers}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={props.photos[props.currentIndex].file}
-                alt={props.photos[props.currentIndex].name}
-              />
-              <S.PrevBtn onClick={props.handlePrev}>〈</S.PrevBtn>
-              <S.NextBtn onClick={props.handleNext}>〉</S.NextBtn>
-              <S.PhotoIndexBlock>
-                {props.currentIndex + 1 + " / " + props.photos.length}
-              </S.PhotoIndexBlock>
-            </S.ModalContent>
-          </S.ModalOverlay>
-        )}
+      {props.isPhotoModalOpen && props.photosModal.length > 0 && (
+        <S.ModalOverlay onClick={props.closePhotoModal}>
+          <S.ModalContent
+            {...props.photoModalHandlers}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={props.photosModal[props.currentIndex]}
+              alt={`current photo ${props.currentIndex}`}
+            />
+            <S.PrevBtn onClick={props.handlePrev}>〈</S.PrevBtn>
+            <S.NextBtn onClick={props.handleNext}>〉</S.NextBtn>
+            <S.PhotoIndexBlock>
+              {props.currentIndex + 1 + " / " + props.photosModal.length}
+            </S.PhotoIndexBlock>
+          </S.ModalContent>
+        </S.ModalOverlay>
+      )}
     </>
   );
 }

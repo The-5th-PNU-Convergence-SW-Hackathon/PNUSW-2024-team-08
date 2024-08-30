@@ -15,7 +15,7 @@ export async function fetchPetDetailWithAuth(id, accessToken) {
     console.log("Response pet detail with auth:", data);
     return data.result;
   } catch (error) {
-    console.error("Fetching pet detail with auth failed:", error);
+    console.error("Failed to fetching pet detail with auth:", error);
     return null;
   }
 }

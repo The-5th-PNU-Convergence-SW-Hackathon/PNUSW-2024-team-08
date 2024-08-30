@@ -54,6 +54,11 @@ export const WrapperProfile = styled.div`
   align-items: center;
   margin: 0 auto;
   background-color: white;
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 95px - 60px);
+  }
 `;
 
 export const ProfileCard = styled.div`
@@ -66,8 +71,13 @@ export const ProfileCard = styled.div`
 `;
 
 export const ProfilePhoto = styled.div`
-  width: 105px;
-  height: 105px;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 103px;
+  height: 103px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 11px;
 `;
 
@@ -133,13 +143,14 @@ export const InfoContainer = styled.div`
 `;
 
 export const InfoTitle = styled.h1`
-  font-size: 24px;
+  font-size: 18px;
+  margin-left: 7px;
   margin-bottom: 8px;
 `;
 
 export const InfoItemList = styled.div`
   width: 334px;
-  background-color: #fef8f2;
+  background-color: #f4f4f4;
   border-radius: 20px;
   padding: 20px;
 `;
@@ -158,9 +169,12 @@ export const InfoItem = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: ${(props) => (props.isSocialJoined ? "#898684" : "#000")};
+`;
 
+export const InfoText = styled.span`
+  cursor: ${(props) => (props.isSocialJoined ? "not-allowed" : "pointer")};
   :hover {
-    cursor: pointer;
     color: #898684;
   }
 `;
@@ -172,4 +186,77 @@ export const InfoItemAdded = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+export const LogoutModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: calc(50% - 195px);
+  width: 390px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+export const LogoutModalContainer = styled.div`
+  background: white;
+  width: 350px;
+  height: 210px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+  position: relative;
+  gap: 25px;
+  z-index: 101;
+`;
+
+export const LogoutModalText = styled.div`
+  font-size: 21px;
+  font-weight: 700;
+  position: absolute;
+  top: 35px;
+`;
+
+export const LogoutSubModalText = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 45px;
+`;
+
+export const LogoutModalBtnBlock = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  position: absolute;
+  bottom: 15px;
+`;
+
+export const LogoutCancelModalBtn = styled.button`
+  width: 151px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+export const LogoutConfirmModalBtn = styled.button`
+  width: 151px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #ff6636;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
 `;

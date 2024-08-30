@@ -1,94 +1,37 @@
-import { useEffect, useState } from "react";
-import { fetchFosteringList } from "../CommunityFostering.queries";
+import { useEffect, useState, useCallback } from "react";
+import {
+  fetchFosteringList,
+  fetchPopularFosteringList,
+} from "../CommunityFostering.queries";
 
-const example = {
-  success: true,
-  code: 200,
-  message: "ok",
-  result: {
-    adoptions: [
-      {
-        id: 23,
-        name: "김동영",
-        title: "진도개 입양 후기 올립니다~",
-        content: "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-03-28T14:30",
-        commentNum: 3,
-        likeNum: 5,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 24,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 25,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 26,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-      {
-        id: 27,
-        name: "조준서",
-        title: "시바견을 입양하였습니다!",
-        content:
-          "소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀 소년은 개울가에서 소녀를 보자 곧 윤 초시네 증손녀",
-        date: "2023-05-28T10:10",
-        commentNum: 4,
-        likeNum: 2,
-        imageURL: "https://s3.1xxx.xx.com",
-      },
-    ],
-  },
-};
-
-export default function useFetchAdoptionList() {
+export default function useFetchFosteringList() {
   const [fosterings, setFosterings] = useState([]);
-  const [sort, setSort] = useState("likeNum");
+  const [isLastPage, setIsLastPage] = useState(false);
+  const [sort, setSort] = useState("newest");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const loadInitialFosterings = async () => {
+        setLoading(true);
         const page = getPageNumber(sort);
-        let initialFosterings = [];
+        setFosterings([]);
         for (let i = 0; i <= page; i++) {
-          const fetchedFosterings = await fetchFosteringList(i, sort);
+          const fetchedFosterings =
+            sort === "newest"
+              ? await fetchFosteringList(i)
+              : await fetchPopularFosteringList(i);
           if (fetchedFosterings) {
-            initialFosterings = [...initialFosterings, ...fetchedFosterings];
+            setFosterings((prevFosterings) => [
+              ...prevFosterings,
+              ...fetchedFosterings.posts,
+            ]);
+            setIsLastPage(fetchedFosterings.isLastPage);
           }
         }
-
-        setFosterings(initialFosterings);
+        setLoading(false);
       };
-      console.log(
-        `${sort}AdoptionPage = `,
-        parseInt(sessionStorage.getItem(`${sort}FosteringPage`), 10)
-      );
 
-      setFosterings([]);
       loadInitialFosterings();
     }
   }, [sort]);
@@ -108,19 +51,33 @@ export default function useFetchAdoptionList() {
   };
 
   const loadFosterings = async (page, sort) => {
-    const fetchedFosterings = await fetchFosteringList(page, sort);
+    setLoading(true);
+    const fetchedFosterings =
+      sort === "newest"
+        ? await fetchFosteringList(page)
+        : await fetchPopularFosteringList(page);
     if (fetchedFosterings) {
-      const updatedFosterings = [...fosterings, ...fetchedFosterings];
-
-      setFosterings(updatedFosterings);
+      setFosterings((prevFosterings) => [
+        ...prevFosterings,
+        ...fetchedFosterings.posts,
+      ]);
+      setIsLastPage(fetchedFosterings.isLastPage);
       setPageNumber(sort, page);
     }
+    setLoading(false);
   };
 
-  const handleLoadFosterings = async () => {
+  const handleLoadFosterings = useCallback(async () => {
     const page = getPageNumber(sort) + 1;
-    await loadFosterings(sort, page);
-  };
+    await loadFosterings(page, sort);
+  }, [sort]);
 
-  return { fosterings, handleLoadFosterings, sort, setSort };
+  return {
+    fosterings,
+    isLastPage,
+    handleLoadFosterings,
+    sort,
+    setSort,
+    loading,
+  };
 }

@@ -10,17 +10,33 @@ import {
 } from "../../../../../commons/district/districtName";
 import useFetchShelterRescuesData from "./hooks/useFetchShelterRescuesData";
 import useRequireLogin from "../../../../../../../src/components/commons/hooks/useRequireLogin";
+import usePaginationScroll from "../../../../../../../src/components/commons/hooks/usePaginationScroll";
 
 export default function AdpotShelterRescues({ isSSRLoggedIn }) {
-  console.log("AdoptShelterRescues isSSRLoggedIn: ", isSSRLoggedIn);
+  // console.log("AdoptShelterRescues isSSRLoggedIn: ", isSSRLoggedIn);
 
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
-  const { pets, handleToggleLike, handleLoadPetsData, sort, setSort } =
-    useFetchShelterRescuesData(id, isSSRLoggedIn);
+  // console.log(id);
+  const {
+    pets,
+    loadedImages,
+    setLoadedImages,
+    handleImageLoad,
+    handleToggleLike,
+    handleLoadPetsData,
+    sort,
+    setSort,
+    isLastPage,
+    loading,
+  } = useFetchShelterRescuesData(id, isSSRLoggedIn);
   const { handleDateClick, handleDogClick, handleCatClick, handleOtherClick } =
-    useSortSelection(setSort);
+    useSortSelection(sort, setSort, loading);
+  const { scrollRef, scrollLoading } = usePaginationScroll(
+    handleLoadPetsData,
+    isLastPage,
+    [sort]
+  );
   const { navigateTo } = useNavigate();
   const handleRequireModal = useRequireLogin(isSSRLoggedIn);
 
@@ -35,9 +51,15 @@ export default function AdpotShelterRescues({ isSSRLoggedIn }) {
         handleCatClick={handleCatClick}
         handleOtherClick={handleOtherClick}
         pets={pets}
+        loadedImages={loadedImages}
+        setLoadedImages={setLoadedImages}
+        handleImageLoad={handleImageLoad}
         handleToggleLike={handleToggleLike}
+        isLastPage={isLastPage}
         findProvinceKo={findProvinceKo}
         findDistrictKo={findDistrictKo}
+        scrollRef={scrollRef}
+        scrollLoading={scrollLoading}
         navigateTo={navigateTo}
       />
       <Navigation handleRequireModal={handleRequireModal} />

@@ -9,20 +9,31 @@ export default function ProfilePage({ isSSRLoggedIn, profileData }) {
 export async function getServerSideProps(context) {
   try {
     console.log("getServerSideProps called for /info/profile");
-
     const authResult = await checkAuth(context);
     console.log("authResult in /info/profile:", authResult);
+    const { isSSRLoggedIn, profileURL } = authResult.props;
     const accessToken = context.req.cookies.accessToken;
+
+    if (!isSSRLoggedIn) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
+
     let profileData = null;
 
-    if (authResult.props.isSSRLoggedIn && accessToken) {
+    if (isSSRLoggedIn && accessToken) {
       console.log(`Fetching profile data`);
       profileData = await fetchProfileData(accessToken);
     }
 
     return {
       props: {
-        ...authResult.props,
+        isSSRLoggedIn,
+        profileURL,
         profileData,
       },
     };

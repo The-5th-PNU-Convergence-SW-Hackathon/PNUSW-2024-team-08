@@ -54,4 +54,9 @@ export const WrapperAlarm = styled.div`
   align-items: center;
   margin: 0 auto;
   background-color: white;
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 95px - 60px);
+  }
 `;

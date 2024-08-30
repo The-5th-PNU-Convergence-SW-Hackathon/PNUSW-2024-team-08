@@ -72,8 +72,11 @@ export const VolunteerTitleBlock = styled.div`
 `;
 
 export const VolunteerTitle = styled.p`
-  width: auto;
+  width: 332px;
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const VolunteerText = styled.div`
@@ -151,4 +154,5 @@ export const VolunteerAddIcon = styled.div`
   position: fixed;
   bottom: 12%;
   right: calc(50% - 172px);
+  cursor: pointer;
 `;

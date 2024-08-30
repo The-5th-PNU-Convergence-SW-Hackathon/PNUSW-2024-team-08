@@ -23,7 +23,7 @@ export default function useFetchSheltersData() {
           setShelters(validShelters);
           sessionStorage.setItem("shelterList", JSON.stringify(validShelters));
         }
-        console.log("shelterList = ", cachedShelters);
+        // console.log("shelterList = ", JSON.parse(cachedShelters));
       }
     }
 

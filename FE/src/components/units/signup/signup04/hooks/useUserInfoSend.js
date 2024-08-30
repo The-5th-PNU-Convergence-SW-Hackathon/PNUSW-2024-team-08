@@ -1,32 +1,49 @@
 import { sendUserInfo } from "../Signup04.queries";
 import { useRouter } from "next/router";
+import useS3Upload from "../../../../commons/hooks/useS3Upload";
 
-export const useUserInfoUpSend = () => {
+export const useUserInfoUpSend = (croppedFile) => {
   const router = useRouter();
+  const { uploadFile } = useS3Upload("pnucoding", "profile");
+
+  const uploadImageToS3 = async (photo) => {
+    console.log("Uploading photo:", photo);
+    const imageUrl = await uploadFile(photo);
+    console.log("Uploaded image URL:", imageUrl);
+    return imageUrl !== null ? imageUrl : null;
+  };
 
   const handleSendUserInfo = async (userInfo, path) => {
-    const isUserInfoValid = (
+    const isUserInfoValid =
       userInfo.isPossibleNickName &&
       userInfo.selectedProvince !== "시/도 선택" &&
       userInfo.selectedDistrict !== "구/군/시" &&
-      userInfo.selectedSubdistrict !== "동/읍/면"
-    );
+      userInfo.selectedSubdistrict !== "동/읍/면";
 
     if (isUserInfoValid) {
       try {
-        const data = await sendUserInfo({
-          email: userInfo.email,
-          name: userInfo.name,
-          nickName: userInfo.nickName,
-          province: userInfo.selectedProvince,
-          district: userInfo.selectedDistrict,
-          subDistrict: userInfo.selectedSubdistrict,
-          password: userInfo.password,
-          passwordConfirm: userInfo.passwordConfirm,
-          profileURL: "https://s3.xxxx.xx.com",
-        });
-        if (data.success) {
-          router.push(path);
+        if (croppedFile) {
+          const uploadedImageUrl = await uploadImageToS3(croppedFile);
+
+          // 업로드된 이미지 URL을 userInfo에 추가
+          const updatedUserInfo = {
+            ...userInfo,
+            profileURL: uploadedImageUrl,
+          };
+          const data = await sendUserInfo({
+            email: updatedUserInfo.email,
+            name: updatedUserInfo.name,
+            nickName: updatedUserInfo.nickName,
+            province: updatedUserInfo.selectedProvince,
+            district: updatedUserInfo.selectedDistrict,
+            subDistrict: updatedUserInfo.selectedSubDistrict,
+            password: updatedUserInfo.password,
+            passwordConfirm: updatedUserInfo.passwordConfirm,
+            profileURL: updatedUserInfo.profileURL,
+          });
+          if (data.success) {
+            router.push(path);
+          }
         }
       } catch (error) {
         console.log("컨테이너 유저정보 보내기 실패", error);

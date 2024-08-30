@@ -1,35 +1,39 @@
-import { useRouter } from "next/router";
-import SignUpUI03 from "./Signup03.presenter";
 import { usePasswordCheck } from "./hooks/usePasswordCheck";
+import { usePasswordVerify } from "./hooks/usePasswordVerify";
+import Signup03UI from "./Signup03.presenter";
 
-export default function SignUp03() {
-
+export default function Signup03() {
   const {
-    email,
     password,
     passwordConfirm,
-    isPasswordMatch,
-    isVisible,
-    isPasswordAvailable,
+    isPasswordValid,
+    isPasswordMatching,
+    validationMessage,
+    confirmMessage,
     handlePasswordChange,
-    handleConfirmPasswordChange,
-    verifyPassword,
-    navigateTo,
+    handlePasswordConfirmChange,
   } = usePasswordCheck();
+
+  const { email, handledNextButton } = usePasswordVerify(
+    password,
+    passwordConfirm,
+    isPasswordValid,
+    isPasswordMatching
+  );
 
   return (
     <>
-      <SignUpUI03
-        navigateTo={navigateTo}
+      <Signup03UI
         email={email}
         password={password}
         passwordConfirm={passwordConfirm}
-        isPasswordMatch={isPasswordMatch}
+        isPasswordValid={isPasswordValid}
+        isPasswordMatching={isPasswordMatching}
+        validationMessage={validationMessage}
+        confirmMessage={confirmMessage}
         handlePasswordChange={handlePasswordChange}
-        handleConfirmPasswordChange={handleConfirmPasswordChange}
-        isVisible={isVisible}
-        isPasswordAvailable={isPasswordAvailable} //사용가능한 비밀번호인지 확인
-        verifyPassword={verifyPassword} //다음 버튼에 들어갈 기능
+        handlePasswordConfirmChange={handlePasswordConfirmChange}
+        handledNextButton={handledNextButton}
       />
     </>
   );

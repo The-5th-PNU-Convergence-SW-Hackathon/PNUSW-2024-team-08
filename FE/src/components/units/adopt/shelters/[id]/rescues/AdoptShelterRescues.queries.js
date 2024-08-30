@@ -10,7 +10,7 @@ export async function fetchShelterRescuesDataWithAuth(id, sort, page) {
 
     const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const response = await fetch(
-      `${baseURL}/shelters/${id}/animals?sort=${sort}&page=${page}`,
+      `${baseURL}/shelters/${id}/animals?type=${sort}&page=${page}`,
       {
         method: "GET",
         headers: {
@@ -23,7 +23,7 @@ export async function fetchShelterRescuesDataWithAuth(id, sort, page) {
       throw new Error(`API call failed with status: ${response.status}`);
     }
     const data = await response.json();
-    return data.result.animals;
+    return data.result;
   } catch (error) {
     console.error("Fetching shelter pets failed:", error);
     // 오류 처리 로직을 여기에 작성할 수 있습니다.
@@ -48,7 +48,7 @@ export async function fetchShelterRescuesDataWithoutAuth(id, sort, page) {
       throw new Error(`API call failed with status: ${response.status}`);
     }
     const data = await response.json();
-    return data.result.animals;
+    return data.result;
   } catch (error) {
     console.error("Fetching shelter pets failed:", error);
     // 오류 처리 로직을 여기에 작성할 수 있습니다.

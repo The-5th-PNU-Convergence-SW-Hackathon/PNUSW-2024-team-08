@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 
 export const WrapperContents = styled.div`
   width: 390px;
@@ -13,27 +14,19 @@ export const WrapperContents = styled.div`
   z-index: 10;
   padding-bottom: 10px;
   position: relative;
-  padding-left: 10px;
 
-  /* Chrome, Safari 등 */
+  /* 크롬, 사파리 등에서 스크롤 바 숨기기 */
   &::-webkit-scrollbar {
-    width: 10px; /* 스크롤바의 너비 */
-  }
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0); /* 스크롤바 뒷 배경을 투명 처리한다 */
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #f6f6f6; /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥근 처리 */
-    border: 3px solid #f6f6f6; /* 스크롤바 외곽선(선택사항) */
-  }
-  &::-webkit-scrollbar-corner {
-    background: transparent;
+    display: none; /* 스크롤 바 숨기기 */
   }
 
-  /* Firefox */
-  scrollbar-width: thin; /* "auto" 또는 "thin" */
-  scrollbar-color: #f6f6f6 rgba(0, 0, 0, 0); /* 스크롤바 색상과 트랙 색상 */
+  /* 파이어폭스에서 스크롤 바 숨기기 */
+  scrollbar-width: none;
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 179px - 60px);
+  }
 `;
 
 export const AdoptPetMenuBlock = styled.div`
@@ -93,6 +86,33 @@ export const AdoptPetMenuOthers = styled.div`
   color: ${(props) => (props.sort === "other" ? "#ffffff" : "#000000")};
   border-radius: 22px;
   cursor: pointer;
+`;
+
+const pulse = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+export const PetLoadingSkeleton = styled.div`
+  width: 344px;
+  height: 344px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  flex-shrink: 0;
+  position: relative;
+  margin-top: 12px;
+  animation: ${pulse} 1.5s infinite;
 `;
 
 export const AdoptPet = styled.div`
@@ -244,9 +264,10 @@ export const AdoptLikeBlock = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 1px;
+  gap: 2px;
   top: 74px;
-  left: 235px;
+  left: 233px;
+  font-family: "Roboto", sans-serif;
 `;
 
 export const AdoptLike = styled.div`
@@ -266,8 +287,10 @@ export const AdoptViewBlock = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 2px;
   top: 74px;
   left: 275px;
+  font-family: "Roboto", sans-serif;
 `;
 
 export const AdoptView = styled.div`
@@ -279,7 +302,29 @@ export const AdoptView = styled.div`
   align-items: center;
 `;
 
-export const MoreButton = styled.button`
-  margin-top: 12px;
-  cursor: pointer;
+const loading = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingImgBox = styled.div`
+  height: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoadingImg = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ff6636;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ${loading} 1s linear infinite;
 `;

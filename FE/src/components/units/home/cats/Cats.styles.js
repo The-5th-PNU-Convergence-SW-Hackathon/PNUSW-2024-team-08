@@ -2,17 +2,22 @@ import styled from "@emotion/styled";
 
 export const WrapperCats = styled.div`
   width: 390px;
-  height: calc(100vh - 179px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  background-color: #FDFAF7;
+  background-color: #fdfaf7;
   overflow-y: auto;
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 60px);
   }
 `;
 

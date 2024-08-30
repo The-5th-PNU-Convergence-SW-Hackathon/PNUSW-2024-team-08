@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import HomeHeaderUI from "./HomeHeader.presenter";
 import useModalStore from "../../../../src/store/useModalStore";
 
-export default function HomeHeader({ isSSRLoggedIn }) {
+export default function HomeHeader({ isSSRLoggedIn, profileURL }) {
   const router = useRouter();
   const { openModal } = useModalStore();
 
@@ -30,5 +30,12 @@ export default function HomeHeader({ isSSRLoggedIn }) {
     }
   };
 
-  return <HomeHeaderUI handleIconClick={handleIconClick} paths={paths} />;
+  return (
+    <HomeHeaderUI
+      handleIconClick={handleIconClick}
+      paths={paths}
+      isSSRLoggedIn={isSSRLoggedIn}
+      profileURL={profileURL}
+    />
+  );
 }

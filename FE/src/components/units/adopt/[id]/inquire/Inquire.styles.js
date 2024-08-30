@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import DaumPostcode from "react-daum-postcode";
 
 export const WrapperHeader = styled.div`
   width: 390px;
@@ -62,6 +63,11 @@ export const WrapperInquire = styled.div`
     display: none;
   }
   scrollbar-width: none; /* Firefox */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 95px - 60px);
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -103,6 +109,7 @@ export const InfoLargeInput = styled.input`
   border-radius: 10px;
   font-size: 16px;
   padding-left: 12px;
+  color: #bea597;
 
   ::placeholder {
     color: #bea597;
@@ -158,7 +165,7 @@ export const InfoAddressSearchBlock = styled.div`
   align-items: center;
 `;
 
-export const InfoMiddleInput = styled.input`
+export const InfoPostalCodeInput = styled.input`
   width: 253px;
   height: 44px;
   background-color: #fef8f2;
@@ -166,8 +173,9 @@ export const InfoMiddleInput = styled.input`
   outline: none;
   border-radius: 10px;
   font-size: 16px;
-  padding-left: 12px;
+  padding: 0px 12px;
   margin-bottom: 10px;
+  color: #bea597;
 
   ::placeholder {
     color: #bea597;
@@ -189,10 +197,44 @@ export const InfoSearchButton = styled.button`
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  cursor: pointer;
 `;
 
 export const InquireButton = styled.button`
   background-color: #ff6636;
   color: #ffffff;
   margin-top: 50px;
+`;
+
+export const AddressModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: calc(50% - 195px);
+  width: 390px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+export const AddressModalContent = styled.div`
+  background: white;
+  width: 350px;
+  height: 500px;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  z-index: 101;
+`;
+
+export const AddressTitle = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
 `;

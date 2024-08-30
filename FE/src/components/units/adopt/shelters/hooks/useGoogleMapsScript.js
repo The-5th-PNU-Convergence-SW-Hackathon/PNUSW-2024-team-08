@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const useGoogleMapsScript = (callback) => {
   const isMounted = useRef(true);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false); // 스크립트 로드 상태 추가
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -46,8 +47,12 @@ const useGoogleMapsScript = (callback) => {
           map_ids: "e5dafb91d67d6c4d",
         });
 
-        window.google.maps.__ib__ = callback;
+        window.google.maps.__ib__ = () => {
+          setIsScriptLoaded(true); // 스크립트가 로드되었음을 설정
+          callback();
+        };
       } else {
+        setIsScriptLoaded(true);
         callback();
       }
     };

@@ -19,7 +19,7 @@ export const checkNickNameDuplication = async (nickName) => {
 
     const data = await response.json();
     console.log("Response to nickname duplication check:", data);
-    return data.success; // 서버 응답 반환
+    return data.result; // 서버 응답 반환
   } catch (error) {
     console.error("Failed to check nickname duplication:", error);
     return null; // 에러 처리를 호출한 곳으로 전파

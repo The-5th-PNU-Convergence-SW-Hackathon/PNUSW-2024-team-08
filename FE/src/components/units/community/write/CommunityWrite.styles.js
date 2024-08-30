@@ -64,6 +64,11 @@ export const WrapperWrite = styled.div`
 
   /* Firefox */
   scrollbar-width: none; /* Firefox에서 스크롤바를 숨깁니다 */
+
+  /* iOS 전용 스타일 */
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 195px - 60px);
+  }
 `;
 
 export const CategoryInput = styled.input`
@@ -93,6 +98,7 @@ export const TitleInput = styled.input`
   border-radius: 10px;
   font-size: 16px;
   padding-left: 12px;
+  padding-right: 12px;
   margin-top: 15px;
   color: #bea597;
   flex-shrink: 0;
@@ -152,13 +158,24 @@ export const TextInput = styled.textarea`
   scrollbar-color: #bea597 rgba(0, 0, 0, 0); /* 스크롤바 색상과 트랙 색상 */
 `;
 
+export const TextMinLengthMessage = styled.div`
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  color: #ff6f61;
+  align-self: flex-start;
+  margin-left: 27px;
+  margin-top: 8px;
+  visibility: ${(props) => (props.isValid ? "hidden" : "visible")};
+`;
+
 export const PhotoWrapper = styled.div`
   width: 342px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 export const PhotoUploadTitle = styled.div`
@@ -230,6 +247,17 @@ export const PhotoDeleteButton = styled.button`
   font-weight: 600;
   color: #ff5353;
   background-color: #ffffff;
+`;
+
+export const PhotoMinCountMessage = styled.div`
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  color: #ff6f61;
+  align-self: flex-start;
+  margin-left: 27px;
+  margin-top: -6px;
+  visibility: ${(props) => (props.isValid ? "hidden" : "visible")};
 `;
 
 export const SubmitButtonWrapper = styled.div`

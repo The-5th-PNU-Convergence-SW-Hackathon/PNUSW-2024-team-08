@@ -7,7 +7,7 @@ export default function Loading() {
   //1.5초뒤 자동으로 페이지 이동
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/intro");
+      router.push("/landing");
     }, 1500);
     //페이지 이동 후 타이며 초기화
     return () => clearTimeout(timer);

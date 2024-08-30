@@ -1,21 +1,29 @@
 import * as S from "./VolunteerJoined.styles";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const FontAwesomeIcon = dynamic(
+  () =>
+    import("@fortawesome/react-fontawesome").then((mod) => mod.FontAwesomeIcon),
+  { ssr: false }
+);
 
 export default function VolunteerRecommendUI(props) {
   return (
     <>
-      <S.WrapperContents>
+      <S.WrapperContents ref={props.scrollRef}>
         {props.volunteerJoinedInfos.map((infos, index) => (
           <S.VolunteerBlock
             key={infos.id}
-            onClick={props.navigateTo(`/volunteer/detail/${infos.id}`)}
+            onClick={props.navigateTo(`/volunteer/${infos.id}`)}
           >
             <S.VolunteerImg>
               <Image
-                src="/images/volunteer/volunteer_1.svg"
+                src={infos.profileURL}
                 alt="volunteer_1"
                 width={324}
                 height={183}
+                objectFit="cover"
               />
               <S.VolunteerLikeBlock
                 onClick={(event) => {
@@ -40,13 +48,13 @@ export default function VolunteerRecommendUI(props) {
               <S.VolunteerTitle>{infos.name}</S.VolunteerTitle>
             </S.VolunteerTitleBlock>
             <S.VolunteerText>
-              {infos.description.length > 63
+              {infos.description?.length > 63
                 ? `${infos.description.slice(0, 63)}...`
                 : infos.description}
             </S.VolunteerText>
             <S.VolunteerInfoBlock>
               <S.VolunteerNumberOfMember>
-                {infos.participation}명 참여중
+                {infos.participationNum}명 참여중
               </S.VolunteerNumberOfMember>
               <S.VolunteerCategoryBlock>
                 <S.VolunteerCategory>{infos.category}</S.VolunteerCategory>
@@ -60,8 +68,13 @@ export default function VolunteerRecommendUI(props) {
             </S.VolunteerInfoBlock>
           </S.VolunteerBlock>
         ))}
-        <S.MoreBtn onClick={props.loadUpdatedVolunteerJoinedData}>더보기</S.MoreBtn>
+        {props.scrollLoading && (
+          <S.LoadingImgBox>
+            <S.LoadingImg />
+          </S.LoadingImgBox>
+        )}
         <S.VolunteerAddIcon
+          showModal={props.showModal}
           onClick={props.navigateTo("/volunteer/create_volunteer")}
         >
           <Image
