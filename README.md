@@ -1,94 +1,104 @@
 
 
 
-## 1. 프로젝트 소개
-### 1.1. 개발배경 및 필요성
+### 1. 프로젝트 소개
+#### 1.1. 개발배경 및 필요성
 #### □ 개발 배경</br>
-지금은 반려동물의 시대이다. 한국의 반려가구 수는 2020년 532만 가구에서 2022년 552만 가구로 2.8%p 상승했다[^1].
-동물 문제 대한 전국민적 인식 향상에 따라 유기·유실동물은 지속해서 감소하고 있고((’20) 130만 마리 → (’21) 118만 마리 → (’22) 113만 마리)[^2], 향후 1년 이내 반려동물 입양 계획이 있는 응답자 중 유실·유기 동물을 입양할 의향이 있는 비율은 84.4%였다[^3]. 이렇듯 유실·유기동물에 관한 인식 수준이 개선되고 있고, 입양도 증가하고 있는 상황이다.</br>
+<img width="400" alt="스크린샷 2024-09-02 오후 5 45 31" src="https://github.com/user-attachments/assets/76430e20-d51e-448a-8bfc-53c90e785baf">  <img width="290" alt="스크린샷 2024-09-02 오후 5 47 59" src="https://github.com/user-attachments/assets/316e4611-fb9f-41b2-9c3a-b687ca8ff2f4"></br>
+
+> 지금은 반려동물의 시대이다. 한국의 반려가구 수는 2020년 532만 가구에서 2022년 552만 가구로 2.8%p 상승했다[^1]. 동물 문제 대한 전국민적 인식 향상에 따라 유기·유실동물은 지속해서 감소하고 있고((’20) 130만 마리 → (’21) 118만 마리 → (’22) 113만 마리)[^2], 향후 1년 이내 반려동물 입양 계획이 있는 응답자 중 유실·유기 동물을 입양할 의향이 있는 비율은 84.4%였다[^3]. 이렇듯 유실·유기동물에 관한 인식 수준이 개선되고 있고, 입양도 증가하고 있는 상황이다.</br>
 </br>
-하지만 이러한 현상과는 달리, 동물을 입양하는 과정에서 지인에게 무료로 분양을 받거나(41.8%) 펫숍에서 구입하는 비율(24.0%)에 비해 지자체 동물 보호센터(4.7%)나 민간 동물보호 시설(4.3%)에서 입양하는 비율은 현저히 낮았다.[^4] 이는 직접 개체 확인이 가능하고 원하는 품종·생김새의 동물을 선택할 수 있는 곳에서 입양하고 싶은 의견이 반영되었기 때문이다[^5]. </br>
-</br>
-그렇기 때문에 펫숍의 입양 비용(평균 57.9만 원)이 민간 보호시설(평균 17.7만 원)과 지인에게 분양(평균 35.1만 원) 받는 것보다 훨씬 비쌈에도 불구하고 여전히 인기가 있는 것이다[^6]. 한 연구는 이러한 현상을 '가장 쉽고 편하게 원하는 품종을 구하고자 하는 경향이 반영된 것'이라고 분석했다[^7].</br>
-</br>
-그리고 유실·유기동물과 관련된 부산의 상황은 그렇게 낙관적이지 않다. 부산은 모든 광역시 중 한 해에 발생하는 유기·유실 동물 수가 가장 많지만[^8], 부산의 동물보호센터는 단 5개소에 불과하다[^9]. 서울에 16개소, 대구에 23개소가 있는 것과 비교하면 턱없이 작은 숫자이다. 그마저도 지자체 직영으로 운영되는 곳이 없기 때문에 상황은 더욱 열악하다.</br>
-</br>
-동물보호센터의 부족도 문제지만 센터 내에서의 동물 관리 실태는 더욱 심각하다. 부산 유기동물의 자연사율은 전국 1위(57%)이고, 안락사율은 전국 최하위(2.7%)를 기록했으며, 이는 '원인 분석 및 대책 마련이 필요한 것'이라고 언급했다[^10]. 또한, 유실·유기동물이 질병이나 사고로 사망하는 수가 매년 3천 마리 이상이고, 3년 간 예방접종 비율이 1.8%에 그치는 등 관리가 제대로 되지 않는 상황이다[^11]. </br>
+i. 저조한 보호소 입양율과 펫숍 선호 현상</br>
 </br>
 
-#### □ 문제 도출</br>
-동물 분양을 원하는 사람들은 유실·유기동물 입양을 고려하지 않는 이유로 ‘어린 동물을 키우고 싶지만, 유기동물은 보통 성견이 많다(38.9%)’, ‘입양 방법이나 절차 등을 잘 모른다(27.8%).'를 꼽았다[^12]. 동물의 특징과 특성에 따라 분양자의 선호가 나뉘고, 좋은 마음으로 유기동물을 입양하려고 해도 여전히 특정 종이나 크기에 따른 선호의 차이가 존재한다는 의미이다.</br>
+> 하지만 이러한 현상과는 달리, 동물을 입양하는 과정에서 지인에게 무료로 분양을 받거나(41.8%) 펫숍에서 구입하는 비율(24.0%)에 비해 지자체 동물 보호센터(4.7%)나 민간 동물보호 시설(4.3%)에서 입양하는 비율은 현저히 낮았다[^4]. 이는 직접 개체 확인이 가능하고 원하는 품종·생김새의 동물을 선택할 수 있는 곳에서 입양하고 싶은 의견이 반영되었기 때문이다[^5]. 그렇기 때문에 펫숍의 입양 비용(평균 57.9만 원)이 민간 보호시설(평균 17.7만 원)과 지인에게 분양(평균 35.1만 원) 받는 것보다 훨씬 비쌈에도 불구하고 여전히 인기가 있는 것이다[^6]. 한 연구는 이러한 현상을 '가장 쉽고 편하게 원하는 품종을 구하고자 하는 경향이 반영된 것'이라고 분석했다.[^7]</br>
 </br>
-이런 흐름에 따라 현재 ‘유기동물 보호소’ 라는 이름을 가진 신종 펫숍이 유행하고 있다. 지자체 유기견 보호소나 동물 단체에서 운영하는 센터가 아닌, 이름만 보호소로 바꾼 펫숍인 것이다. 이곳에서는 유기동물을 미끼로 삼아 사람들을 모은 후 유기동물에 대한 단점을 설명하거나 혹은 아예 유기동물을 보여주지도 않은 채, 유기동물이 아닌 파양동물을 높은 금액을 지불하고 분양 받도록 강권한다[^13]. 하지만, 신종 펫숍은 귀엽고 키우기 쉬운 작은 품종을 분양할 수 있다고 광고하고 있기 때문에 계속 수요가 존재하고, 보호소 명칭을 쓰지 못하게 하는 동물보호법 개정안이 아직 국회에서 통과하지 못했기에 이런 형태의 사업이 여전히 확장하고 있다[^14].</br>
+ii. 지역 유기동물 관리의 현실</br>
 </br>
-또한, 열악한 인프라를 가진 부산의 동물보호센터에는 일손이 많이 필요한 상황이다. 유기동물 봉사에 대한 수요가 꾸준히 있음에도 관련 서비스의 부족과 인프라 구축의 부재로 시민의 참여가 더딘 것이 현실이다. 하나의 예로, 부산동물보호센터의 네이버 카페에는 매주 주말마다 5개에서 50개의 봉사 신청 댓글이 달리고 있다[^15]. 부산대 유기견 봉사 동아리 前 회장은 센터에서 원하는 봉사 인력이 그때그때 다르기 때문에 수요에 맞는 공급을 제공할 수 있는 서비스가 있으면 좋을 것 같다고 말했다. 다른 동아리원은 많은 보호소가 봉사자의 유동적인 참여를 원하기 때문에 선한 마음으로 봉사에 참여하려고 하는 봉사자 입장에서는 제약 조건이 존재한다고 이야기했다.[^16]</br> 
+
+> 그리고 유실·유기동물과 관련된 부산의 상황은 그렇게 낙관적이지 않다. 부산은 모든 광역시 중 한 해에 발생하는 유기·유실 동물 수가 가장 많지만[^8], 부산의 동물보호센터는 단 5개소에 불과하다[^9]. 서울에 16개소, 대구에 23개소가 있는 것과 비교하면 턱없이 작은 숫자이다. 그마저도 지자체 직영으로 운영되는 곳이 없기 때문에 상황은 더욱 열악하다. 동물보호센터의 부족도 문제지만 센터 내에서의 동물 관리 실태는 더욱 심각하다. 부산 유기동물의 자연사율은 전국 1위(57%)이고, 안락사율은 전국 최하위(2.7%)를 기록했으며, 이는 '원인 분석 및 대책 마련이 필요한 것'이라고 언급했다[^10]. 또한, 유실·유기동물이 질병이나 사고로 사망하는 수가 매년 3천 마리 이상이고, 3년 간 예방접종 비율이 1.8%에 그치는 등 관리가 제대로 되지 않는 상황이다[^11]. </br>
 </br>
-이러한 수요와는 반대로 보호소의 경우에는 인력이 부족한 경우가 많다. 홍보가 제대로 이루어지지 않는 보호소의 경우 봉사 인력을 구하기가 쉽지 않은 상황이다. 한 기자는 부산의 유기동물보호소에서 봉사 후 '돈을 받고 하는 일이 아니기 때문에 항상 인력 부족에 시달리고 있다.'고 언급했다[^17]. 수도권을 제외한 지역의 경우 관리 인력이 적고 인프라가 부족하여 보호센터 관리 자체가 힘든 경우도 있다.</br>
+
+#### □ 개발 필요성</br>
+i. 신종 펫숍의 유행
+</br>
+
+> 동물 분양을 원하는 사람들은 유실·유기동물 입양을 고려하지 않는 이유로 ‘어린 동물을 키우고 싶지만, 유기동물은 보통 성견이 많다(38.9%)’, ‘입양 방법이나 절차 등을 잘 모른다(27.8%).'를 꼽았다[^12]. 동물의 특징과 특성에 따라 분양자의 선호가 나뉘고, 좋은 마음으로 유기동물을 입양하려고 해도 여전히 특정 종이나 크기에 따른 선호의 차이가 존재한다는 의미이다. 이런 흐름에 따라 현재 ‘유기동물 보호소’ 라는 이름을 가진 신종 펫숍이 유행하고 있다.</br>
+
+> 지자체 유기견 보호소나 동물 단체에서 운영하는 센터가 아닌, 이름만 보호소로 바꾼 펫숍인 것이다. 이곳에서는 유기동물을 미끼로 삼아 사람들을 모은 후 유기동물에 대한 단점을 설명하거나 혹은 아예 유기동물을 보여주지도 않은 채, 유기동물이 아닌 파양동물을 높은 금액을 지불하고 분양 받도록 강권한다[^13]. 하지만, 신종 펫숍은 귀엽고 키우기 쉬운 작은 품종을 분양할 수 있다고 광고하고 있기 때문에 계속 수요가 존재하고, 보호소 명칭을 쓰지 못하게 하는 동물보호법 개정안이 아직 국회에서 통과하지 못했기에 이런 형태의 사업이 여전히 확장하고 있다[^14].</br>
+</br>
+ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
+</br>
+
+> 또한, 열악한 인프라를 가진 부산의 동물보호센터에는 일손이 많이 필요한 상황이다. 유기동물 봉사에 대한 수요가 꾸준히 있음에도 관련 서비스의 부족과 인프라 구축의 부재로 시민의 참여가 더딘 것이 현실이다. 하나의 예로, 부산동물보호센터의 네이버 카페에는 매주 주말마다 5개에서 50개의 봉사 신청 댓글이 달리고 있다[^15]. 부산대 유기견 봉사 동아리 前 회장은 센터에서 원하는 봉사 인력이 그때그때 다르기 때문에 수요에 맞는 공급을 제공할 수 있는 서비스가 있으면 좋을 것 같다고 말했다. 다른 동아리원은 많은 보호소가 봉사자의 유동적인 참여를 원하기 때문에 선한 마음으로 봉사에 참여하려고 하는 봉사자 입장에서는 제약 조건이 존재한다고 이야기했다.[^16]</br>
+
+> 이러한 수요와는 반대로 보호소의 경우에는 인력이 부족한 경우가 많다. 홍보가 제대로 이루어지지 않는 보호소의 경우 봉사 인력을 구하기가 쉽지 않은 상황이다. 한 기자는 부산의 유기동물보호소에서 봉사 후 '돈을 받고 하는 일이 아니기 때문에 항상 인력 부족에 시달리고 있다.'고 언급했다[^17]. 수도권을 제외한 지역의 경우 관리 인력이 적고 인프라가 부족하여 보호센터 관리 자체가 힘든 경우도 있다.</br>
 </br>
 
 #### □ 동기 및 해결방안</br>
 앞의 내용을 정리하면 다음과 같다.</br> 
 </br>
-1. 반려동물 문화의 확산으로 유실·유기동물이 감소하고 있고 인식 수준이 향상되고 있다. 하지만 유기동물의 입양 선호가 높은 것에 비해 실제로 지자체 동물 보호센터나 민간 동물보호시설에서 입양하는 비율은 낮았으며, 이는 동물의 특징과 특성이 분양자의 선호에 반영된다 는 것을 보여준다. 이러한 선호는 신종 펫숍의 유행으로 이어졌으며, 사람들은 유기동물로 둔갑한 동물을 값을 내고 구매하고 있다.</br>
-2. 부산의 부족한 동물보호센터 인프라와 인력은 동물 관리의 어려움으로 이어지고 있고 도움의 손길을 바라지만, 봉사를 원하는 사람들은 여전히 양질의 봉사 정보를 얻지 못하고 있다.
+> 1. 반려동물 문화의 확산으로 유실·유기동물이 감소하고 있고 인식 수준이 향상되고 있다. 하지만 유기동물의 입양 선호가 높은 것에 비해 실제로 지자체 동물 보호센터나 민간 동물보호시설에서 입양하는 비율은 낮았으며, 이는 동물의 특징과 특성이 분양자의 선호에 반영된다 는 것을 보여준다. 이러한 선호는 신종 펫숍의 유행으로 이어졌으며, 사람들은 유기동물로 둔갑한 동물을 값을 내고 구매하고 있다.</br>
+
+> 2. 부산의 부족한 동물보호센터 인프라와 인력은 동물 관리의 어려움으로 이어지고 있고 도움의 손길을 바라지만, 봉사를 원하는 사람들은 여전히 양질의 봉사 정보를 얻지 못하고 있다.
 </br>
 앞서 정의한 두 가지 문제는 개인 차원에서 감당하기에 한계가 있다.</br>
 </br> 
-정보의 부족으로 인해 개인은 입양 하는 곳이 인증을 받은 보호소인지 펫숍인지 구분하기 힘들고, 또한 펫숍이라는 사실을 안다고 해도 특정 종이나 특징에 대한 선호가 남아있는 이상 보호소에 있는 성견과 같은 동물의 입양을 꺼릴 가능성이 있다. 그리고 봉사 집단에 가입하지 못한 개인은 전화나 웹사이트를 통해 봉사 신청을 하는 과정이 까다롭고, 봉사 집단도 보호소와의 지속적인 컨택에 어려움을 겪는 상황이 지속되고 있기 때문이다.</br>
+
+> 정보의 부족으로 인해 개인은 입양 하는 곳이 인증을 받은 보호소인지 펫숍인지 구분하기 힘들고, 또한 펫숍이라는 사실을 안다고 해도 특정 종이나 특징에 대한 선호가 남아있는 이상 보호소에 있는 성견과 같은 동물의 입양을 꺼릴 가능성이 있다. 그리고 봉사 집단에 가입하지 못한 개인은 전화나 웹사이트를 통해 봉사 신청을 하는 과정이 까다롭고, 봉사 집단도 보호소와의 지속적인 컨택에 어려움을 겪는 상황이 지속되고 있기 때문이다.</br>
 </br>
 이러한 이유로 인해, 우리는 앞서 정의한 두 가지 문제를 앱 서비스로 해결하고자 한다. 아직 법이 감싸지 못한 범위를 서비스에 담아 사각지대를 지키고, 개인이 해결하기 힘든 문제들을 하나의 서비스에 담아 편리함을 제공하는 계획을 수립했다.</br>
 </br>
 
 
-### 1.2. 개발 목표 및 주요 내용</br>
-#### □ 개발목표</br>
+#### 1.2. 개발 목표 및 주요 내용</br>
+#### □ 개발 목표</br>
+
 우리는 적절한 봉사자를 원하는 보호소의 수요와 편리하게 봉사에 신청할 수 있는 서비스를 원하는 공급이 일치하지 않는다는 점과, 신종 펫숍이으로 인한 혼란을 문제로 설정했다. 그리고 5 Whys 분석법을 통해 이를 해결하기 위한 유기동물 서비스를 기획, 개발했다. 그리고 아래 두 가지 대목표를 상정했다.</br>
 </br>
 **5 whys 분석법**
 | 🔻Problem          | why1           | why2               | why3              | 🔑Solution                         |
 |-------------------|----------------|--------------------|-------------------|----------------------------------|
-| 봉사자와 보호소 간 수요 공급이 불일치 | 연결고리와 정보의 부재 | 일부 동아리와 단체에게만 제공된 기회 | 대중적이고 가시적인 봉사 신청 방법/플랫폼의 부재 | 봉사자와 보호소를 잇는 서비스 |
-| 신종 펫숍으로 인한 혼란 | 입양자의 정보 부족 |상호명에 대한 법제도 x | 제도적 지원과 관심이 부족 | 신뢰 가능한 보호소와 연결 |
+| 봉사자와 보호소 간 수요·공급이 불일치 | 연결고리와 정보의 부재 | 일부 동아리와 단체에게만 제공된 기회 | 대중적이고 가시적인 봉사 신청 방법/플랫폼의 부재 | 봉사자와 보호소를 잇는 기능 |
+| 신종 펫숍으로 인한 혼란 | 입양자의 정보 부족 |상호명에 대한 법제도 x | 제도적 지원과 관심이 부족 | 신뢰 가능한 보호소와 연결하는 기능 |
 
 <img width="700" alt="스크린샷 2024-07-08 오전 10 47 16" src="https://github.com/pnusw-hackathon/PNUSW-2024-team-08/assets/131665728/1055a1e2-c674-4b6c-b0e6-7eeef4116be2">
 </br></br>
 
-#### □ 주요내용</br>
-##### (1) 컨셉</br>
-- 서비스명인 포포(ForPaw)는 전치사 for과 동물의 발자국을 뜻하는 paw를 합쳐 만들었으며, 우리 서비스의 목적이 온전히 동물을 위한 것이라는 포부를 담았다. </br>
-- 메인 컬러인 오렌지(#FF6636)는 활동적이고 긍정적인 이미지를 전달하며, 유기동물에 대한 관심과 사랑을 상징한다.</br>
-- 동물의 발자국과 얼굴을 오마주한 아이콘과 손글씨로 적힌 서비스명을 함께 배치하여 서비스에 대한 친근감을 향상시킨다.</br>
-
-##### (2) 메인 기능</br>
-1️⃣ 입양 기능</br>
-``Pain Point``</br>
-보호소로 둔갑하여 영리를 추구하는 신종 펫숍의 유행</br>
-개인은 입양하는 곳이 인증을 받은 보호소인지 펫숍인지 구분하기 힘듦</br>
-
-``Funtion``</br>
-사용자는 구글맵을 바탕으로 주변의 보호소에 있는 동물을 확인하고 입양을 문의할 수 있다.</br>
-사용자는 동물의 나이/생김새/특징 등을 제공되는 사진과 정보를 통해 알 수 있다.</br>
+#### □ 주요 내용</br>
+- 컨셉</br>
+  > 서비스명인 포포(ForPaw)는 전치사 for과 동물의 발자국을 뜻하는 paw를 합쳐 만들었으며, 우리 서비스의 목적이 온전히 동물을 위한 것이라는 포부를 담았다.</br>
+  
+  > 메인 컬러인 오렌지(#FF6636)는 활동적이고 긍정적인 이미지를 전달하며, 유기동물에 대한 관심과 사랑을 상징한다.</br>
+  
+  > 동물의 발자국과 얼굴을 오마주한 아이콘과 손글씨로 적힌 서비스명을 함께 배치하여 서비스에 대한 친근감을 향상시킨다.</br>
 </br>
-2️⃣ 봉사활동 기능</br>
-``Pain Point``</br>
-- 여전히 해결되지 않고 있는 보호소의 인력과 일손 부족 문제</br>
-- 개인이 봉사를 신청하는 과정이 까다로움</br>
-- 봉사에 지속적으로 나갈 수 있는 요인과 유대감의 부족</br>
 
-``Funtion``</br>
-- 사용자는 지역의 보호소가 운영하는 봉사 모임에 가입하여 정보를 제공받을 수 있다.</br>
-- 사용자는 현재 인기가 있는 봉사 모임과 특정 지역의 봉사/소모임을 확인할 수 있다.</br>
-- 사용자는 직접 새 모임을 만들어 운영/관리할 수 있다.</br>
-- 사용자는 관리자로서 멤버를 관리하고 정기모임을 조직하며 공지사항을 올릴 수 있다.</br>
-- 사용자는 지역을 설정하여 봉사 모임을 검색하고 새 모임 알림을 설정할 수 있다.</br>
+- 사용자</br>
+  > 서비스의 사용자는 일반 사용자, 보호소 관리자로 구분된다. 일반 사용자는 로그인 후 서비스가 제공하는 대부분의 기능을 이용할 수 있다. 보호소 관리자는 회원가입 시 분류하여 각 지역의 보호소 직영 봉사활동을 조직하고 관리하는 역할을 부여받는다.</br>
 </br>
-3️⃣ 커뮤니티 기능</br>
-``Pain Point``</br>
-- 이 분야에 관심이 있고 문제를 겪는 사람들 간 정보를 공유할 수 있는 창구가 필요</br>
-``Funtion``</br>
-- 사용자는 유기동물의 입양과 임시보호 과정, 후기 등을 살펴볼 수 있다.</br>
-- 사용자는 회원 간 질문을 자유롭게 주고받을 수 있다.</br>
-- 사용자는 모든 게시판에 직접 글을 쓰고 댓글을 달고, 본인이 쓴 글을 확인하고 수정할 수 있다.</br>
+
+- 주요 기능</br>
+
+  i. 봉사활동 - 지역별 모임
+  > 사용자는 지역을 기반으로 보호소가 조직한 모임과 일반 사용자가 조직한 모임에서 활동할 수 있다. 특히 보호소가 직영으로 운영하는 모임에서 정기적인 봉사활동을 진행할 수 있다는 것이 장점이다.
+
+  ii. 봉사활동 - 모임 관리
+  > 사용자는 가입승인을 받은 후 모임에 들어와서 정기모임에 참여하고 채팅을 나눌 수 있다. 모임 관리자는 가입승인 대기 중인 사용자를 승인하고 공지사항을 작성하며, 정기 모임을 조직하고 멤버를 탈퇴시킬 수 있다. 보호소 관리자는 보호소 직영으로 운영하는 모임을 생성하여 편리하게 봉사를 진행할 수 있다.
+
+  iii. 입양 - 보호동물
+  > 사용자는 다양한 유기동물을 한 눈에 볼 수 있다. 최근에 올라온 동물, 개, 고양이, 기타의 필터를 사용할 수 있으며, 사진에 있는 하트 버튼을 통해 관심동물로 지정할 수 있다. 또한, 다양한 상세정보를 확인하고 각종 개인정보를 기입한 후 입양을 문의할 수 있다.
+
+  iv. 입양 - 보호소
+  > 사용자는 자신의 위치정보나 검색을 통해 지역과 키워드를 설정하여 공공데이터에 등록된 전국의 보호소를 검색할 수 있다. 보호소 정보에서 주소와 전화번호, 동물 수를 확인하고 보호동물의 몸무게와 중성화 수술 여부 등 상세정보를 확인할 수 있다.
+
+  v. 커뮤니티 - 궁금해요
+  > 사용자는 제목과 본문을 적고 사진을 첨부하여 궁금한 점을 자유롭게 질문할 수 있다. 다른 사용자의 질문을 확인하고 답변을 남길 수 있으며, 부적절한 글이나 댓글이 있을 경우 신고할 수 있다
+
+  vi. 채팅
+  > 사용자는 가입한 봉사활동 모임의 멤버들과 채팅을 나눌 수 있다. 실시간으로 사진, 파일, 링크를 업로드할 수 있고, 공지사항을 설정할 수 있다.</br>
+</br>
+
 
 
 ### 1.3. 세부내용</br>
@@ -212,7 +222,9 @@
 ### 1.4. 기존 서비스 대비 차별성
 
 #### □ 기능 비교표</br>
-<img width="800" alt="스크린샷 2024-07-08 오전 10 49 46" src="https://github.com/pnusw-hackathon/PNUSW-2024-team-08/assets/131665728/1083673d-c872-4b48-be86-e0cecd7daab2">
+<img width="503" alt="스크린샷 2024-09-02 오후 7 47 08" src="https://github.com/user-attachments/assets/b22772ba-40d8-4b58-9ebf-76f5f630b69e">
+
+
 </br>
 </br>
 - [포인핸즈] 서비스 또한 유기동물 입양 기능을 가지고 있다. 하지만 포포는 제휴된 보호소의 수가 많기 때문에 입양 정보에 대한 더욱 방대한 데이터를 가진다. 또한, 전문 코디네이터를 고용하여 입양 후에도 지속적인 사후 관리를 실시하는 차별성을 지닌다.</br>
@@ -266,11 +278,11 @@
 
 </br>
 
-## 3. 개발결과
-### 3.1. 전체시스템 흐름도
+### 3. 개발결과
+#### 3.1. 전체시스템 흐름도
 > 위 내용을 작성하세요.
 
-### 3.2. 기능설명
+#### 3.2. 기능설명
 > 각 페이지 마다 사용자의 입력의 종류와 입력에 따른 결과 설명 및 시연 영상.
 > 
 > ex. 로그인 페이지:
@@ -287,949 +299,16 @@
 >
 > (영상)
 
-### 3.3. 기능명세서
+#### 3.3. 기능명세서
 > 개발한 제품에 대한 기능명세서를 작성해 제출하세요.
 > 
 > 노션 링크, 한글 문서, pdf 파일, 구글 스프레드 시트 등...
 
-### 3.4. 디렉토리 구조
-#### □ FE 디렉토리</br>
-<pre>
-ForPaw_FE
-├── jsconfig.json
-├── next.config.mjs
-├── package-lock.json
-├── package.json
-├── pages
-│   ├── _app.js
-│   ├── _document.js
-│   ├── admin
-│   │   ├── adopt_request
-│   │   │   └── index.js
-│   │   ├── dashboard
-│   │   │   └── index.js
-│   │   ├── inquiries
-│   │   │   └── index.js
-│   │   ├── member_management
-│   │   │   └── index.js
-│   │   └── reports
-│   │       └── index.js
-│   ├── adopt
-│   │   ├── [id]
-│   │   │   ├── index.js
-│   │   │   └── inquire
-│   │   │       └── index.js
-│   │   ├── favorites
-│   │   │   └── index.js
-│   │   ├── pets
-│   │   │   └── index.js
-│   │   └── shelters
-│   │       ├── [id]
-│   │       │   ├── index.js
-│   │       │   └── rescues
-│   │       │       └── index.js
-│   │       └── index.js
-│   ├── chatting
-│   │   ├── [id]
-│   │   │   ├── albums
-│   │   │   │   └── index.js
-│   │   │   ├── files
-│   │   │   │   └── index.js
-│   │   │   ├── index.js
-│   │   │   ├── links
-│   │   │   │   └── index.js
-│   │   │   └── notice
-│   │   │       └── index.js
-│   │   └── index.js
-│   ├── community
-│   │   ├── [id]
-│   │   │   ├── edit
-│   │   │   │   └── index.js
-│   │   │   └── index.js
-│   │   ├── adoption
-│   │   │   └── index.js
-│   │   ├── fostering
-│   │   │   └── index.js
-│   │   ├── myanswer
-│   │   │   └── index.js
-│   │   ├── mycomment
-│   │   │   └── index.js
-│   │   ├── mypost
-│   │   │   └── index.js
-│   │   ├── myquestion
-│   │   │   └── index.js
-│   │   ├── question
-│   │   │   ├── [id]
-│   │   │   │   ├── answer
-│   │   │   │   │   ├── edit
-│   │   │   │   │   │   └── index.js
-│   │   │   │   │   └── index.js
-│   │   │   │   ├── edit
-│   │   │   │   │   └── index.js
-│   │   │   │   └── index.js
-│   │   │   └── index.js
-│   │   └── write
-│   │       └── index.js
-│   ├── home
-│   │   ├── cats
-│   │   │   └── index.js
-│   │   ├── dogs
-│   │   │   └── index.js
-│   │   ├── faq
-│   │   │   └── index.js
-│   │   └── index.js
-│   ├── index.js
-│   ├── info
-│   │   ├── alarm
-│   │   │   └── index.js
-│   │   ├── profile
-│   │   │   ├── delete
-│   │   │   │   └── index.js
-│   │   │   ├── edit
-│   │   │   │   └── index.js
-│   │   │   ├── index.js
-│   │   │   ├── inquiry
-│   │   │   │   ├── index.js
-│   │   │   │   ├── my-inquiries
-│   │   │   │   │   └── index.js
-│   │   │   │   └── write
-│   │   │   │       └── index.js
-│   │   │   ├── license
-│   │   │   │   └── index.js
-│   │   │   ├── policy
-│   │   │   │   └── index.js
-│   │   │   └── pw
-│   │   │       └── index.js
-│   │   └── search
-│   │       └── index.js
-│   ├── intro
-│   │   └── index.js
-│   ├── landing
-│   │   └── index.js
-│   ├── loading
-│   │   └── index.js
-│   ├── login
-│   │   ├── find_account
-│   │   │   ├── 01
-│   │   │   │   └── index.js
-│   │   │   └── 02
-│   │   │       └── index.js
-│   │   ├── index.js
-│   │   └── signup
-│   │       ├── 01
-│   │       │   └── index.js
-│   │       ├── 02
-│   │       │   └── index.js
-│   │       ├── 03
-│   │       │   └── index.js
-│   │       ├── 04
-│   │       │   └── index.js
-│   │       ├── agreements
-│   │       │   └── index.js
-│   │       ├── complete
-│   │       │   └── index.js
-│   │       └── sns
-│   │           ├── 01
-│   │           │   └── index.js
-│   │           ├── 02
-│   │           │   └── index.js
-│   │           ├── agreements
-│   │           │   └── index.js
-│   │           └── complete
-│   │               └── index.js
-│   └── volunteer
-│       ├── [id]
-│       │   ├── approve
-│       │   │   └── index.js
-│       │   ├── edit
-│       │   │   └── index.js
-│       │   ├── index.js
-│       │   ├── member
-│       │   │   └── index.js
-│       │   ├── notices
-│       │   │   ├── [noticeID]
-│       │   │   │   ├── editNotice
-│       │   │   │   │   └── index.js
-│       │   │   │   └── index.js
-│       │   │   ├── addNotice
-│       │   │   │   └── index.js
-│       │   │   └── index.js
-│       │   └── regular_meetings
-│       │       ├── [meetingID]
-│       │       │   ├── editMeeting
-│       │       │   │   └── index.js
-│       │       │   └── index.js
-│       │       ├── addMeeting
-│       │       │   └── index.js
-│       │       └── index.js
-│       ├── create_volunteer
-│       │   └── index.js
-│       ├── joined
-│       │   └── index.js
-│       ├── recommend
-│       │   └── index.js
-│       └── region
-│           └── index.js
-├── src
-│   ├── components
-│   │   ├── commons
-│   │   │   ├── alarmModal
-│   │   │   │   ├── AlarmModal.presenter.js
-│   │   │   │   └── AlarmModal.styles.js
-│   │   │   ├── api
-│   │   │   │   ├── refreshAccessToken.js
-│   │   │   │   └── toggleLike.js
-│   │   │   ├── comment
-│   │   │   │   ├── Comment.container.js
-│   │   │   │   ├── Comment.presenter.js
-│   │   │   │   ├── Comment.queries.js
-│   │   │   │   ├── Comment.styles.js
-│   │   │   │   ├── hooks
-│   │   │   │   │   ├── useClickeMenu.js
-│   │   │   │   │   └── useComment.js
-│   │   │   │   └── input
-│   │   │   │       ├── Input.container.js
-│   │   │   │       ├── Input.presenter.js
-│   │   │   │       ├── Input.queries.js
-│   │   │   │       ├── Input.styles.js
-│   │   │   │       └── hooks
-│   │   │   │           └── useSubmitComment.js
-│   │   │   ├── confirmModal
-│   │   │   │   ├── ConfirmModal.presenter.js
-│   │   │   │   └── ConfirmModal.styles.js
-│   │   │   ├── district
-│   │   │   │   └── districtName.js
-│   │   │   ├── documents
-│   │   │   │   ├── privacy.json
-│   │   │   │   └── terms.json
-│   │   │   ├── headers
-│   │   │   │   ├── Headers.container.js
-│   │   │   │   ├── Headers.presenter.js
-│   │   │   │   ├── Headers.styles.js
-│   │   │   │   ├── HomeHeader.container.js
-│   │   │   │   ├── HomeHeader.presenter.js
-│   │   │   │   └── HomeHeader.styles.js
-│   │   │   ├── hooks
-│   │   │   │   ├── useAuthCheck.js
-│   │   │   │   ├── useCreateLatLng.js
-│   │   │   │   ├── useDragAndClick.js
-│   │   │   │   ├── useImageCompressor.js
-│   │   │   │   ├── useImageCropper.js
-│   │   │   │   ├── useItemGrouping.js
-│   │   │   │   ├── useLikeToggle.js
-│   │   │   │   ├── useLoginStatusCheck.js
-│   │   │   │   ├── useMenuToggle.js
-│   │   │   │   ├── useNavigate.js
-│   │   │   │   ├── usePaginationScroll.js
-│   │   │   │   ├── usePhotoManager.js
-│   │   │   │   ├── usePhotoModal.js
-│   │   │   │   ├── useProfilePhotoManager.js
-│   │   │   │   ├── useRegionSelection.js
-│   │   │   │   ├── useRequireLogin.js
-│   │   │   │   ├── useRoleContext.js
-│   │   │   │   ├── useS3Upload.js
-│   │   │   │   ├── useScrollToTop.js
-│   │   │   │   ├── useSortSelection.js
-│   │   │   │   ├── useSubIcons.js
-│   │   │   │   ├── useSupportSortSelection.js
-│   │   │   │   ├── useTimer.js
-│   │   │   │   └── useTruncateString.js
-│   │   │   ├── icons
-│   │   │   │   └── fontawesome.js
-│   │   │   ├── modal
-│   │   │   │   ├── ModalComponent.js
-│   │   │   │   └── ModalComponent.styles.js
-│   │   │   ├── navigation
-│   │   │   │   ├── Navigation.container.js
-│   │   │   │   ├── Navigation.present.js
-│   │   │   │   └── Navigation.styles.js
-│   │   │   ├── reportModal
-│   │   │   │   ├── ReportModal.container.js
-│   │   │   │   ├── ReportModal.presenter.js
-│   │   │   │   ├── ReportModal.queries.js
-│   │   │   │   ├── ReportModal.styles.js
-│   │   │   │   └── hooks
-│   │   │   │       └── useRequestSubmit.js
-│   │   │   ├── resultModal
-│   │   │   │   ├── ResultModal.presenter.js
-│   │   │   │   └── ResultModal.styles.js
-│   │   │   └── utils
-│   │   │       ├── LinkifyText.js
-│   │   │       ├── auth.js
-│   │   │       └── aws-utils.js
-│   │   └── units
-│   │       ├── admin
-│   │       │   ├── adminHandler
-│   │       │   │   ├── AdminHandler.container.js
-│   │       │   │   ├── AdminHandler.presenter.js
-│   │       │   │   └── AdminHandler.styles.js
-│   │       │   ├── adminHeader
-│   │       │   │   ├── AdminHeader.presenter.js
-│   │       │   │   └── AdminHeader.styles.js
-│   │       │   ├── adopt_request
-│   │       │   │   ├── Adopt_Request.container.js
-│   │       │   │   ├── Adopt_Request.presenter.js
-│   │       │   │   ├── Adopt_Request.queries.js
-│   │       │   │   ├── Adopt_Request.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchAdoptRequest.js
-│   │       │   ├── dashboard
-│   │       │   │   ├── Dashboard.container.js
-│   │       │   │   ├── Dashboard.presenter.js
-│   │       │   │   ├── Dashboard.queries.js
-│   │       │   │   └── Dashboard.styles.js
-│   │       │   ├── inquiries
-│   │       │   │   ├── Inquiries.container.js
-│   │       │   │   ├── Inquiries.presenter.js
-│   │       │   │   ├── Inquiries.queries.js
-│   │       │   │   ├── Inquiries.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchInquiries.js
-│   │       │   ├── member_management
-│   │       │   │   ├── Member_Management.container.js
-│   │       │   │   ├── Member_Management.presenter.js
-│   │       │   │   ├── Member_Management.queries.js
-│   │       │   │   ├── Member_Management.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchMemberManagement.js
-│   │       │   └── reports
-│   │       │       ├── Reports.container.js
-│   │       │       ├── Reports.presenter.js
-│   │       │       ├── Reports.queries.js
-│   │       │       ├── Reports.styles.js
-│   │       │       └── hooks
-│   │       │           └── useFetchReports.js
-│   │       ├── adopt
-│   │       │   ├── AdoptHandler.container.js
-│   │       │   ├── AdoptHandler.presenter.js
-│   │       │   ├── AdoptHandler.styles.js
-│   │       │   ├── [id]
-│   │       │   │   ├── AdoptPetDetail.container.js
-│   │       │   │   ├── AdoptPetDetail.presenter.js
-│   │       │   │   ├── AdoptPetDetail.queries.js
-│   │       │   │   ├── AdoptPetDetail.styles.js
-│   │       │   │   ├── hooks
-│   │       │   │   │   └── useFetchPetDetail.js
-│   │       │   │   └── inquire
-│   │       │   │       ├── Inquire.container.js
-│   │       │   │       ├── Inquire.presenter.js
-│   │       │   │       ├── Inquire.queries.js
-│   │       │   │       ├── Inquire.styles.js
-│   │       │   │       └── hooks
-│   │       │   │           ├── useAddressSearch.js
-│   │       │   │           └── useNamePhoneInput.js
-│   │       │   ├── favorites
-│   │       │   │   ├── AdoptFavorites.container.js
-│   │       │   │   ├── AdoptFavorites.presenter.js
-│   │       │   │   ├── AdoptFavorites.queries.js
-│   │       │   │   ├── AdoptFavorites.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchFavPetsData.js
-│   │       │   ├── pets
-│   │       │   │   ├── AdoptPets.container.js
-│   │       │   │   ├── AdoptPets.presenter.js
-│   │       │   │   ├── AdoptPets.queries.js
-│   │       │   │   ├── AdoptPets.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchPetsData.js
-│   │       │   └── shelters
-│   │       │       ├── AdoptShelterHandler.container.js
-│   │       │       ├── AdoptShelterHandler.presenter.js
-│   │       │       ├── AdoptShelterHandler.styles.js
-│   │       │       ├── AdoptShelters.container.js
-│   │       │       ├── AdoptShelters.presenter.js
-│   │       │       ├── AdoptShelters.queries.js
-│   │       │       ├── AdoptShelters.styles.js
-│   │       │       ├── [id]
-│   │       │       │   ├── AdoptShelterDetail.container.js
-│   │       │       │   ├── AdoptShelterDetail.presenter.js
-│   │       │       │   ├── AdoptShelterDetail.queries.js
-│   │       │       │   ├── AdoptShelterDetail.styles.js
-│   │       │       │   ├── hooks
-│   │       │       │   │   ├── useFetchShelterDetailData.js
-│   │       │       │   │   ├── useGoogleMaps.js
-│   │       │       │   │   └── useGoogleMapsScript.js
-│   │       │       │   └── rescues
-│   │       │       │       ├── AdoptShelterRescues.container.js
-│   │       │       │       ├── AdoptShelterRescues.presenter.js
-│   │       │       │       ├── AdoptShelterRescues.queries.js
-│   │       │       │       ├── AdoptShelterRescues.styles.js
-│   │       │       │       └── hooks
-│   │       │       │           └── useFetchShelterRescuesData.js
-│   │       │       └── hooks
-│   │       │           ├── useCurrentLocation.js
-│   │       │           ├── useDragHandler.js
-│   │       │           ├── useFetchSheltersData.js
-│   │       │           ├── useGoogleMaps.js
-│   │       │           ├── useGoogleMapsScript.js
-│   │       │           ├── useSearchShelters.js
-│   │       │           ├── useSortedShelters.js
-│   │       │           └── useUpdateMarkers.js
-│   │       ├── chatting
-│   │       │   ├── Chatting.container.js
-│   │       │   ├── Chatting.presenter.js
-│   │       │   ├── Chatting.queries.js
-│   │       │   ├── Chatting.styles.js
-│   │       │   ├── [id]
-│   │       │   │   ├── ChattingDetail.container.js
-│   │       │   │   ├── ChattingDetail.presenter.js
-│   │       │   │   ├── ChattingDetail.queries.js
-│   │       │   │   ├── ChattingDetail.styles.js
-│   │       │   │   ├── ChattingDetailHandler.container.js
-│   │       │   │   ├── ChattingDetailHandler.presenter.js
-│   │       │   │   ├── ChattingDetailHandler.queries.js
-│   │       │   │   ├── ChattingDetailHandler.styles.js
-│   │       │   │   ├── albums
-│   │       │   │   │   ├── Albums.container.js
-│   │       │   │   │   ├── Albums.presenter.js
-│   │       │   │   │   ├── Albums.queries.js
-│   │       │   │   │   ├── Albums.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useFetchChatImagesData.js
-│   │       │   │   ├── files
-│   │       │   │   │   ├── Files.container.js
-│   │       │   │   │   ├── Files.presenter.js
-│   │       │   │   │   ├── Files.queries.js
-│   │       │   │   │   ├── Files.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useFetchChatFilesData.js
-│   │       │   │   ├── hooks
-│   │       │   │   │   ├── useChatInput.js
-│   │       │   │   │   ├── useChattingScroll.js
-│   │       │   │   │   ├── useDataManager.js
-│   │       │   │   │   ├── useDetailToggle.js
-│   │       │   │   │   ├── useFetchChatMsgList.js
-│   │       │   │   │   ├── useSearchSideMenu.js
-│   │       │   │   │   └── useStompClient.js
-│   │       │   │   ├── input
-│   │       │   │   │   ├── ChattingInput.presenter.js
-│   │       │   │   │   └── ChattingInput.styles.js
-│   │       │   │   ├── links
-│   │       │   │   │   ├── Links.container.js
-│   │       │   │   │   ├── Links.presenter.js
-│   │       │   │   │   ├── Links.queries.js
-│   │       │   │   │   ├── Links.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useFetchChatLinksData.js
-│   │       │   │   ├── notice
-│   │       │   │   │   ├── ChattingNotice.container.js
-│   │       │   │   │   ├── ChattingNotice.presenter.js
-│   │       │   │   │   ├── ChattingNotice.queries.js
-│   │       │   │   │   └── ChattingNotice.styles.js
-│   │       │   │   └── sidemenu
-│   │       │   │       ├── ChattingSideMenu.presenter.js
-│   │       │   │       └── ChattingSideMenu.styles.js
-│   │       │   └── hooks
-│   │       ├── community
-│   │       │   ├── CommunityHandler.container.js
-│   │       │   ├── CommunityHandler.presenter.js
-│   │       │   ├── CommunityHandler.styles.js
-│   │       │   ├── [id]
-│   │       │   │   ├── CommunityDetail.container.js
-│   │       │   │   ├── CommunityDetail.presenter.js
-│   │       │   │   ├── CommunityDetail.queries.js
-│   │       │   │   ├── CommunityDetail.styles.js
-│   │       │   │   ├── edit
-│   │       │   │   │   ├── CommunityEdit.container.js
-│   │       │   │   │   ├── CommunityEdit.presenter.js
-│   │       │   │   │   ├── CommunityEdit.queries.js
-│   │       │   │   │   ├── CommunityEdit.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useSubmitCommunityEdit.js
-│   │       │   │   └── hooks
-│   │       │   │       ├── useCommunityDelete.js
-│   │       │   │       └── useCommunityLike.js
-│   │       │   ├── adoption
-│   │       │   │   ├── CommunityAdoption.container.js
-│   │       │   │   ├── CommunityAdoption.presenter.js
-│   │       │   │   ├── CommunityAdoption.queries.js
-│   │       │   │   ├── CommunityAdoption.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchAdoptionList.js
-│   │       │   ├── floating_icon
-│   │       │   │   ├── FloatingIcon.presenter.js
-│   │       │   │   └── FloatingIcon.styles.js
-│   │       │   ├── fostering
-│   │       │   │   ├── CommunityFostering.container.js
-│   │       │   │   ├── CommunityFostering.presenter.js
-│   │       │   │   ├── CommunityFostering.queries.js
-│   │       │   │   ├── CommunityFostering.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchFosteringList.js
-│   │       │   ├── mycontent
-│   │       │   │   ├── MyCommunityHandler.container.js
-│   │       │   │   ├── MyCommunityHandler.presenter.js
-│   │       │   │   ├── MyCommunityHandler.queries.js
-│   │       │   │   ├── MyCommunityHandler.styles.js
-│   │       │   │   ├── myanswer
-│   │       │   │   │   ├── MyAnswer.container.js
-│   │       │   │   │   ├── MyAnswer.presenter.js
-│   │       │   │   │   ├── MyAnswer.queries.js
-│   │       │   │   │   ├── MyAnswer.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useFetchMyAnswer.js
-│   │       │   │   ├── mycomment
-│   │       │   │   │   ├── MyComment.container.js
-│   │       │   │   │   ├── MyComment.presenter.js
-│   │       │   │   │   ├── MyComment.queries.js
-│   │       │   │   │   ├── MyComment.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useFetchMyComment.js
-│   │       │   │   ├── mypost
-│   │       │   │   │   ├── MyPost.container.js
-│   │       │   │   │   ├── MyPost.presenter.js
-│   │       │   │   │   ├── MyPost.queries.js
-│   │       │   │   │   ├── MyPost.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useFetchMyPost.js
-│   │       │   │   └── myquestion
-│   │       │   │       ├── MyQuestion.container.js
-│   │       │   │       ├── MyQuestion.presenter.js
-│   │       │   │       ├── MyQuestion.queries.js
-│   │       │   │       ├── MyQuestion.styles.js
-│   │       │   │       └── hooks
-│   │       │   │           └── useFetchMyQuestion.js
-│   │       │   ├── question
-│   │       │   │   ├── CommunityQuestion.container.js
-│   │       │   │   ├── CommunityQuestion.presenter.js
-│   │       │   │   ├── CommunityQuestion.queries.js
-│   │       │   │   ├── CommunityQuestion.styles.js
-│   │       │   │   ├── [id]
-│   │       │   │   │   ├── QuestionDetail.container.js
-│   │       │   │   │   ├── QuestionDetail.presenter.js
-│   │       │   │   │   ├── QuestionDetail.queries.js
-│   │       │   │   │   ├── QuestionDetail.styles.js
-│   │       │   │   │   ├── answer
-│   │       │   │   │   │   ├── QuestionAnswer.container.js
-│   │       │   │   │   │   ├── QuestionAnswer.presenter.js
-│   │       │   │   │   │   ├── QuestionAnswer.queries.js
-│   │       │   │   │   │   ├── QuestionAnswer.styles.js
-│   │       │   │   │   │   ├── edit
-│   │       │   │   │   │   │   ├── AnswerEdit.container.js
-│   │       │   │   │   │   │   ├── AnswerEdit.presenter.js
-│   │       │   │   │   │   │   ├── AnswerEdit.queries.js
-│   │       │   │   │   │   │   ├── AnswerEdit.styles.js
-│   │       │   │   │   │   │   └── hooks
-│   │       │   │   │   │   │       └── useSubmitAnswerEdit.js
-│   │       │   │   │   │   └── hooks
-│   │       │   │   │   │       └── useSubmitAsnwerPost.js
-│   │       │   │   │   ├── edit
-│   │       │   │   │   │   ├── QuestionEdit.container.js
-│   │       │   │   │   │   ├── QuestionEdit.presenter.js
-│   │       │   │   │   │   ├── QuestionEdit.queries.js
-│   │       │   │   │   │   ├── QuestionEdit.styles.js
-│   │       │   │   │   │   └── hooks
-│   │       │   │   │   │       └── useSubmitQuestionEdit.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       └── useQNADelete.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useFetchQuestionList.js
-│   │       │   ├── reportModal
-│   │       │   │   ├── ReportModal.presenter.js
-│   │       │   │   ├── ReportModal.queries.js
-│   │       │   │   ├── ReportModal.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useRequestReport.js
-│   │       │   └── write
-│   │       │       ├── CommunityWrite.container.js
-│   │       │       ├── CommunityWrite.presenter.js
-│   │       │       ├── CommunityWrite.queries.js
-│   │       │       ├── CommunityWrite.styles.js
-│   │       │       └── hooks
-│   │       │           ├── useCategorySelection.js
-│   │       │           └── useSubmitPost.js
-│   │       ├── find_account
-│   │       │   ├── find_account01
-│   │       │   │   ├── FindAccount01.container.js
-│   │       │   │   ├── FindAccount01.presenter.js
-│   │       │   │   ├── FindAccount01.queries.js
-│   │       │   │   ├── FindAccount01.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       ├── useEmailCheck.js
-│   │       │   │       └── useEmailDropdown.js
-│   │       │   └── find_account02
-│   │       │       ├── FIndAccount02.presenter.js
-│   │       │       ├── FindAccount02.container.js
-│   │       │       ├── FindAccount02.queries.js
-│   │       │       ├── FindAccount02.styles.js
-│   │       │       └── hooks
-│   │       │           ├── useGetUserInfo.js
-│   │       │           └── usePasswordCheck.js
-│   │       ├── home
-│   │       │   ├── Home.container.js
-│   │       │   ├── Home.presenter.js
-│   │       │   ├── Home.queries.js
-│   │       │   ├── Home.styles.js
-│   │       │   ├── cats
-│   │       │   │   ├── Cats.container.js
-│   │       │   │   ├── Cats.presenter.js
-│   │       │   │   └── Cats.styles.js
-│   │       │   ├── dogs
-│   │       │   │   ├── Dogs.container.js
-│   │       │   │   ├── Dogs.presenter.js
-│   │       │   │   └── Dogs.styles.js
-│   │       │   └── faq
-│   │       │       ├── Faq.container.js
-│   │       │       ├── Faq.presenter.js
-│   │       │       └── Faq.styles.js
-│   │       ├── info
-│   │       │   ├── alarm
-│   │       │   │   ├── Alarm.container.js
-│   │       │   │   ├── Alarm.presenter.js
-│   │       │   │   └── Alarm.styles.js
-│   │       │   ├── profile
-│   │       │   │   ├── Profile.container.js
-│   │       │   │   ├── Profile.presenter.js
-│   │       │   │   ├── Profile.queries.js
-│   │       │   │   ├── Profile.styles.js
-│   │       │   │   ├── delete
-│   │       │   │   │   ├── AccountDelete.container.js
-│   │       │   │   │   ├── AccountDelete.presenter.js
-│   │       │   │   │   ├── AccountDelete.queries.js
-│   │       │   │   │   ├── AccountDelete.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       ├── useCheckBox.js
-│   │       │   │   │       ├── useCurrentPasswordCheck.js
-│   │       │   │   │       ├── useEmailCheck.js
-│   │       │   │   │       └── useSignout.js
-│   │       │   │   ├── edit
-│   │       │   │   │   ├── ProfileEdit.container.js
-│   │       │   │   │   ├── ProfileEdit.presenter.js
-│   │       │   │   │   ├── ProfileEdit.queries.js
-│   │       │   │   │   ├── ProfileEdit.styles.js
-│   │       │   │   │   └── hooks
-│   │       │   │   │       ├── useNickNameCheck.js
-│   │       │   │   │       └── useUserInfoUpdate.js
-│   │       │   │   ├── hooks
-│   │       │   │   │   └── useLogout.js
-│   │       │   │   ├── inquiry
-│   │       │   │   │   ├── Inquiry.container.js
-│   │       │   │   │   ├── Inquiry.presenter.js
-│   │       │   │   │   ├── Inquiry.queries.js
-│   │       │   │   │   ├── Inquiry.styles.js
-│   │       │   │   │   ├── hooks
-│   │       │   │   │   ├── my-inquiries
-│   │       │   │   │   │   ├── MyInquiries.container.js
-│   │       │   │   │   │   ├── MyInquiries.presenter.js
-│   │       │   │   │   │   ├── MyInquiries.queries.js
-│   │       │   │   │   │   └── MyInquiries.styles.js
-│   │       │   │   │   └── write
-│   │       │   │   │       ├── InquiryWrite.container.js
-│   │       │   │   │       ├── InquiryWrite.presenter.js
-│   │       │   │   │       ├── InquiryWrite.queries.js
-│   │       │   │   │       ├── InquiryWrite.styles.js
-│   │       │   │   │       └── hooks
-│   │       │   │   │           └── useSubmitPost.js
-│   │       │   │   ├── license
-│   │       │   │   │   ├── License.container.js
-│   │       │   │   │   ├── License.presenter.js
-│   │       │   │   │   └── License.styles.js
-│   │       │   │   ├── policy
-│   │       │   │   │   ├── Policy.container.js
-│   │       │   │   │   ├── Policy.presenter.js
-│   │       │   │   │   └── Policy.styles.js
-│   │       │   │   └── pw
-│   │       │   │       ├── PasswordEdit.container.js
-│   │       │   │       ├── PasswordEdit.presenter.js
-│   │       │   │       ├── PasswordEdit.queries.js
-│   │       │   │       ├── PasswordEdit.styles.js
-│   │       │   │       └── hooks
-│   │       │   │           ├── useCurrentPasswordCheck.js
-│   │       │   │           ├── useNewPasswordCheck.js
-│   │       │   │           └── useUpdateNewPassword.js
-│   │       │   └── search
-│   │       │       ├── Search.container.js
-│   │       │       ├── Search.presenter.js
-│   │       │       ├── Search.quries.js
-│   │       │       ├── Search.styles.js
-│   │       │       └── hooks
-│   │       │           └── useFetchSearch.js
-│   │       ├── intro
-│   │       │   ├── Intro.Container.js
-│   │       │   ├── Intro.presenter.js
-│   │       │   └── Intro.styles.js
-│   │       ├── landing
-│   │       │   ├── Landing.container.js
-│   │       │   ├── Landing.presenter.js
-│   │       │   ├── Landing.styles.js
-│   │       │   ├── meeting
-│   │       │   │   ├── LandingMeeting.presenter.js
-│   │       │   │   └── LandingMeeting.styles.js
-│   │       │   └── question
-│   │       │       ├── LandingQuestion.presenter.js
-│   │       │       └── LandingQuestion.styles.js
-│   │       ├── loading
-│   │       │   ├── Loading.container.js
-│   │       │   ├── Loading.presenter.js
-│   │       │   └── Loading.styles.js
-│   │       ├── login
-│   │       │   ├── Login.container.js
-│   │       │   ├── Login.presenter.js
-│   │       │   ├── Login.queries.js
-│   │       │   ├── Login.styles.js
-│   │       │   └── hooks
-│   │       │       ├── useEmailPasswordCheck.js
-│   │       │       ├── useKakaoGoogleLogin.js
-│   │       │       └── useLoginCheck.js
-│   │       ├── signup
-│   │       │   ├── SignupHeader
-│   │       │   │   ├── SignupHeader.container.js
-│   │       │   │   ├── SignupHeader.presenter.js
-│   │       │   │   └── SignupHeader.styles.js
-│   │       │   ├── agreements
-│   │       │   │   ├── Agreements.container.js
-│   │       │   │   ├── Agreements.presenter.js
-│   │       │   │   ├── Agreements.styles.js
-│   │       │   │   ├── hooks
-│   │       │   │   │   ├── useAgreementState.js
-│   │       │   │   │   └── usePolicyModal.js
-│   │       │   │   └── policy
-│   │       │   │       ├── Policy.presenter.js
-│   │       │   │       └── Policy.styles.js
-│   │       │   ├── complete
-│   │       │   │   ├── SignupComplete.container.js
-│   │       │   │   ├── SignupComplete.presenter.js
-│   │       │   │   ├── SignupComplete.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       └── useLoginCheck.js
-│   │       │   ├── component
-│   │       │   │   └── Progress.js
-│   │       │   ├── signup01
-│   │       │   │   ├── Signup01.container.js
-│   │       │   │   ├── Signup01.presenter.js
-│   │       │   │   ├── Signup01.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       ├── useUserName.js
-│   │       │   │       └── useUserType.js
-│   │       │   ├── signup02
-│   │       │   │   ├── Signup02.container.js
-│   │       │   │   ├── Signup02.presenter.js
-│   │       │   │   ├── Signup02.queries.js
-│   │       │   │   ├── Signup02.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       ├── useEmailCheck.js
-│   │       │   │       └── useEmailDropdown.js
-│   │       │   ├── signup03
-│   │       │   │   ├── Signup03.container.js
-│   │       │   │   ├── Signup03.presenter.js
-│   │       │   │   ├── Signup03.queries.js
-│   │       │   │   ├── Signup03.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       ├── usePasswordCheck.js
-│   │       │   │       └── usePasswordVerify.js
-│   │       │   ├── signup04
-│   │       │   │   ├── Signup04.container.js
-│   │       │   │   ├── Signup04.presenter.js
-│   │       │   │   ├── Signup04.queries.js
-│   │       │   │   ├── Signup04.styles.js
-│   │       │   │   └── hooks
-│   │       │   │       ├── useGetUserInfo.js
-│   │       │   │       ├── useNickNameCheck.js
-│   │       │   │       └── useUserInfoSend.js
-│   │       │   └── sns
-│   │       │       ├── agreements
-│   │       │       │   ├── SnsAgreements.container.js
-│   │       │       │   ├── SnsAgreements.presenter.js
-│   │       │       │   ├── SnsAgreements.styles.js
-│   │       │       │   ├── hooks
-│   │       │       │   │   ├── useAgreementState.js
-│   │       │       │   │   └── usePolicyModal.js
-│   │       │       │   └── policy
-│   │       │       │       ├── Policy.presenter.js
-│   │       │       │       └── Policy.styles.js
-│   │       │       ├── complete
-│   │       │       │   ├── SnsSignupComplete.container.js
-│   │       │       │   ├── SnsSignupComplete.presenter.js
-│   │       │       │   ├── SnsSignupComplete.styles.js
-│   │       │       │   └── hooks
-│   │       │       │       └── useGetUserInfo.js
-│   │       │       ├── signup01
-│   │       │       │   ├── SnsSignup01.container.js
-│   │       │       │   ├── SnsSignup01.presenter.js
-│   │       │       │   ├── SnsSignup01.styles.js
-│   │       │       │   └── hooks
-│   │       │       │       ├── useUserName.js
-│   │       │       │       └── useUserType.js
-│   │       │       └── signup02
-│   │       │           ├── SnsSignup02.container.js
-│   │       │           ├── SnsSignup02.presenter.js
-│   │       │           ├── SnsSignup02.queries.js
-│   │       │           ├── SnsSignup02.styles.js
-│   │       │           └── hooks
-│   │       │               ├── useGetUserInfo.js
-│   │       │               ├── useNickNameCheck.js
-│   │       │               └── useUserInfoSend.js
-│   │       └── volunteer
-│   │           ├── Volunteer.quries.js
-│   │           ├── VolunteerHandler.container.js
-│   │           ├── VolunteerHandler.presenter.js
-│   │           ├── VolunteerHandler.styles.js
-│   │           ├── [id]
-│   │           │   ├── VolunteerDetail.container.js
-│   │           │   ├── VolunteerDetail.presenter.js
-│   │           │   ├── VolunteerDetail.quries.js
-│   │           │   ├── VolunteerDetail.styles.js
-│   │           │   ├── edit
-│   │           │   │   ├── Edit.container.js
-│   │           │   │   ├── Edit.presenter.js
-│   │           │   │   ├── Edit.queries.js
-│   │           │   │   ├── Edit.styles.js
-│   │           │   │   ├── hooks
-│   │           │   │   │   └── useSendVolunteerEdit.js
-│   │           │   │   └── modal
-│   │           │   │       └── successModal.js
-│   │           │   ├── hooks
-│   │           │   │   ├── useFetchVolunteerDetail.js
-│   │           │   │   └── useNoticeClick.js
-│   │           │   └── modals
-│   │           │       ├── joinModal.presenter.js
-│   │           │       └── joinModal.styles.js
-│   │           ├── addMeeting
-│   │           │   ├── AddMeeting.container.js
-│   │           │   ├── AddMeeting.presenter.js
-│   │           │   ├── AddMeeting.queries.js
-│   │           │   ├── AddMeeting.styles.js
-│   │           │   ├── component
-│   │           │   │   ├── Calendar.container.js
-│   │           │   │   ├── Calendar.presenter.js
-│   │           │   │   └── Calendar.styles.js
-│   │           │   └── hooks
-│   │           │       ├── useChangeHandler.js
-│   │           │       ├── useSelectDate.js
-│   │           │       └── useSubmitMeetingInfo.js
-│   │           ├── addNotice
-│   │           │   ├── AddNotice.container.js
-│   │           │   ├── AddNotice.presenter.js
-│   │           │   ├── AddNotice.queries.js
-│   │           │   ├── AddNotice.styles.js
-│   │           │   └── hooks
-│   │           │       └── useSubmitNotice.js
-│   │           ├── approve
-│   │           │   ├── Approve.container.js
-│   │           │   ├── Approve.presenter.js
-│   │           │   ├── Approve.queries.js
-│   │           │   ├── Approve.styles.js
-│   │           │   └── hooks
-│   │           │       ├── useFetchUserList.js
-│   │           │       └── useUserApproveReject.js
-│   │           ├── create_volunteer
-│   │           │   ├── Create_Volunteer.container.js
-│   │           │   ├── Create_Volunteer.queries.js
-│   │           │   ├── Create_Volunteer.styles.js
-│   │           │   ├── Create_volunteer.presenter.js
-│   │           │   └── hooks
-│   │           │       ├── useCategorySelect.js
-│   │           │       ├── useNameDescription.js
-│   │           │       ├── usePeopleNumSelect.js
-│   │           │       └── useSendVolunteerInfo.js
-│   │           ├── hooks
-│   │           │   ├── useAutoResizeTextArea.js
-│   │           │   ├── useFetchVolunteer.js
-│   │           │   ├── useFormat.js
-│   │           │   └── useSearch.js
-│   │           ├── joined
-│   │           │   ├── VolunteerJoined.container.js
-│   │           │   ├── VolunteerJoined.presenter.js
-│   │           │   ├── VolunteerJoined.quries.js
-│   │           │   ├── VolunteerJoined.styles.js
-│   │           │   └── hooks
-│   │           │       └── useFetchVolunteerJoined.js
-│   │           ├── member
-│   │           │   ├── Member.container.js
-│   │           │   ├── Member.presenter.js
-│   │           │   ├── Member.queries.js
-│   │           │   ├── Member.styles.js
-│   │           │   ├── hooks
-│   │           │   │   ├── useStatusChange.js
-│   │           │   │   └── useUserClick.js
-│   │           │   └── modal
-│   │           │       ├── ConfirmationModal.presenter.js
-│   │           │       └── ConfirmationModal.styles.js
-│   │           ├── notices
-│   │           │   ├── Notices.container.js
-│   │           │   ├── Notices.presenter.js
-│   │           │   ├── Notices.quries.js
-│   │           │   ├── Notices.styles.js
-│   │           │   ├── [noticeID]
-│   │           │   │   ├── Notice.container.js
-│   │           │   │   ├── Notice.presenter.js
-│   │           │   │   ├── Notice.quries.js
-│   │           │   │   ├── Notice.styles.js
-│   │           │   │   ├── components
-│   │           │   │   │   └── Slider
-│   │           │   │   │       ├── Slider.container.js
-│   │           │   │   │       ├── Slider.presenter.js
-│   │           │   │   │       └── Slider.styles.js
-│   │           │   │   └── editNtocie
-│   │           │   │       ├── EditNotice.container.js
-│   │           │   │       ├── EditNotice.presenter.js
-│   │           │   │       ├── EditNotice.queries.js
-│   │           │   │       ├── EditNotice.styles.js
-│   │           │   │       └── hooks
-│   │           │   │           └── useSubmitEditNotice.js
-│   │           │   └── hooks
-│   │           │       └── useFetchNotices.js
-│   │           ├── recommend
-│   │           │   ├── VolunteerRecommend.container.js
-│   │           │   ├── VolunteerRecommend.presenter.js
-│   │           │   ├── VolunteerRecommend.styles.js
-│   │           │   └── hooks
-│   │           │       └── useFetchVolunteerRecommend.js
-│   │           ├── region
-│   │           │   ├── VolunteerRegion.container.js
-│   │           │   ├── VolunteerRegion.presenter.js
-│   │           │   ├── VolunteerRegion.quries.js
-│   │           │   ├── VolunteerRegion.styles.js
-│   │           │   └── hooks
-│   │           │       └── useFetchNewAndRegionVolunteer.js
-│   │           ├── regular_meetings
-│   │           │   ├── Regular_Meetings.container.js
-│   │           │   ├── Regular_Meetings.presenter.js
-│   │           │   ├── Regular_Meetings.quries.js
-│   │           │   ├── Regular_Meetings.styles.js
-│   │           │   ├── [meetingID]
-│   │           │   │   ├── Regular_Meeting.container.js
-│   │           │   │   ├── Regular_Meeting.presenter.js
-│   │           │   │   ├── Regular_Meeting.quries.js
-│   │           │   │   ├── Regular_Meeting.styles.js
-│   │           │   │   ├── editMeeting
-│   │           │   │   │   ├── EditMeeting.container.js
-│   │           │   │   │   ├── EditMeeting.presenter.js
-│   │           │   │   │   ├── EditMeeting.queries.js
-│   │           │   │   │   ├── EditMeeting.styles.js
-│   │           │   │   │   └── hooks
-│   │           │   │   │       └── useSubmitMeetingEdit.js
-│   │           │   │   └── hooks
-│   │           │   │       └── useRequestMeeting.js
-│   │           │   └── hooks
-│   │           │       └── useFetchRegularMeetings.js
-│   │           └── volunteerDetailHeader
-│   │               ├── VolunteerDetailHeader.container.js
-│   │               ├── VolunteerDetailHeader.presenter.js
-│   │               ├── VolunteerDetailHeader.queries.js
-│   │               ├── VolunteerDetailHeader.styles.js
-│   │               ├── hooks
-│   │               │   ├── useClickOut.js
-│   │               │   ├── useDelete.js
-│   │               │   ├── useGetTitleByPath.js
-│   │               │   └── useReport.js
-│   │               └── modal
-│   │                   ├── deleteModal.js
-│   │                   └── deleteModal.styles.js
-│   └── store
-│       ├── useAuthStore.js
-│       └── useModalStore.js
-├── styles
-│   ├── 01-02-emotion.js
-│   ├── Home.module.css
-│   └── globals.css
-└── yarn.lock
-</pre>
-</br>
+#### 3.4. 디렉토리 구조
 
 #### □ BE 디렉토리</br>
 <pre>
-ForPaw_BE
+com.hoyai.ForPaw
 ├── controller
 │   ├── DTO
 │   │   └── Query
@@ -1405,16 +484,16 @@ ForPaw_BE
 </pre>
 
     
-## 4. 설치 및 사용 방법
+### 4. 설치 및 사용 방법
 > 제품을 설치하기 위헤 필요한 소프트웨어 및 설치 방법을 작성하세요.
 >
 > 제품을 설치하고 난 후, 실행 할 수 있는 방법을 작성하세요.
 
-## 5. 소개 및 시연 영상
+### 5. 소개 및 시연 영상
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
 > 프로젝트 소개 동영상을 교육원 메일(swedu@pusan.ac.kr)로 제출 이후 센터에서 부여받은 youtube URL주소를 넣으세요.
 
-## 6. 팀 소개
+### 6. 팀 소개
 <table>
   <tr>
     <td>이한홍</td>
@@ -1440,12 +519,32 @@ ForPaw_BE
 </table>
 </br>
 
-## 7. 해커톤 참여 후기
-> 팀원 별 해커톤 참여 후기를 작성하세요.
+
+
+### 7. 해커톤 참여 후기
+- 이한홍
+  > 후기입니다.</br>
+
+- 이종일
+  
+  > 후기입니다.</br>
+- 박정우
+  
+  > 후기입니다.</br>
+- 최현빈
+
+  > 후기입니다.</br>
+- 김도은
+
+  > 후기입니다.</br>
+
+
+
+
 
 <br/>
 
-## 8. 참고문헌 및 출처
+### 8. 참고문헌 및 출처
 [^1]: 출처: 한국 반려동물 보고서(18p), KB경영연구소(2023)
 [^2]: 출처: 반려동물 보호복지 실태조사(3p), 농림축산식품부(2023)
 [^3]: 출처: 동물복지에 대한 국민의식조사(128p, N=1,000), 농림축산식품부(2023)
@@ -1460,11 +559,11 @@ ForPaw_BE
 [^12]: 출처: 동물복지에 대한 국민의식조사(130p, N=1,000), 농림축산식품부(2023)
 [^13]: 출처: '유기견 보호소 가보니 신종 펫숍', SBS뉴스(2023)
 [^14]: 출처: '유기견 보호소에 유기견이 없다...', 비디오머그(2023) 
-[^15]: 출처: 부산유기동물보호센터 가유품사(https://cafe.naver.com/busananimal119?iframe_url=/ArticleList.nhn%3Fsearch.clubid=24791003%26search.menuid=113%26search.boardtype=L%26search.totalCount=151%26search.cafeId=24791003%26search.page=1)
+[^15]: 출처: '부산유기동물보호센터 가유품사 네이버 카페-성인 주말봉사 신청'(2024.08.16.)
 [^16]: 출처: In-Depth 인터뷰, 35m(2024.05.25.)
 [^17]: 출처: 대한산업보건협회 월간지(60p, 2021.12월)
 
-
+<img width="800" alt="스크린샷 2024-07-08 오전 10 49 46" src="https://github.com/pnusw-hackathon/PNUSW-2024-team-08/assets/131665728/1083673d-c872-4b48-be86-e0cecd7daab2">
 
 
 
