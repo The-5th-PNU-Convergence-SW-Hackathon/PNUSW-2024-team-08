@@ -273,7 +273,6 @@
 com.hoyai.ForPaw
 ├── controller
 │   ├── DTO
-│   │   └── Query
 │   │       ├── MeetingUserProfileDTO
 │   │       ├── AlarmRequest
 │   │       ├── AlarmResponse
