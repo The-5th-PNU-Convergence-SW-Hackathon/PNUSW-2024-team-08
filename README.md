@@ -456,7 +456,30 @@ com.hoyai.ForPaw
 > 프로젝트 소개 동영상을 교육원 메일(swedu@pusan.ac.kr)로 제출 이후 센터에서 부여받은 youtube URL주소를 넣으세요.
 
 ## 6. 팀 소개
-> 팀원 소개 & 구성원 별 역할 분담 & 간단한 연락처를 작성하세요.
+<table>
+  <tr>
+    <td>이한홍</td>
+    <td>이종일</td>
+    <td>박정우</td>
+    <td>최현빈</td>
+    <td>김도은</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/hoyaii.png" alt="이한홍" width="100" height="100"></td>
+    <td><img src="https://github.com/leejongil1046.png" alt="이종일" width="100" height="100"></td>
+    <td><img src="https://github.com/doubleclip118.png" alt="박정우" width="100" height="100"></td>
+    <td><img src="https://github.com/ichanguk.png" alt="최현빈" width="100" height="100"></td>
+    <td><img src="https://github.com/sam-mae.png" alt="김도은" width="100" height="100"></td>
+  </tr>
+  <tr>
+    <td>yg04076@pusan.ac.kr</td>
+    <td>leejongil1046@gmail.com</td>
+    <td>rmrmrmrm12@pusan.ac.kr</td>
+    <td>wkwkaus10@naver.com</td>
+    <td>de1125@pusan.ac.kr</td>
+  </tr>
+</table>
+</br>
 
 ## 7. 해커톤 참여 후기
 > 팀원 별 해커톤 참여 후기를 작성하세요.
