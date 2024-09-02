@@ -267,8 +267,185 @@
 > 노션 링크, 한글 문서, pdf 파일, 구글 스프레드 시트 등...
 
 ### 3.4. 디렉토리 구조
-> 위 레포지토리의 디렉토리 구조를 설명하세요.
 
+#### □ BE 디렉토리</br>
+<pre>
+com.hoyai.ForPaw
+├── controller
+│   ├── DTO
+│   │   └── Query
+│   │       ├── MeetingUserProfileDTO
+│   │       ├── AlarmRequest
+│   │       ├── AlarmResponse
+│   │       ├── AnimalDTO
+│   │       ├── AnimalRequest
+│   │       ├── AnimalResponse
+│   │       ├── AuthenticationRequest
+│   │       ├── AuthenticationResponse
+│   │       ├── ChatRequest
+│   │       ├── ChatResponse
+│   │       ├── GoogleMapDTO
+│   │       ├── GoogleOauthDTO
+│   │       ├── GroupRequest
+│   │       ├── GroupResponse
+│   │       ├── HomeResponse
+│   │       ├── KakaoMapDTO
+│   │       ├── KakaoOauthDTO
+│   │       ├── PostRequest
+│   │       ├── PostResponse
+│   │       ├── RegionListDTO
+│   │       ├── SearchResponse
+│   │       ├── ShelterDTO
+│   │       ├── ShelterResponse
+│   │       ├── UserRequest
+│   │       └── UserResponse
+│   ├── AlarmController
+│   ├── AnimalController
+│   ├── AuthenticationController
+│   ├── ChatController
+│   ├── GroupController
+│   ├── HomeController
+│   ├── PostController
+│   ├── RegionCodeController
+│   ├── S3Controller
+│   ├── SearchController
+│   ├── ShelterController
+│   └── UserController
+├── core
+│   ├── config
+│   │   ├── AppStartupListener
+│   │   ├── AsyncConfig
+│   │   ├── QuerydslConfig
+│   │   ├── RabbitMqConfig
+│   │   ├── RedisConfig
+│   │   ├── RestTemplateConfig
+│   │   ├── S3Config
+│   │   ├── ThymeleafConfig
+│   │   ├── WebClientConfig
+│   │   └── WebSocketConfig
+│   ├── errors
+│   │   ├── CustomException
+│   │   ├── ExceptionCode
+│   │   └── GlobalExceptionHandler
+│   ├── security
+│   │   ├── CustomUserDetails
+│   │   ├── CustomUserDetailsService
+│   │   ├── JwtAuthenticationFilter
+│   │   ├── JWTProvider
+│   │   └── SecurityConfig
+│   └── utils
+│       ├── ApiUtils
+│       ├── CookieUtils
+│       ├── EnumUtils
+│       ├── FilterResponseUtils
+│       └── LogUtils
+├── domain
+│   ├── Alarm
+│   │   ├── Alarm
+│   │   ├── AlarmType
+│   ├── Animal
+│   │   ├── Animal
+│   │   ├── AnimalType
+│   │   └── FavoriteAnimal
+│   ├── Apply
+│   │   ├── Apply
+│   │   └── ApplyStatus
+│   ├── Authentication
+│   │   ├── LoginAttempt
+│   │   └── Visit
+│   ├── Chat
+│   │   ├── ChatRoom
+│   │   ├── ChatUser
+│   │   ├── LinkMetadata
+│   │   ├── Message
+│   │   └── MessageType
+│   ├── FAQ
+│   │   ├── FAQ
+│   │   └── FaqType
+│   ├── Group
+│   │   ├── FavoriteGroup
+│   │   ├── Group
+│   │   ├── GroupRole
+│   │   ├── GroupUser
+│   │   ├── Meeting
+│   │   └── MeetingUser
+│   ├── Inquiry
+│   │   ├── Inquiry
+│   │   ├── InquiryAnswer
+│   │   ├── InquiryStatus
+│   │   └── InquiryType
+│   ├── Post
+│   │   ├── Comment
+│   │   ├── CommentLike
+│   │   ├── PopularPost
+│   │   ├── Post
+│   │   ├── PostImage
+│   │   ├── PostLike
+│   │   └── PostType
+│   ├── Report
+│   │   ├── ContentType
+│   │   ├── Report
+│   │   ├── ReportStatus
+│   │   └── ReportType
+│   └── User
+│       ├── AuthProvider
+│       ├── User
+│       ├── UserRole
+│       ├── UserStatus
+│       ├── District
+│       ├── Province
+│       ├── RegionCode
+│       ├── Shelter
+│       └── TimeStamp
+├── repository
+│   ├── Alarm
+│   │   ├── AlarmRepository
+│   │   ├── EmitterRepository
+│   │   └── EmitterRepositoryImpl
+│   ├── Animal
+│   │   ├── AnimalRepository
+│   │   └── FavoriteAnimalRepository
+│   ├── Authentication
+│   │   ├── LoginAttemptRepository
+│   │   └── VisitRepository
+│   ├── Chat
+│   │   ├── ChatRoomRepository
+│   │   ├── ChatUserRepository
+│   │   └── MessageRepository
+│   ├── Group
+│   │   ├── FavoriteGroupRepository
+│   │   ├── GroupRepository
+│   │   ├── GroupUserRepository
+│   │   ├── MeetingRepository
+│   │   └── MeetingUserRepository
+│   ├── Inquiry
+│   │   ├── InquiryAnswerRepository
+│   │   └── InquiryRepository
+│   └── Post
+│       ├── ApplyRepository
+│       ├── FaqRepository
+│       ├── RegionCodeRepository
+│       ├── ReportRepository
+│       ├── ShelterRepository
+│       └── UserRepository
+└── service
+    ├── AlarmService
+    ├── AnimalService
+    ├── AuthenticationService
+    ├── BrokerService
+    ├── ChatService
+    ├── GroupService
+    ├── HomeService
+    ├── PostService
+    ├── RedisService
+    └── RegionCodeService
+    ├── S3Service
+    ├── SearchService
+    └── ShelterService
+    └── UserService
+</pre>
+
+    
 ## 4. 설치 및 사용 방법
 > 제품을 설치하기 위헤 필요한 소프트웨어 및 설치 방법을 작성하세요.
 >
