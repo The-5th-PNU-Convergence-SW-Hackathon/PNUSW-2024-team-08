@@ -316,7 +316,24 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 
 ### 3. 개발결과
 #### 3.1. 전체시스템 흐름도
-> 위 내용을 작성하세요.
+1) IA
+2) Flow Chat </br>
+
+□ 로그인</br>
+<img width="1000" src="https://github.com/user-attachments/assets/44387f6a-6725-4c6a-83e7-0c34f11ebe8a"></br>
+□ 동물 데이터 패치</br>
+<img width="1000" src="https://github.com/user-attachments/assets/87d23d31-df17-4f44-858a-de4d9b836cce"></br>
+□ 봉사 모임 가입</br>
+<img width="1000" src="https://github.com/user-attachments/assets/dd2b7844-3214-4816-80ba-0c68bb323a1b"></br>
+□ 봉사 활동 참여</br>
+<img width="1000" src="https://github.com/user-attachments/assets/d7ba2890-f1a9-404c-84ee-57eb6bc63b1e"></br>
+□ 입양 지원</br>
+<img width="1000" src="https://github.com/user-attachments/assets/ec03d868-b1ce-44ac-b251-d3280c7d8a6f"></br>
+□ 게시글</br>
+<img width="1000" src="https://github.com/user-attachments/assets/161c37ca-df36-4cb3-933f-946681781fbf"></br>
+□ 댓글</br>
+<img width="1000" src="https://github.com/user-attachments/assets/5afafe88-c05b-47e9-9ad1-1df36af1d455"></br>
+
 
 #### 3.2. 기능설명
 > 각 페이지 마다 사용자의 입력의 종류와 입력에 따른 결과 설명 및 시연 영상.
