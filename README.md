@@ -336,33 +336,33 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 2) Flow Chat </br>
 
 □ 로그인</br>
-<img width="1500" alt="로그인" src="https://github.com/user-attachments/assets/c40b6fb7-d06d-41d2-bd5c-4171f3594158">
+<img width="2000" alt="로그인" src="https://github.com/user-attachments/assets/c40b6fb7-d06d-41d2-bd5c-4171f3594158"></br>
 </br>
 □ 동물 데이터 패치</br>
-<img width="1500" alt="동물 데이터 패치" src="https://github.com/user-attachments/assets/1b5a54ac-a690-4e9b-82c2-4ec124565c1e">
+<img width="1500" alt="동물 데이터 패치" src="https://github.com/user-attachments/assets/1b5a54ac-a690-4e9b-82c2-4ec124565c1e"></br>
 </br>
 □ 봉사 모임 가입</br>
-<img width="1500" alt="봉사 모임 가입" src="https://github.com/user-attachments/assets/6b13ee19-76b0-4ae7-a6af-f987bcee1a41">
+<img width="1500" alt="봉사 모임 가입" src="https://github.com/user-attachments/assets/6b13ee19-76b0-4ae7-a6af-f987bcee1a41"></br>
 </br>
 □ 봉사 활동 참여</br>
-<img width="1500" alt="봉사활동 참여" src="https://github.com/user-attachments/assets/0ca7eae9-c006-40e0-9aab-0ce0452a391e">
+<img width="1500" alt="봉사활동 참여" src="https://github.com/user-attachments/assets/0ca7eae9-c006-40e0-9aab-0ce0452a391e"></br>
 □ 입양 지원</br>
-<img width="1500" alt="입양 지원하기" src="https://github.com/user-attachments/assets/7fcc3297-612d-4736-ba6e-83221becfaca">
+<img width="1500" alt="입양 지원하기" src="https://github.com/user-attachments/assets/7fcc3297-612d-4736-ba6e-83221becfaca"></br>
 </br>
 □ 게시글</br>
-<img width="1500" alt="게시글" src="https://github.com/user-attachments/assets/31ca4b87-355d-41b0-a7bd-5c11067180ec">
+<img width="1500" alt="게시글" src="https://github.com/user-attachments/assets/31ca4b87-355d-41b0-a7bd-5c11067180ec"></br>
 </br>
 □ 댓글</br>
-<img width="1500" alt="댓글" src="https://github.com/user-attachments/assets/434c7285-5c18-4c49-94cf-a3ad0644bf28">
+<img width="1500" alt="댓글" src="https://github.com/user-attachments/assets/434c7285-5c18-4c49-94cf-a3ad0644bf28"></br>
 </br>
 □ 신고하기</br>
-<img width="1500" alt="신고하기" src="https://github.com/user-attachments/assets/2ab46559-02c4-4a39-a3f3-cd5623ddf4df">
+<img width="1500" alt="신고하기" src="https://github.com/user-attachments/assets/2ab46559-02c4-4a39-a3f3-cd5623ddf4df"></br>
 </br>
 □ 유저 페이지</br>
 <img width="1500" src="https://github.com/user-attachments/assets/44de5b38-1da9-4f16-a437-827a084441cb"></br>
 </br>
 □ 그룹 관리하기</br>
-<img width="1500" alt="그룹 관리하기" src="https://github.com/user-attachments/assets/6649bcc0-ae40-4d1f-aae4-48b96dd85ad0">
+<img width="1500" alt="그룹 관리하기" src="https://github.com/user-attachments/assets/6649bcc0-ae40-4d1f-aae4-48b96dd85ad0"></br>
 </br>
 
 ### 3.2. 기능설명</br>
