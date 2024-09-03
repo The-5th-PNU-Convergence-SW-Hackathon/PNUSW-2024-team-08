@@ -291,7 +291,7 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 
 ### 2.1. 시스템 구성도
 
-#### □ 아키텍쳐</br>
+#### □ Architecture</br>
 <img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
 </br></br>
 
@@ -1476,12 +1476,33 @@ ForPaw_BE
     └── UserService
 </pre>
 
+</br>
     
 ### 4. 설치 및 사용 방법
-> 제품을 설치하기 위헤 필요한 소프트웨어 및 설치 방법을 작성하세요.
->
-> 제품을 설치하고 난 후, 실행 할 수 있는 방법을 작성하세요.
-  
+> Requirements: Docker, Docker Compose </br>
+> (.env 파일은 보안상 깃에 포함되지 않아, 빌드가 바로 되지 않습니다. .env 파일이 있다고 가정할 때, 사용 방법은 다음과 같습니다) 
+```bash
+git clone https://github.com/The-5th-PNU-Convergence-SW-Hackathon/PNUSW-2024-team-08.git
+cd PNUSW-2024-team-08/BE
+
+docker compose up -d
+docker build -t hoyaii/spring .
+docker run -d -p 8080:8080 --name spring --network forpaw_be_network hoyaii/spring
+
+cd FastAPI
+docker build -t hoyaii/fastapi .
+docker run -d -p 8000:8000 --name fastapi --network forpaw_be_network hoyaii/fastapi
+
+cd  ~/PNUSW-2024-team-08/FE
+
+docker build -t hoyaii/react .
+docker run -d -p 8000:8000 --name react --network forpaw_be_network hoyaii/react
+
+```
+> 현재 서비스가 배포되어 있으므로, https:// 에 접속하여 바로 사용해볼 수 있습니다!
+
+</br>
+
 ### 5. 소개 및 시연 영상
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
 > 프로젝트 소개 동영상을 교육원 메일(swedu@pusan.ac.kr)로 제출 이후 센터에서 부여받은 youtube URL주소를 넣으세요.
