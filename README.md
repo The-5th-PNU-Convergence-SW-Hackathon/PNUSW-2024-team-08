@@ -9,7 +9,7 @@
 > 지금은 반려동물의 시대이다. 한국의 반려가구 수는 2020년 532만 가구에서 2022년 552만 가구로 2.8%p 상승했다[^1]. 동물 문제 대한 전국민적 인식 향상에 따라 유기·유실동물은 지속해서 감소하고 있고((’20) 130만 마리 → (’21) 118만 마리 → (’22) 113만 마리)[^2], 향후 1년 이내 반려동물 입양 계획이 있는 응답자 중 유실·유기 동물을 입양할 의향이 있는 비율은 84.4%였다[^3]. 이렇듯 유실·유기동물에 관한 인식 수준이 개선되고 있고, 입양도 증가하고 있는 상황이다.</br>
 </br>
 i. 저조한 보호소 입양율과 펫숍 선호 현상</br>
-
+</br>
 
 > 하지만 이러한 현상과는 달리, 동물을 입양하는 과정에서 지인에게 무료로 분양을 받거나(41.8%) 펫숍에서 구입하는 비율(24.0%)에 비해 지자체 동물 보호센터(4.7%)나 민간 동물보호 시설(4.3%)에서 입양하는 비율은 현저히 낮았다[^4]. 이는 직접 개체 확인이 가능하고 원하는 품종·생김새의 동물을 선택할 수 있는 곳에서 입양하고 싶은 의견이 반영되었기 때문이다[^5]. 그렇기 때문에 펫숍의 입양 비용(평균 57.9만 원)이 민간 보호시설(평균 17.7만 원)과 지인에게 분양(평균 35.1만 원) 받는 것보다 훨씬 비쌈에도 불구하고 여전히 인기가 있는 것이다[^6]. 한 연구는 이러한 현상을 '가장 쉽고 편하게 원하는 품종을 구하고자 하는 경향이 반영된 것'이라고 분석했다.[^7]</br>
 </br>
@@ -302,7 +302,7 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 <img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
 </br></br>
 
-#### □ 아키텍쳐</br>
+#### □ Architecture</br>
 <img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
 </br></br>
 
@@ -380,16 +380,951 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 >
 > (영상)
 
-### 3.3. 기능명세서
-> 개발한 제품에 대한 기능명세서를 작성해 제출하세요.
-> 
-> 노션 링크, 한글 문서, pdf 파일, 구글 스프레드 시트 등...
 
-### 3.4. 디렉토리 구조
+#### 3.3. 기능명세서
+> ForPaw에는 현재 114개의 API가 구현되어 있으며, 자세한 내용은 분량상 네이버 블로그에 정리해두었습니다. </br>
+> **API Part 1** => https://blog.naver.com/hoyai-/223564816915 </br>
+> **API Part 2** => https://blog.naver.com/hoyai-/223519299515 </br>
+</br>
+
+#### 3.4. 디렉토리 구조
+#### □ FE 디렉토리</br>
+<pre>
+ForPaw_FE
+├── jsconfig.json
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── pages
+│   ├── _app.js
+│   ├── _document.js
+│   ├── admin
+│   │   ├── adopt_request
+│   │   │   └── index.js
+│   │   ├── dashboard
+│   │   │   └── index.js
+│   │   ├── inquiries
+│   │   │   └── index.js
+│   │   ├── member_management
+│   │   │   └── index.js
+│   │   └── reports
+│   │       └── index.js
+│   ├── adopt
+│   │   ├── [id]
+│   │   │   ├── index.js
+│   │   │   └── inquire
+│   │   │       └── index.js
+│   │   ├── favorites
+│   │   │   └── index.js
+│   │   ├── pets
+│   │   │   └── index.js
+│   │   └── shelters
+│   │       ├── [id]
+│   │       │   ├── index.js
+│   │       │   └── rescues
+│   │       │       └── index.js
+│   │       └── index.js
+│   ├── chatting
+│   │   ├── [id]
+│   │   │   ├── albums
+│   │   │   │   └── index.js
+│   │   │   ├── files
+│   │   │   │   └── index.js
+│   │   │   ├── index.js
+│   │   │   ├── links
+│   │   │   │   └── index.js
+│   │   │   └── notice
+│   │   │       └── index.js
+│   │   └── index.js
+│   ├── community
+│   │   ├── [id]
+│   │   │   ├── edit
+│   │   │   │   └── index.js
+│   │   │   └── index.js
+│   │   ├── adoption
+│   │   │   └── index.js
+│   │   ├── fostering
+│   │   │   └── index.js
+│   │   ├── myanswer
+│   │   │   └── index.js
+│   │   ├── mycomment
+│   │   │   └── index.js
+│   │   ├── mypost
+│   │   │   └── index.js
+│   │   ├── myquestion
+│   │   │   └── index.js
+│   │   ├── question
+│   │   │   ├── [id]
+│   │   │   │   ├── answer
+│   │   │   │   │   ├── edit
+│   │   │   │   │   │   └── index.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── edit
+│   │   │   │   │   └── index.js
+│   │   │   │   └── index.js
+│   │   │   └── index.js
+│   │   └── write
+│   │       └── index.js
+│   ├── home
+│   │   ├── cats
+│   │   │   └── index.js
+│   │   ├── dogs
+│   │   │   └── index.js
+│   │   ├── faq
+│   │   │   └── index.js
+│   │   └── index.js
+│   ├── index.js
+│   ├── info
+│   │   ├── alarm
+│   │   │   └── index.js
+│   │   ├── profile
+│   │   │   ├── delete
+│   │   │   │   └── index.js
+│   │   │   ├── edit
+│   │   │   │   └── index.js
+│   │   │   ├── index.js
+│   │   │   ├── inquiry
+│   │   │   │   ├── index.js
+│   │   │   │   ├── my-inquiries
+│   │   │   │   │   └── index.js
+│   │   │   │   └── write
+│   │   │   │       └── index.js
+│   │   │   ├── license
+│   │   │   │   └── index.js
+│   │   │   ├── policy
+│   │   │   │   └── index.js
+│   │   │   └── pw
+│   │   │       └── index.js
+│   │   └── search
+│   │       └── index.js
+│   ├── intro
+│   │   └── index.js
+│   ├── landing
+│   │   └── index.js
+│   ├── loading
+│   │   └── index.js
+│   ├── login
+│   │   ├── find_account
+│   │   │   ├── 01
+│   │   │   │   └── index.js
+│   │   │   └── 02
+│   │   │       └── index.js
+│   │   ├── index.js
+│   │   └── signup
+│   │       ├── 01
+│   │       │   └── index.js
+│   │       ├── 02
+│   │       │   └── index.js
+│   │       ├── 03
+│   │       │   └── index.js
+│   │       ├── 04
+│   │       │   └── index.js
+│   │       ├── agreements
+│   │       │   └── index.js
+│   │       ├── complete
+│   │       │   └── index.js
+│   │       └── sns
+│   │           ├── 01
+│   │           │   └── index.js
+│   │           ├── 02
+│   │           │   └── index.js
+│   │           ├── agreements
+│   │           │   └── index.js
+│   │           └── complete
+│   │               └── index.js
+│   └── volunteer
+│       ├── [id]
+│       │   ├── approve
+│       │   │   └── index.js
+│       │   ├── edit
+│       │   │   └── index.js
+│       │   ├── index.js
+│       │   ├── member
+│       │   │   └── index.js
+│       │   ├── notices
+│       │   │   ├── [noticeID]
+│       │   │   │   ├── editNotice
+│       │   │   │   │   └── index.js
+│       │   │   │   └── index.js
+│       │   │   ├── addNotice
+│       │   │   │   └── index.js
+│       │   │   └── index.js
+│       │   └── regular_meetings
+│       │       ├── [meetingID]
+│       │       │   ├── editMeeting
+│       │       │   │   └── index.js
+│       │       │   └── index.js
+│       │       ├── addMeeting
+│       │       │   └── index.js
+│       │       └── index.js
+│       ├── create_volunteer
+│       │   └── index.js
+│       ├── joined
+│       │   └── index.js
+│       ├── recommend
+│       │   └── index.js
+│       └── region
+│           └── index.js
+├── src
+│   ├── components
+│   │   ├── commons
+│   │   │   ├── alarmModal
+│   │   │   │   ├── AlarmModal.presenter.js
+│   │   │   │   └── AlarmModal.styles.js
+│   │   │   ├── api
+│   │   │   │   ├── refreshAccessToken.js
+│   │   │   │   └── toggleLike.js
+│   │   │   ├── comment
+│   │   │   │   ├── Comment.container.js
+│   │   │   │   ├── Comment.presenter.js
+│   │   │   │   ├── Comment.queries.js
+│   │   │   │   ├── Comment.styles.js
+│   │   │   │   ├── hooks
+│   │   │   │   │   ├── useClickeMenu.js
+│   │   │   │   │   └── useComment.js
+│   │   │   │   └── input
+│   │   │   │       ├── Input.container.js
+│   │   │   │       ├── Input.presenter.js
+│   │   │   │       ├── Input.queries.js
+│   │   │   │       ├── Input.styles.js
+│   │   │   │       └── hooks
+│   │   │   │           └── useSubmitComment.js
+│   │   │   ├── confirmModal
+│   │   │   │   ├── ConfirmModal.presenter.js
+│   │   │   │   └── ConfirmModal.styles.js
+│   │   │   ├── district
+│   │   │   │   └── districtName.js
+│   │   │   ├── documents
+│   │   │   │   ├── privacy.json
+│   │   │   │   └── terms.json
+│   │   │   ├── headers
+│   │   │   │   ├── Headers.container.js
+│   │   │   │   ├── Headers.presenter.js
+│   │   │   │   ├── Headers.styles.js
+│   │   │   │   ├── HomeHeader.container.js
+│   │   │   │   ├── HomeHeader.presenter.js
+│   │   │   │   └── HomeHeader.styles.js
+│   │   │   ├── hooks
+│   │   │   │   ├── useAuthCheck.js
+│   │   │   │   ├── useCreateLatLng.js
+│   │   │   │   ├── useDragAndClick.js
+│   │   │   │   ├── useImageCompressor.js
+│   │   │   │   ├── useImageCropper.js
+│   │   │   │   ├── useItemGrouping.js
+│   │   │   │   ├── useLikeToggle.js
+│   │   │   │   ├── useLoginStatusCheck.js
+│   │   │   │   ├── useMenuToggle.js
+│   │   │   │   ├── useNavigate.js
+│   │   │   │   ├── usePaginationScroll.js
+│   │   │   │   ├── usePhotoManager.js
+│   │   │   │   ├── usePhotoModal.js
+│   │   │   │   ├── useProfilePhotoManager.js
+│   │   │   │   ├── useRegionSelection.js
+│   │   │   │   ├── useRequireLogin.js
+│   │   │   │   ├── useRoleContext.js
+│   │   │   │   ├── useS3Upload.js
+│   │   │   │   ├── useScrollToTop.js
+│   │   │   │   ├── useSortSelection.js
+│   │   │   │   ├── useSubIcons.js
+│   │   │   │   ├── useSupportSortSelection.js
+│   │   │   │   ├── useTimer.js
+│   │   │   │   └── useTruncateString.js
+│   │   │   ├── icons
+│   │   │   │   └── fontawesome.js
+│   │   │   ├── modal
+│   │   │   │   ├── ModalComponent.js
+│   │   │   │   └── ModalComponent.styles.js
+│   │   │   ├── navigation
+│   │   │   │   ├── Navigation.container.js
+│   │   │   │   ├── Navigation.present.js
+│   │   │   │   └── Navigation.styles.js
+│   │   │   ├── reportModal
+│   │   │   │   ├── ReportModal.container.js
+│   │   │   │   ├── ReportModal.presenter.js
+│   │   │   │   ├── ReportModal.queries.js
+│   │   │   │   ├── ReportModal.styles.js
+│   │   │   │   └── hooks
+│   │   │   │       └── useRequestSubmit.js
+│   │   │   ├── resultModal
+│   │   │   │   ├── ResultModal.presenter.js
+│   │   │   │   └── ResultModal.styles.js
+│   │   │   └── utils
+│   │   │       ├── LinkifyText.js
+│   │   │       ├── auth.js
+│   │   │       └── aws-utils.js
+│   │   └── units
+│   │       ├── admin
+│   │       │   ├── adminHandler
+│   │       │   │   ├── AdminHandler.container.js
+│   │       │   │   ├── AdminHandler.presenter.js
+│   │       │   │   └── AdminHandler.styles.js
+│   │       │   ├── adminHeader
+│   │       │   │   ├── AdminHeader.presenter.js
+│   │       │   │   └── AdminHeader.styles.js
+│   │       │   ├── adopt_request
+│   │       │   │   ├── Adopt_Request.container.js
+│   │       │   │   ├── Adopt_Request.presenter.js
+│   │       │   │   ├── Adopt_Request.queries.js
+│   │       │   │   ├── Adopt_Request.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchAdoptRequest.js
+│   │       │   ├── dashboard
+│   │       │   │   ├── Dashboard.container.js
+│   │       │   │   ├── Dashboard.presenter.js
+│   │       │   │   ├── Dashboard.queries.js
+│   │       │   │   └── Dashboard.styles.js
+│   │       │   ├── inquiries
+│   │       │   │   ├── Inquiries.container.js
+│   │       │   │   ├── Inquiries.presenter.js
+│   │       │   │   ├── Inquiries.queries.js
+│   │       │   │   ├── Inquiries.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchInquiries.js
+│   │       │   ├── member_management
+│   │       │   │   ├── Member_Management.container.js
+│   │       │   │   ├── Member_Management.presenter.js
+│   │       │   │   ├── Member_Management.queries.js
+│   │       │   │   ├── Member_Management.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchMemberManagement.js
+│   │       │   └── reports
+│   │       │       ├── Reports.container.js
+│   │       │       ├── Reports.presenter.js
+│   │       │       ├── Reports.queries.js
+│   │       │       ├── Reports.styles.js
+│   │       │       └── hooks
+│   │       │           └── useFetchReports.js
+│   │       ├── adopt
+│   │       │   ├── AdoptHandler.container.js
+│   │       │   ├── AdoptHandler.presenter.js
+│   │       │   ├── AdoptHandler.styles.js
+│   │       │   ├── [id]
+│   │       │   │   ├── AdoptPetDetail.container.js
+│   │       │   │   ├── AdoptPetDetail.presenter.js
+│   │       │   │   ├── AdoptPetDetail.queries.js
+│   │       │   │   ├── AdoptPetDetail.styles.js
+│   │       │   │   ├── hooks
+│   │       │   │   │   └── useFetchPetDetail.js
+│   │       │   │   └── inquire
+│   │       │   │       ├── Inquire.container.js
+│   │       │   │       ├── Inquire.presenter.js
+│   │       │   │       ├── Inquire.queries.js
+│   │       │   │       ├── Inquire.styles.js
+│   │       │   │       └── hooks
+│   │       │   │           ├── useAddressSearch.js
+│   │       │   │           └── useNamePhoneInput.js
+│   │       │   ├── favorites
+│   │       │   │   ├── AdoptFavorites.container.js
+│   │       │   │   ├── AdoptFavorites.presenter.js
+│   │       │   │   ├── AdoptFavorites.queries.js
+│   │       │   │   ├── AdoptFavorites.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchFavPetsData.js
+│   │       │   ├── pets
+│   │       │   │   ├── AdoptPets.container.js
+│   │       │   │   ├── AdoptPets.presenter.js
+│   │       │   │   ├── AdoptPets.queries.js
+│   │       │   │   ├── AdoptPets.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchPetsData.js
+│   │       │   └── shelters
+│   │       │       ├── AdoptShelterHandler.container.js
+│   │       │       ├── AdoptShelterHandler.presenter.js
+│   │       │       ├── AdoptShelterHandler.styles.js
+│   │       │       ├── AdoptShelters.container.js
+│   │       │       ├── AdoptShelters.presenter.js
+│   │       │       ├── AdoptShelters.queries.js
+│   │       │       ├── AdoptShelters.styles.js
+│   │       │       ├── [id]
+│   │       │       │   ├── AdoptShelterDetail.container.js
+│   │       │       │   ├── AdoptShelterDetail.presenter.js
+│   │       │       │   ├── AdoptShelterDetail.queries.js
+│   │       │       │   ├── AdoptShelterDetail.styles.js
+│   │       │       │   ├── hooks
+│   │       │       │   │   ├── useFetchShelterDetailData.js
+│   │       │       │   │   ├── useGoogleMaps.js
+│   │       │       │   │   └── useGoogleMapsScript.js
+│   │       │       │   └── rescues
+│   │       │       │       ├── AdoptShelterRescues.container.js
+│   │       │       │       ├── AdoptShelterRescues.presenter.js
+│   │       │       │       ├── AdoptShelterRescues.queries.js
+│   │       │       │       ├── AdoptShelterRescues.styles.js
+│   │       │       │       └── hooks
+│   │       │       │           └── useFetchShelterRescuesData.js
+│   │       │       └── hooks
+│   │       │           ├── useCurrentLocation.js
+│   │       │           ├── useDragHandler.js
+│   │       │           ├── useFetchSheltersData.js
+│   │       │           ├── useGoogleMaps.js
+│   │       │           ├── useGoogleMapsScript.js
+│   │       │           ├── useSearchShelters.js
+│   │       │           ├── useSortedShelters.js
+│   │       │           └── useUpdateMarkers.js
+│   │       ├── chatting
+│   │       │   ├── Chatting.container.js
+│   │       │   ├── Chatting.presenter.js
+│   │       │   ├── Chatting.queries.js
+│   │       │   ├── Chatting.styles.js
+│   │       │   ├── [id]
+│   │       │   │   ├── ChattingDetail.container.js
+│   │       │   │   ├── ChattingDetail.presenter.js
+│   │       │   │   ├── ChattingDetail.queries.js
+│   │       │   │   ├── ChattingDetail.styles.js
+│   │       │   │   ├── ChattingDetailHandler.container.js
+│   │       │   │   ├── ChattingDetailHandler.presenter.js
+│   │       │   │   ├── ChattingDetailHandler.queries.js
+│   │       │   │   ├── ChattingDetailHandler.styles.js
+│   │       │   │   ├── albums
+│   │       │   │   │   ├── Albums.container.js
+│   │       │   │   │   ├── Albums.presenter.js
+│   │       │   │   │   ├── Albums.queries.js
+│   │       │   │   │   ├── Albums.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useFetchChatImagesData.js
+│   │       │   │   ├── files
+│   │       │   │   │   ├── Files.container.js
+│   │       │   │   │   ├── Files.presenter.js
+│   │       │   │   │   ├── Files.queries.js
+│   │       │   │   │   ├── Files.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useFetchChatFilesData.js
+│   │       │   │   ├── hooks
+│   │       │   │   │   ├── useChatInput.js
+│   │       │   │   │   ├── useChattingScroll.js
+│   │       │   │   │   ├── useDataManager.js
+│   │       │   │   │   ├── useDetailToggle.js
+│   │       │   │   │   ├── useFetchChatMsgList.js
+│   │       │   │   │   ├── useSearchSideMenu.js
+│   │       │   │   │   └── useStompClient.js
+│   │       │   │   ├── input
+│   │       │   │   │   ├── ChattingInput.presenter.js
+│   │       │   │   │   └── ChattingInput.styles.js
+│   │       │   │   ├── links
+│   │       │   │   │   ├── Links.container.js
+│   │       │   │   │   ├── Links.presenter.js
+│   │       │   │   │   ├── Links.queries.js
+│   │       │   │   │   ├── Links.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useFetchChatLinksData.js
+│   │       │   │   ├── notice
+│   │       │   │   │   ├── ChattingNotice.container.js
+│   │       │   │   │   ├── ChattingNotice.presenter.js
+│   │       │   │   │   ├── ChattingNotice.queries.js
+│   │       │   │   │   └── ChattingNotice.styles.js
+│   │       │   │   └── sidemenu
+│   │       │   │       ├── ChattingSideMenu.presenter.js
+│   │       │   │       └── ChattingSideMenu.styles.js
+│   │       │   └── hooks
+│   │       ├── community
+│   │       │   ├── CommunityHandler.container.js
+│   │       │   ├── CommunityHandler.presenter.js
+│   │       │   ├── CommunityHandler.styles.js
+│   │       │   ├── [id]
+│   │       │   │   ├── CommunityDetail.container.js
+│   │       │   │   ├── CommunityDetail.presenter.js
+│   │       │   │   ├── CommunityDetail.queries.js
+│   │       │   │   ├── CommunityDetail.styles.js
+│   │       │   │   ├── edit
+│   │       │   │   │   ├── CommunityEdit.container.js
+│   │       │   │   │   ├── CommunityEdit.presenter.js
+│   │       │   │   │   ├── CommunityEdit.queries.js
+│   │       │   │   │   ├── CommunityEdit.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useSubmitCommunityEdit.js
+│   │       │   │   └── hooks
+│   │       │   │       ├── useCommunityDelete.js
+│   │       │   │       └── useCommunityLike.js
+│   │       │   ├── adoption
+│   │       │   │   ├── CommunityAdoption.container.js
+│   │       │   │   ├── CommunityAdoption.presenter.js
+│   │       │   │   ├── CommunityAdoption.queries.js
+│   │       │   │   ├── CommunityAdoption.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchAdoptionList.js
+│   │       │   ├── floating_icon
+│   │       │   │   ├── FloatingIcon.presenter.js
+│   │       │   │   └── FloatingIcon.styles.js
+│   │       │   ├── fostering
+│   │       │   │   ├── CommunityFostering.container.js
+│   │       │   │   ├── CommunityFostering.presenter.js
+│   │       │   │   ├── CommunityFostering.queries.js
+│   │       │   │   ├── CommunityFostering.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchFosteringList.js
+│   │       │   ├── mycontent
+│   │       │   │   ├── MyCommunityHandler.container.js
+│   │       │   │   ├── MyCommunityHandler.presenter.js
+│   │       │   │   ├── MyCommunityHandler.queries.js
+│   │       │   │   ├── MyCommunityHandler.styles.js
+│   │       │   │   ├── myanswer
+│   │       │   │   │   ├── MyAnswer.container.js
+│   │       │   │   │   ├── MyAnswer.presenter.js
+│   │       │   │   │   ├── MyAnswer.queries.js
+│   │       │   │   │   ├── MyAnswer.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useFetchMyAnswer.js
+│   │       │   │   ├── mycomment
+│   │       │   │   │   ├── MyComment.container.js
+│   │       │   │   │   ├── MyComment.presenter.js
+│   │       │   │   │   ├── MyComment.queries.js
+│   │       │   │   │   ├── MyComment.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useFetchMyComment.js
+│   │       │   │   ├── mypost
+│   │       │   │   │   ├── MyPost.container.js
+│   │       │   │   │   ├── MyPost.presenter.js
+│   │       │   │   │   ├── MyPost.queries.js
+│   │       │   │   │   ├── MyPost.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useFetchMyPost.js
+│   │       │   │   └── myquestion
+│   │       │   │       ├── MyQuestion.container.js
+│   │       │   │       ├── MyQuestion.presenter.js
+│   │       │   │       ├── MyQuestion.queries.js
+│   │       │   │       ├── MyQuestion.styles.js
+│   │       │   │       └── hooks
+│   │       │   │           └── useFetchMyQuestion.js
+│   │       │   ├── question
+│   │       │   │   ├── CommunityQuestion.container.js
+│   │       │   │   ├── CommunityQuestion.presenter.js
+│   │       │   │   ├── CommunityQuestion.queries.js
+│   │       │   │   ├── CommunityQuestion.styles.js
+│   │       │   │   ├── [id]
+│   │       │   │   │   ├── QuestionDetail.container.js
+│   │       │   │   │   ├── QuestionDetail.presenter.js
+│   │       │   │   │   ├── QuestionDetail.queries.js
+│   │       │   │   │   ├── QuestionDetail.styles.js
+│   │       │   │   │   ├── answer
+│   │       │   │   │   │   ├── QuestionAnswer.container.js
+│   │       │   │   │   │   ├── QuestionAnswer.presenter.js
+│   │       │   │   │   │   ├── QuestionAnswer.queries.js
+│   │       │   │   │   │   ├── QuestionAnswer.styles.js
+│   │       │   │   │   │   ├── edit
+│   │       │   │   │   │   │   ├── AnswerEdit.container.js
+│   │       │   │   │   │   │   ├── AnswerEdit.presenter.js
+│   │       │   │   │   │   │   ├── AnswerEdit.queries.js
+│   │       │   │   │   │   │   ├── AnswerEdit.styles.js
+│   │       │   │   │   │   │   └── hooks
+│   │       │   │   │   │   │       └── useSubmitAnswerEdit.js
+│   │       │   │   │   │   └── hooks
+│   │       │   │   │   │       └── useSubmitAsnwerPost.js
+│   │       │   │   │   ├── edit
+│   │       │   │   │   │   ├── QuestionEdit.container.js
+│   │       │   │   │   │   ├── QuestionEdit.presenter.js
+│   │       │   │   │   │   ├── QuestionEdit.queries.js
+│   │       │   │   │   │   ├── QuestionEdit.styles.js
+│   │       │   │   │   │   └── hooks
+│   │       │   │   │   │       └── useSubmitQuestionEdit.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       └── useQNADelete.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useFetchQuestionList.js
+│   │       │   ├── reportModal
+│   │       │   │   ├── ReportModal.presenter.js
+│   │       │   │   ├── ReportModal.queries.js
+│   │       │   │   ├── ReportModal.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useRequestReport.js
+│   │       │   └── write
+│   │       │       ├── CommunityWrite.container.js
+│   │       │       ├── CommunityWrite.presenter.js
+│   │       │       ├── CommunityWrite.queries.js
+│   │       │       ├── CommunityWrite.styles.js
+│   │       │       └── hooks
+│   │       │           ├── useCategorySelection.js
+│   │       │           └── useSubmitPost.js
+│   │       ├── find_account
+│   │       │   ├── find_account01
+│   │       │   │   ├── FindAccount01.container.js
+│   │       │   │   ├── FindAccount01.presenter.js
+│   │       │   │   ├── FindAccount01.queries.js
+│   │       │   │   ├── FindAccount01.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       ├── useEmailCheck.js
+│   │       │   │       └── useEmailDropdown.js
+│   │       │   └── find_account02
+│   │       │       ├── FIndAccount02.presenter.js
+│   │       │       ├── FindAccount02.container.js
+│   │       │       ├── FindAccount02.queries.js
+│   │       │       ├── FindAccount02.styles.js
+│   │       │       └── hooks
+│   │       │           ├── useGetUserInfo.js
+│   │       │           └── usePasswordCheck.js
+│   │       ├── home
+│   │       │   ├── Home.container.js
+│   │       │   ├── Home.presenter.js
+│   │       │   ├── Home.queries.js
+│   │       │   ├── Home.styles.js
+│   │       │   ├── cats
+│   │       │   │   ├── Cats.container.js
+│   │       │   │   ├── Cats.presenter.js
+│   │       │   │   └── Cats.styles.js
+│   │       │   ├── dogs
+│   │       │   │   ├── Dogs.container.js
+│   │       │   │   ├── Dogs.presenter.js
+│   │       │   │   └── Dogs.styles.js
+│   │       │   └── faq
+│   │       │       ├── Faq.container.js
+│   │       │       ├── Faq.presenter.js
+│   │       │       └── Faq.styles.js
+│   │       ├── info
+│   │       │   ├── alarm
+│   │       │   │   ├── Alarm.container.js
+│   │       │   │   ├── Alarm.presenter.js
+│   │       │   │   └── Alarm.styles.js
+│   │       │   ├── profile
+│   │       │   │   ├── Profile.container.js
+│   │       │   │   ├── Profile.presenter.js
+│   │       │   │   ├── Profile.queries.js
+│   │       │   │   ├── Profile.styles.js
+│   │       │   │   ├── delete
+│   │       │   │   │   ├── AccountDelete.container.js
+│   │       │   │   │   ├── AccountDelete.presenter.js
+│   │       │   │   │   ├── AccountDelete.queries.js
+│   │       │   │   │   ├── AccountDelete.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       ├── useCheckBox.js
+│   │       │   │   │       ├── useCurrentPasswordCheck.js
+│   │       │   │   │       ├── useEmailCheck.js
+│   │       │   │   │       └── useSignout.js
+│   │       │   │   ├── edit
+│   │       │   │   │   ├── ProfileEdit.container.js
+│   │       │   │   │   ├── ProfileEdit.presenter.js
+│   │       │   │   │   ├── ProfileEdit.queries.js
+│   │       │   │   │   ├── ProfileEdit.styles.js
+│   │       │   │   │   └── hooks
+│   │       │   │   │       ├── useNickNameCheck.js
+│   │       │   │   │       └── useUserInfoUpdate.js
+│   │       │   │   ├── hooks
+│   │       │   │   │   └── useLogout.js
+│   │       │   │   ├── inquiry
+│   │       │   │   │   ├── Inquiry.container.js
+│   │       │   │   │   ├── Inquiry.presenter.js
+│   │       │   │   │   ├── Inquiry.queries.js
+│   │       │   │   │   ├── Inquiry.styles.js
+│   │       │   │   │   ├── hooks
+│   │       │   │   │   ├── my-inquiries
+│   │       │   │   │   │   ├── MyInquiries.container.js
+│   │       │   │   │   │   ├── MyInquiries.presenter.js
+│   │       │   │   │   │   ├── MyInquiries.queries.js
+│   │       │   │   │   │   └── MyInquiries.styles.js
+│   │       │   │   │   └── write
+│   │       │   │   │       ├── InquiryWrite.container.js
+│   │       │   │   │       ├── InquiryWrite.presenter.js
+│   │       │   │   │       ├── InquiryWrite.queries.js
+│   │       │   │   │       ├── InquiryWrite.styles.js
+│   │       │   │   │       └── hooks
+│   │       │   │   │           └── useSubmitPost.js
+│   │       │   │   ├── license
+│   │       │   │   │   ├── License.container.js
+│   │       │   │   │   ├── License.presenter.js
+│   │       │   │   │   └── License.styles.js
+│   │       │   │   ├── policy
+│   │       │   │   │   ├── Policy.container.js
+│   │       │   │   │   ├── Policy.presenter.js
+│   │       │   │   │   └── Policy.styles.js
+│   │       │   │   └── pw
+│   │       │   │       ├── PasswordEdit.container.js
+│   │       │   │       ├── PasswordEdit.presenter.js
+│   │       │   │       ├── PasswordEdit.queries.js
+│   │       │   │       ├── PasswordEdit.styles.js
+│   │       │   │       └── hooks
+│   │       │   │           ├── useCurrentPasswordCheck.js
+│   │       │   │           ├── useNewPasswordCheck.js
+│   │       │   │           └── useUpdateNewPassword.js
+│   │       │   └── search
+│   │       │       ├── Search.container.js
+│   │       │       ├── Search.presenter.js
+│   │       │       ├── Search.quries.js
+│   │       │       ├── Search.styles.js
+│   │       │       └── hooks
+│   │       │           └── useFetchSearch.js
+│   │       ├── intro
+│   │       │   ├── Intro.Container.js
+│   │       │   ├── Intro.presenter.js
+│   │       │   └── Intro.styles.js
+│   │       ├── landing
+│   │       │   ├── Landing.container.js
+│   │       │   ├── Landing.presenter.js
+│   │       │   ├── Landing.styles.js
+│   │       │   ├── meeting
+│   │       │   │   ├── LandingMeeting.presenter.js
+│   │       │   │   └── LandingMeeting.styles.js
+│   │       │   └── question
+│   │       │       ├── LandingQuestion.presenter.js
+│   │       │       └── LandingQuestion.styles.js
+│   │       ├── loading
+│   │       │   ├── Loading.container.js
+│   │       │   ├── Loading.presenter.js
+│   │       │   └── Loading.styles.js
+│   │       ├── login
+│   │       │   ├── Login.container.js
+│   │       │   ├── Login.presenter.js
+│   │       │   ├── Login.queries.js
+│   │       │   ├── Login.styles.js
+│   │       │   └── hooks
+│   │       │       ├── useEmailPasswordCheck.js
+│   │       │       ├── useKakaoGoogleLogin.js
+│   │       │       └── useLoginCheck.js
+│   │       ├── signup
+│   │       │   ├── SignupHeader
+│   │       │   │   ├── SignupHeader.container.js
+│   │       │   │   ├── SignupHeader.presenter.js
+│   │       │   │   └── SignupHeader.styles.js
+│   │       │   ├── agreements
+│   │       │   │   ├── Agreements.container.js
+│   │       │   │   ├── Agreements.presenter.js
+│   │       │   │   ├── Agreements.styles.js
+│   │       │   │   ├── hooks
+│   │       │   │   │   ├── useAgreementState.js
+│   │       │   │   │   └── usePolicyModal.js
+│   │       │   │   └── policy
+│   │       │   │       ├── Policy.presenter.js
+│   │       │   │       └── Policy.styles.js
+│   │       │   ├── complete
+│   │       │   │   ├── SignupComplete.container.js
+│   │       │   │   ├── SignupComplete.presenter.js
+│   │       │   │   ├── SignupComplete.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       └── useLoginCheck.js
+│   │       │   ├── component
+│   │       │   │   └── Progress.js
+│   │       │   ├── signup01
+│   │       │   │   ├── Signup01.container.js
+│   │       │   │   ├── Signup01.presenter.js
+│   │       │   │   ├── Signup01.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       ├── useUserName.js
+│   │       │   │       └── useUserType.js
+│   │       │   ├── signup02
+│   │       │   │   ├── Signup02.container.js
+│   │       │   │   ├── Signup02.presenter.js
+│   │       │   │   ├── Signup02.queries.js
+│   │       │   │   ├── Signup02.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       ├── useEmailCheck.js
+│   │       │   │       └── useEmailDropdown.js
+│   │       │   ├── signup03
+│   │       │   │   ├── Signup03.container.js
+│   │       │   │   ├── Signup03.presenter.js
+│   │       │   │   ├── Signup03.queries.js
+│   │       │   │   ├── Signup03.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       ├── usePasswordCheck.js
+│   │       │   │       └── usePasswordVerify.js
+│   │       │   ├── signup04
+│   │       │   │   ├── Signup04.container.js
+│   │       │   │   ├── Signup04.presenter.js
+│   │       │   │   ├── Signup04.queries.js
+│   │       │   │   ├── Signup04.styles.js
+│   │       │   │   └── hooks
+│   │       │   │       ├── useGetUserInfo.js
+│   │       │   │       ├── useNickNameCheck.js
+│   │       │   │       └── useUserInfoSend.js
+│   │       │   └── sns
+│   │       │       ├── agreements
+│   │       │       │   ├── SnsAgreements.container.js
+│   │       │       │   ├── SnsAgreements.presenter.js
+│   │       │       │   ├── SnsAgreements.styles.js
+│   │       │       │   ├── hooks
+│   │       │       │   │   ├── useAgreementState.js
+│   │       │       │   │   └── usePolicyModal.js
+│   │       │       │   └── policy
+│   │       │       │       ├── Policy.presenter.js
+│   │       │       │       └── Policy.styles.js
+│   │       │       ├── complete
+│   │       │       │   ├── SnsSignupComplete.container.js
+│   │       │       │   ├── SnsSignupComplete.presenter.js
+│   │       │       │   ├── SnsSignupComplete.styles.js
+│   │       │       │   └── hooks
+│   │       │       │       └── useGetUserInfo.js
+│   │       │       ├── signup01
+│   │       │       │   ├── SnsSignup01.container.js
+│   │       │       │   ├── SnsSignup01.presenter.js
+│   │       │       │   ├── SnsSignup01.styles.js
+│   │       │       │   └── hooks
+│   │       │       │       ├── useUserName.js
+│   │       │       │       └── useUserType.js
+│   │       │       └── signup02
+│   │       │           ├── SnsSignup02.container.js
+│   │       │           ├── SnsSignup02.presenter.js
+│   │       │           ├── SnsSignup02.queries.js
+│   │       │           ├── SnsSignup02.styles.js
+│   │       │           └── hooks
+│   │       │               ├── useGetUserInfo.js
+│   │       │               ├── useNickNameCheck.js
+│   │       │               └── useUserInfoSend.js
+│   │       └── volunteer
+│   │           ├── Volunteer.quries.js
+│   │           ├── VolunteerHandler.container.js
+│   │           ├── VolunteerHandler.presenter.js
+│   │           ├── VolunteerHandler.styles.js
+│   │           ├── [id]
+│   │           │   ├── VolunteerDetail.container.js
+│   │           │   ├── VolunteerDetail.presenter.js
+│   │           │   ├── VolunteerDetail.quries.js
+│   │           │   ├── VolunteerDetail.styles.js
+│   │           │   ├── edit
+│   │           │   │   ├── Edit.container.js
+│   │           │   │   ├── Edit.presenter.js
+│   │           │   │   ├── Edit.queries.js
+│   │           │   │   ├── Edit.styles.js
+│   │           │   │   ├── hooks
+│   │           │   │   │   └── useSendVolunteerEdit.js
+│   │           │   │   └── modal
+│   │           │   │       └── successModal.js
+│   │           │   ├── hooks
+│   │           │   │   ├── useFetchVolunteerDetail.js
+│   │           │   │   └── useNoticeClick.js
+│   │           │   └── modals
+│   │           │       ├── joinModal.presenter.js
+│   │           │       └── joinModal.styles.js
+│   │           ├── addMeeting
+│   │           │   ├── AddMeeting.container.js
+│   │           │   ├── AddMeeting.presenter.js
+│   │           │   ├── AddMeeting.queries.js
+│   │           │   ├── AddMeeting.styles.js
+│   │           │   ├── component
+│   │           │   │   ├── Calendar.container.js
+│   │           │   │   ├── Calendar.presenter.js
+│   │           │   │   └── Calendar.styles.js
+│   │           │   └── hooks
+│   │           │       ├── useChangeHandler.js
+│   │           │       ├── useSelectDate.js
+│   │           │       └── useSubmitMeetingInfo.js
+│   │           ├── addNotice
+│   │           │   ├── AddNotice.container.js
+│   │           │   ├── AddNotice.presenter.js
+│   │           │   ├── AddNotice.queries.js
+│   │           │   ├── AddNotice.styles.js
+│   │           │   └── hooks
+│   │           │       └── useSubmitNotice.js
+│   │           ├── approve
+│   │           │   ├── Approve.container.js
+│   │           │   ├── Approve.presenter.js
+│   │           │   ├── Approve.queries.js
+│   │           │   ├── Approve.styles.js
+│   │           │   └── hooks
+│   │           │       ├── useFetchUserList.js
+│   │           │       └── useUserApproveReject.js
+│   │           ├── create_volunteer
+│   │           │   ├── Create_Volunteer.container.js
+│   │           │   ├── Create_Volunteer.queries.js
+│   │           │   ├── Create_Volunteer.styles.js
+│   │           │   ├── Create_volunteer.presenter.js
+│   │           │   └── hooks
+│   │           │       ├── useCategorySelect.js
+│   │           │       ├── useNameDescription.js
+│   │           │       ├── usePeopleNumSelect.js
+│   │           │       └── useSendVolunteerInfo.js
+│   │           ├── hooks
+│   │           │   ├── useAutoResizeTextArea.js
+│   │           │   ├── useFetchVolunteer.js
+│   │           │   ├── useFormat.js
+│   │           │   └── useSearch.js
+│   │           ├── joined
+│   │           │   ├── VolunteerJoined.container.js
+│   │           │   ├── VolunteerJoined.presenter.js
+│   │           │   ├── VolunteerJoined.quries.js
+│   │           │   ├── VolunteerJoined.styles.js
+│   │           │   └── hooks
+│   │           │       └── useFetchVolunteerJoined.js
+│   │           ├── member
+│   │           │   ├── Member.container.js
+│   │           │   ├── Member.presenter.js
+│   │           │   ├── Member.queries.js
+│   │           │   ├── Member.styles.js
+│   │           │   ├── hooks
+│   │           │   │   ├── useStatusChange.js
+│   │           │   │   └── useUserClick.js
+│   │           │   └── modal
+│   │           │       ├── ConfirmationModal.presenter.js
+│   │           │       └── ConfirmationModal.styles.js
+│   │           ├── notices
+│   │           │   ├── Notices.container.js
+│   │           │   ├── Notices.presenter.js
+│   │           │   ├── Notices.quries.js
+│   │           │   ├── Notices.styles.js
+│   │           │   ├── [noticeID]
+│   │           │   │   ├── Notice.container.js
+│   │           │   │   ├── Notice.presenter.js
+│   │           │   │   ├── Notice.quries.js
+│   │           │   │   ├── Notice.styles.js
+│   │           │   │   ├── components
+│   │           │   │   │   └── Slider
+│   │           │   │   │       ├── Slider.container.js
+│   │           │   │   │       ├── Slider.presenter.js
+│   │           │   │   │       └── Slider.styles.js
+│   │           │   │   └── editNtocie
+│   │           │   │       ├── EditNotice.container.js
+│   │           │   │       ├── EditNotice.presenter.js
+│   │           │   │       ├── EditNotice.queries.js
+│   │           │   │       ├── EditNotice.styles.js
+│   │           │   │       └── hooks
+│   │           │   │           └── useSubmitEditNotice.js
+│   │           │   └── hooks
+│   │           │       └── useFetchNotices.js
+│   │           ├── recommend
+│   │           │   ├── VolunteerRecommend.container.js
+│   │           │   ├── VolunteerRecommend.presenter.js
+│   │           │   ├── VolunteerRecommend.styles.js
+│   │           │   └── hooks
+│   │           │       └── useFetchVolunteerRecommend.js
+│   │           ├── region
+│   │           │   ├── VolunteerRegion.container.js
+│   │           │   ├── VolunteerRegion.presenter.js
+│   │           │   ├── VolunteerRegion.quries.js
+│   │           │   ├── VolunteerRegion.styles.js
+│   │           │   └── hooks
+│   │           │       └── useFetchNewAndRegionVolunteer.js
+│   │           ├── regular_meetings
+│   │           │   ├── Regular_Meetings.container.js
+│   │           │   ├── Regular_Meetings.presenter.js
+│   │           │   ├── Regular_Meetings.quries.js
+│   │           │   ├── Regular_Meetings.styles.js
+│   │           │   ├── [meetingID]
+│   │           │   │   ├── Regular_Meeting.container.js
+│   │           │   │   ├── Regular_Meeting.presenter.js
+│   │           │   │   ├── Regular_Meeting.quries.js
+│   │           │   │   ├── Regular_Meeting.styles.js
+│   │           │   │   ├── editMeeting
+│   │           │   │   │   ├── EditMeeting.container.js
+│   │           │   │   │   ├── EditMeeting.presenter.js
+│   │           │   │   │   ├── EditMeeting.queries.js
+│   │           │   │   │   ├── EditMeeting.styles.js
+│   │           │   │   │   └── hooks
+│   │           │   │   │       └── useSubmitMeetingEdit.js
+│   │           │   │   └── hooks
+│   │           │   │       └── useRequestMeeting.js
+│   │           │   └── hooks
+│   │           │       └── useFetchRegularMeetings.js
+│   │           └── volunteerDetailHeader
+│   │               ├── VolunteerDetailHeader.container.js
+│   │               ├── VolunteerDetailHeader.presenter.js
+│   │               ├── VolunteerDetailHeader.queries.js
+│   │               ├── VolunteerDetailHeader.styles.js
+│   │               ├── hooks
+│   │               │   ├── useClickOut.js
+│   │               │   ├── useDelete.js
+│   │               │   ├── useGetTitleByPath.js
+│   │               │   └── useReport.js
+│   │               └── modal
+│   │                   ├── deleteModal.js
+│   │                   └── deleteModal.styles.js
+│   └── store
+│       ├── useAuthStore.js
+│       └── useModalStore.js
+├── styles
+│   ├── 01-02-emotion.js
+│   ├── Home.module.css
+│   └── globals.css
+└── yarn.lock
+</pre>
+</br>
 
 #### □ BE 디렉토리</br>
 <pre>
-com.hoyai.ForPaw
+ForPaw_BE
 ├── controller
 │   ├── DTO
 │   │   └── Query
@@ -564,6 +1499,7 @@ com.hoyai.ForPaw
     └── UserService
 </pre>
 
+</br>
     
 ## 4. 설치 및 사용 방법
 > 제품을 설치하기 위헤 필요한 소프트웨어 및 설치 방법을 작성하세요.
@@ -571,6 +1507,34 @@ com.hoyai.ForPaw
 > 제품을 설치하고 난 후, 실행 할 수 있는 방법을 작성하세요.
   
 ## 5. 소개 및 시연 영상
+
+### 4. 설치 및 사용 방법
+> Requirements: Docker, Docker Compose </br>
+> (.env 파일은 보안상 깃에 포함되지 않아, 빌드가 바로 되지 않습니다. .env 파일이 있다고 가정할 때, 사용 방법은 다음과 같습니다) 
+```bash
+git clone https://github.com/The-5th-PNU-Convergence-SW-Hackathon/PNUSW-2024-team-08.git
+cd PNUSW-2024-team-08/BE
+
+docker compose up -d
+docker build -t hoyaii/spring .
+docker run -d -p 8080:8080 --name spring --network forpaw_be_network hoyaii/spring
+
+cd FastAPI
+docker build -t hoyaii/fastapi .
+docker run -d -p 8000:8000 --name fastapi --network forpaw_be_network hoyaii/fastapi
+
+cd  ~/PNUSW-2024-team-08/FE
+
+docker build -t hoyaii/react .
+docker run -d -p 8000:8000 --name react --network forpaw_be_network hoyaii/react
+
+```
+> 현재 서비스가 배포되어 있으므로, https:// 에 접속하여 바로 사용해볼 수 있습니다!
+
+</br>
+
+### 5. 소개 및 시연 영상
+
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
 > 프로젝트 소개 동영상을 교육원 메일(swedu@pusan.ac.kr)로 제출 이후 센터에서 부여받은 youtube URL주소를 넣으세요.
 
