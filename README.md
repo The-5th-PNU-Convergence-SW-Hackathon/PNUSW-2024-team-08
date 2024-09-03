@@ -1518,13 +1518,13 @@ ForPaw_BE
 > (.env 파일은 보안상 깃에 포함되지 않아, 빌드가 바로 되지 않습니다. .env 파일이 있다고 가정할 때, 사용 방법은 다음과 같습니다) 
 ```bash
 git clone https://github.com/The-5th-PNU-Convergence-SW-Hackathon/PNUSW-2024-team-08.git
-cd PNUSW-2024-team-08/BE
+cd PNUSW-2024-team-08/BE/spring
 
 docker compose up -d
 docker build -t hoyaii/spring .
 docker run -d -p 8080:8080 --name spring --network forpaw_be_network hoyaii/spring
 
-cd FastAPI
+cd PNUSW-2024-team-08/BE/FastAPI
 docker build -t hoyaii/fastapi .
 docker run -d -p 8000:8000 --name fastapi --network forpaw_be_network hoyaii/fastapi
 
