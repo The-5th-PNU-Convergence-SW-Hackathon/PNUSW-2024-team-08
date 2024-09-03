@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+pydantic
+redis
+sqlalchemy
+aiomysql
+scikit-learn
+pymilvus
+apscheduler
+pydantic-settings
+openai
+langchain
+langchain_community
+cryptography
+langchain-openai
