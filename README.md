@@ -346,10 +346,11 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 □ 입양 지원</br>
 <img width="1000" src="https://github.com/user-attachments/assets/ec03d868-b1ce-44ac-b251-d3280c7d8a6f"></br>
 □ 게시글</br>
-<img width="1000" src="https://github.com/user-attachments/assets/161c37ca-df36-4cb3-933f-946681781fbf"></br>
+<img width="1000" src="https://github.com/user-attachments/assets/e37ecb09-69ff-4ff8-90b3-016461399728"></br>
 □ 댓글</br>
-<img width="1000" src="https://github.com/user-attachments/assets/5afafe88-c05b-47e9-9ad1-1df36af1d455"></br>
-
+<img width="1000" src="https://github.com/user-attachments/assets/9620bb73-7204-4a36-8d5c-ed4b9ffbb404"></br>
+□ 신고하기</br>
+<img width="1000" src="https://github.com/user-attachments/assets/ed6cc2fb-925e-4d8b-8537-5d0579763a30"></br>
 
 ### 3.2. 기능설명</br>
 </br>
