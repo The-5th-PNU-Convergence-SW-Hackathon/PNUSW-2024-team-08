@@ -1501,7 +1501,7 @@ ForPaw_BE
 
 </br>
 
-### 4. 설치 및 사용 방법
+## 4. 설치 및 사용 방법
 > Requirements: Docker, Docker Compose </br>
 > (.env 파일은 보안상 깃에 포함되지 않아, 빌드가 바로 되지 않습니다. .env 파일이 있다고 가정할 때, 사용 방법은 다음과 같습니다) 
 ```bash
@@ -1526,7 +1526,7 @@ docker run -d -p 8000:8000 --name react --network forpaw_be_network hoyaii/react
 
 </br>
 
-### 5. 소개 및 시연 영상
+## 5. 소개 및 시연 영상
 
 > 프로젝트에 대한 소개와 시연 영상을 넣으세요.
 > 프로젝트 소개 동영상을 교육원 메일(swedu@pusan.ac.kr)로 제출 이후 센터에서 부여받은 youtube URL주소를 넣으세요.
