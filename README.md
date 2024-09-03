@@ -299,8 +299,6 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 ## 2. 상세설계
 
 ### 2.1. 시스템 구성도
-<img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
-</br></br>
 
 #### □ Architecture</br>
 <img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
