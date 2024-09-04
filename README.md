@@ -1678,7 +1678,6 @@ https://github.com/user-attachments/assets/239a0d1a-fd2b-4c8a-ae5a-95ac1300bdb2
   - 기획서 작성 및 발표 자료 제작 </br>
   
 
-  - 기획서 작성 및 발표자료 제작 </br>
   </br>
 
 - 김도은(``기획자``) </br>
