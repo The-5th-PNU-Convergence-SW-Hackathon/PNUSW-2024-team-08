@@ -327,10 +327,21 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 <img width="900" alt="스크린샷 2024-08-29 오전 10 25 14" src="https://github.com/user-attachments/assets/4f48160c-4d07-4656-9b76-655be38ce82e">
 </br></br>
 
+#### □ Web Security</br>
+<img width="1399" alt="스크린샷 2024-09-04 오후 3 33 30" src="https://github.com/user-attachments/assets/35c8f73b-762f-4c2a-b1c9-f3138f1edb6a">
+</br></br>
+
+  > 사용자는 access token을 메모리에, refresh token을 httpOnly 쿠키에 저장해 요청을 보냅니다. access token을 메모리에 저장하면 **XSS** 공격으로부터 보호할 수 있으며, refresh token을 httpOnly 쿠키에 저장하면 JavaScript로 접근할 수 없어 **XSS**와 **CSRF** 공격에 대해 추가적인 보호가 가능합니다. 또 스프링 시큐리티에서 설정한 CORS 정책을 통해 인증되지 않은 사이트가 요청을 보내거나 응답을 읽는 것을 차단하여 보안을 강화하였습니다.
+
+</br>
+
+  > 서버 측에서는 사용자로부터 받은 요청을 처리할 때, **JWT**의 유효성을 검증한 후 이를 프록시 서버(Nginx)를 통해 내부 애플리케이션 서버로 전달합니다. 모든 요청은 **HTTPS**로 암호화되어 443번 포트로 통신이 **단일화**되며, Nginx를 거쳐야 하기 때문에 외부로부터 서버를 보호하는 방어막 역할을 합니다. 내부적으로는 Spring Boot와 FastAPI 같은 백엔드 서버가 HTTP로 통신하지만, 이는 EC2 내부에서만 이루어지기 때문에 외부 공격으로부터 안전하게 구성되어 있습니다.
+
+</br>
+
 #### □ ERD</br>
 ![FORPAW](https://github.com/user-attachments/assets/d8f44173-52b8-49c6-961a-af7550bcc6bc)
 </br></br>
-
 
 ### 2.1. 사용 기술
 - MySQL 8.0.33 </br>
