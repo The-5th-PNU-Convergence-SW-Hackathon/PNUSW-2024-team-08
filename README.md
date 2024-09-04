@@ -356,40 +356,59 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 ## 3. 개발결과
 ### 3.1. 전체시스템 흐름도</br>
 
-#### □ IA</br>
+#### □ IA (information architecture)</br>
 ![Frame 96](https://github.com/user-attachments/assets/34372998-cf81-45b2-a8ef-347d4d701726)
 </br>
 
 #### □ Flow Chat</br>
 
-- 로그인</br>
+  - 로그인</br>
+
 <img width="2000" alt="로그인" src="https://github.com/user-attachments/assets/c40b6fb7-d06d-41d2-bd5c-4171f3594158"></br>
 </br>
-- 동물 데이터 패치</br>
+
+  - 동물 데이터 패치</br>
 <img width="1500" alt="동물 데이터 패치" src="https://github.com/user-attachments/assets/1b5a54ac-a690-4e9b-82c2-4ec124565c1e"></br>
 </br>
-- 봉사 모임 가입</br>
+
+  - 봉사 모임 가입</br>
 <img width="1500" alt="봉사 모임 가입" src="https://github.com/user-attachments/assets/6b13ee19-76b0-4ae7-a6af-f987bcee1a41"></br>
 </br>
-- 봉사 활동 참여</br>
+
+  - 봉사 활동 참여</br>
 <img width="1500" alt="봉사활동 참여" src="https://github.com/user-attachments/assets/0ca7eae9-c006-40e0-9aab-0ce0452a391e"></br>
-- 입양 지원</br>
+
+  - 입양 지원</br>
 <img width="1500" alt="입양 지원하기" src="https://github.com/user-attachments/assets/7fcc3297-612d-4736-ba6e-83221becfaca"></br>
 </br>
-- 게시글</br>
+
+  - 게시글</br>
 <img width="1500" alt="게시글" src="https://github.com/user-attachments/assets/31ca4b87-355d-41b0-a7bd-5c11067180ec"></br>
 </br>
-- 댓글</br>
+
+  - 댓글</br>
 <img width="1500" alt="댓글" src="https://github.com/user-attachments/assets/434c7285-5c18-4c49-94cf-a3ad0644bf28"></br>
 </br>
-□ 신고하기</br>
+
+  - 신고하기</br>
 <img width="1500" alt="신고하기" src="https://github.com/user-attachments/assets/2ab46559-02c4-4a39-a3f3-cd5623ddf4df"></br>
 </br>
-- 유저 페이지</br>
+
+  - 유저 페이지</br>
 <img width="1500" src="https://github.com/user-attachments/assets/44de5b38-1da9-4f16-a437-827a084441cb"></br>
 </br>
-- 그룹 관리하기</br>
+
+  - 그룹 관리하기</br>
 <img width="1500" alt="그룹 관리하기" src="https://github.com/user-attachments/assets/6649bcc0-ae40-4d1f-aae4-48b96dd85ad0"></br>
+</br>
+
+
+  - 관리자</br>
+<img width="1500" alt="그룹 관리하기" src="https://github.com/user-attachments/assets/29ef3073-5466-4c37-891b-a3d4edc22859"></br>
+</br>
+
+  - 채팅</br>
+<img width="1500" alt="그룹 관리하기" src="https://github.com/user-attachments/assets/88b8f9b4-eeff-46f6-9f6c-86ff3d3bfdef"></br>
 </br>
 
 
@@ -1612,19 +1631,29 @@ https://github.com/user-attachments/assets/239a0d1a-fd2b-4c8a-ae5a-95ac1300bdb2
   - CI/CD 파이프라인 구축 등 인프라 구축</br>
   - 배포 및 관리 담당</br>
   - 관리자 페이지 UI/UX 설계 및 API 개발</br>
+
   
+
+  </br>
 - 박정우(``BE 개발자``)</br>
   - Postman을 활용한 API 기능 테스트 수행</br>
   - 관리자 페이지 API 개발 관여</br>
   - 작업 내용 문서화 및 협업 툴 관리</br>
+
   
+
+  </br>
+
 - 이종일(``FE 개발자``)</br>
   - 프론트엔드 개발 (React, NextJS)  </br>
   - 테스트 프레임워크를 활용해 유저 테스트 진행  </br>
   - 코드와 리소스를 압축하고 캐싱을 구현 </br>
   - 리유저블 코드 구조 설계 및 크로스 브라우징 이슈 관리 </br>
   - SSR을 사용해 동적 콘텐츠 처리 효율 증가 </br>
+
   
+  </br>
+
 - 최현빈(``기획자``) </br>
   - 시장 리서치 및 주제 방향성 설정 </br>
   - 서비스의 기능 정의 및 기능 요구 사항 도출 </br>
@@ -1632,20 +1661,30 @@ https://github.com/user-attachments/assets/239a0d1a-fd2b-4c8a-ae5a-95ac1300bdb2
   - 데이터를 기반으로 기능 개선 방안 도출 </br>
   - 기획서 작성 및 발표 자료 제작 </br>
   
+
+  - 기획서 작성 및 발표자료 제작 </br>
+  </br>
+
 - 김도은(``기획자``) </br>
   - UI 설계 및 UX/UI 디자인 </br>
   - 서비스 아이디어 발굴 및 MVP 정의 </br>
   - BM 모델 개발 및 창업 지원 </br>
-
+</br>
 
 ## 7. 해커톤 참여 후기
 - 이한홍
-  > 후기입니다.</br>
+  - 나에게 PNU 창의융합 SW 해커톤은 ``새로운 도전``이다. 
+
+    > 이번 해커톤을 돌아보면, 새로운 배움과 성장을 경험한 매우 의미 있는 시간이었습니다. 초기 기획과 설계를 담당하며, 백지 상태에서 프로젝트를 구상하는 과정에서 기획 역량을 키울 수 있었고, 이전에는 도입해보지 않았던 Open API, LLM, 추천 시스템 등을 직접 구현하면서 기술적인 성장도 크게 이뤘습니다. 또한, 다양한 역할을 맡은 팀원들과의 협업을 통해 서로의 강점을 극대화하며 프로젝트를 즐겁게 진행할 수 있었고, 협업 능력을 한층 더 키울 수 있는 좋은 발판이 되었습니다.</br>
 
 - 이종일
   - 나에게 **창의융합 SW 해커톤**은 ``퀀텀 점프``이다.
     
     > 짧은 기간 동안 끊임없이 몰입하였기에 마치 양자가 퀀텀 점프를 하듯이 실력이 향상되었습니다. 단순히 기능 구현에만 그치지 않고, 실제 사용자들의 편의성을 우선순위에 두고 개발에 임하였습니다. 최대한 많은 경우의 수를 고려하여 비정상적인 작동에 대비하였고, 팀원들과 함께 고민하며 기능의 완성도를 높였습니다. 그리고 무엇보다 멋진 팀원들과 함께했기에 즐겁게 작업할 수 있었습니다. 앞으로도 항상 도전하며 성장하겠습니다!</br>
+
+  - 나에게 PNU 창의융합 SW 해커톤은 ``퀀텀 점프``이다. 
+  
+    > 짧은 기간동안 엄청 몰입하여, 마치 양자가 퀀텀 점프를 하듯이 실력이 상승하였습니다. 단순히 기능 구현에만 그치지 않고, 실제 사용자들의 편의성을 우선 순위에 두고 개발에 임하였습니다. 최대한 많은 경우의 수를 고려하여 비정상적인 작동에 대비하였고, 팀원들과 함께 고민하며 기능의 완성도를 높였습니다. 앞으로도 항상 도전하며 성장하겠습니다.</br>
   
 - 박정우
   - 나에게 **창의융합 SW 해커톤**은 ``끝없는 성장``이다.
