@@ -339,6 +339,16 @@ ii. 봉사자와 보호소 간 수요·공급이 불일치</br>
 
 </br>
 
+#### □ 유기 동물 데이터 패치 과정</br>
+<img width="1319" alt="스크린샷 2024-09-04 오후 4 16 07" src="https://github.com/user-attachments/assets/73483e80-9e54-4556-9c7b-d4e03f1480ff">
+</br></br>
+
+  > 스프링 부트의 cron job을 통해 주기적으로 공공 데이터 API에 요청을 보내 보호소의 유기 동물 데이터를 가져오고, 이를 바탕으로 보호소와 동물 정보를 업데이트합니다. 이후, 보호소 주소(자연어)를 이용해 Google Maps API로 위치 정보(위도, 경도)를 가져옵니다. 또한, FastAPI와 OpenAI API를 활용해 유기 동물의 소개글을 자동으로 생성합니다. 최종적으로 모든 동물 정보는 MySQL에 저장됩니다.
+
+  >  Google Maps API로 가져온 위도와 경도 정보는 사용자의 현재 위치를 기준으로 근처 보호소를 지도에 표시하는 데 활용됩니다.
+
+</br>
+
 #### □ ERD</br>
 ![FORPAW](https://github.com/user-attachments/assets/d8f44173-52b8-49c6-961a-af7550bcc6bc)
 </br></br>
